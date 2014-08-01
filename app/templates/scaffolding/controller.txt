@@ -1,0 +1,242 @@
+<?php
+
+class $NAME$ extends \BaseController {
+
+	protected $validation_error_message = 'Validation Error.';
+	protected $access_denied_message = 'Access denied.';
+	protected $created_message = 'Record created.';
+	protected $create_error_message = 'Error creating record.';
+	protected $updated_message = 'Record updated.';
+	protected $update_error_message = 'Error updating record.';
+	protected $deleted_message = 'Record deleted.';
+	protected $delete_error_message = 'Error deleting record.';
+
+	/**
+	 * Display a listing of $COLLECTION$
+	 *
+	 * @return Response
+	 */
+	public function index()
+	{
+		$$COLLECTION$ = $MODEL$::all();
+		if(Request::ajax())
+		{
+			return $$COLLECTION$;
+		}
+
+		return View::make('$COLLECTION$.index', compact('$COLLECTION$'));
+	}
+
+	/**
+	 * Show the form for creating a new $RESOURCE$
+	 *
+	 * @return Response
+	 */
+	public function create()
+	{
+		if(Request::ajax())
+		{
+			return Response::json("Bad request", 400);
+		}
+
+		if(!$MODEL$::canCreate())
+		{
+			return Redirect::back()
+				->with('notification', $this->access_denied_message);
+		}
+		return View::make('$COLLECTION$.create');
+	}
+
+	/**
+	 * Store a newly created $RESOURCE$ in storage.
+	 *
+	 * @return Response
+	 */
+	public function store()
+	{
+		$validator = Validator::make($data = Input::all(), $MODEL$::$rules['store']);
+		
+		if(!$MODEL$::canCreate())
+		{
+			if(Request::ajax())
+			{
+				return Response::json($this->access_denied_message, 403);
+			}
+			return Redirect::back()
+				->with('notification', $this->access_denied_message);
+		}
+
+		if ($validator->fails())
+		{
+			if(Request::ajax())
+			{
+				return Response::json($validator->messages(), 400);
+			}
+			return Redirect::back()
+				->withErrors($validator)
+				->withInput()
+				->with('notification', $this->validation_error_message);
+		}
+
+		$$RESOURCE$ = $MODEL$::create($data);
+		if(!isset($$RESOURCE$->id))
+		{
+			if(Request::ajax())
+			{
+				return Response::json($this->create_error_message, 201);
+			}
+			return Redirect::back()
+				->with('notification', $this->create_error_message);
+		}
+
+		if(Request::ajax())
+		{
+			return Response::json($$RESOURCE$->toJson(), 201);
+		}
+		return Redirect::route('$COLLECTION$.index')
+			->with('notification', $this->created_message);
+	}
+
+	/**
+	 * Display the specified $RESOURCE$.
+	 *
+	 * @param  int  $id
+	 * @return Response
+	 */
+	public function show($id)
+	{
+		$$RESOURCE$ = $MODEL$::findOrFail($id);
+		
+		if(!$$RESOURCE$->canShow())
+		{
+			if(Request::ajax())
+			{
+				return Response::json($this->access_denied_message, 403);
+			}
+			return Redirect::back()->with('notification', $this->access_denied_message);
+		}
+
+		if(Request::ajax())
+		{
+			return Response::json($$RESOURCE$->toJson(), 201);
+		}
+		return View::make('$COLLECTION$.show', compact('$RESOURCE$'));
+	}
+
+	/**
+	 * Show the form for editing the specified $RESOURCE$.
+	 *
+	 * @param  int  $id
+	 * @return Response
+	 */
+	public function edit($id)
+	{
+		$$RESOURCE$ = $MODEL$::find($id);
+
+		if(Request::ajax())
+		{
+			return Response::json("Bad request", 400);
+		}
+		
+		if(!$$RESOURCE$->canUpdate())
+		{
+			return Redirect::back()->with('notification', $this->access_denied_message);
+		}
+
+		return View::make('$COLLECTION$.edit', compact('$RESOURCE$'));
+	}
+
+	/**
+	 * Update the specified $RESOURCE$ in storage.
+	 *
+	 * @param  int  $id
+	 * @return Response
+	 */
+	public function update($id)
+	{
+		$$RESOURCE$ = $MODEL$::findOrFail($id);
+		
+		if(!$$RESOURCE$->canUpdate())
+		{
+			if(Request::ajax())
+			{
+				return Response::json($this->access_denied_message, 403);
+			}
+			return Redirect::back()
+				->with('notification', $this->access_denied_message);
+		}
+
+		$validator = Validator::make($data = Input::all(), $MODEL$::$rules['update']);
+
+		if ($validator->fails())
+		{
+			if(Request::ajax())
+			{
+				return Response::json($validator->messages(), 400);
+			}
+			return Redirect::back()
+				->withErrors($validator)
+				->withInput()
+				->with('notification', $this->validation_error_message);
+		}
+
+		if(!$$RESOURCE$->update($data)){
+			if(Request::ajax())
+			{
+				return Response::json($this->update_error_message, 500);
+			}
+			return Redirect::back()
+				->withErrors($validator)
+				->withInput()
+				->with('notification', $this->update_error_message);
+		}
+
+		if(Request::ajax())
+		{
+			return $$RESOURCE$;
+		}
+		return Redirect::route('$COLLECTION$.index')
+			->with('notification', $this->updated_message);
+	}
+
+	/**
+	 * Remove the specified $RESOURCE$ from storage.
+	 *
+	 * @param  int  $id
+	 * @return Response
+	 */
+	public function destroy($id)
+	{
+		$$RESOURCE$ = $MODEL$::findOrFail($id);
+		
+		if(!$$RESOURCE$->canDelete())
+		{
+			if(Request::ajax())
+			{
+				return Response::json($this->access_denied_message, 403);
+			}
+			return Redirect::back()->with('notification', $this->access_denied_message);
+		}
+
+		if(!$$RESOURCE$->delete()){
+			if(Request::ajax())
+			{
+				return Response::json($this->delete_error_message, 500);
+			}
+			return Redirect::back()
+				->withErrors($validator)
+				->withInput()
+				->with('notification', $this->delete_error_message);
+
+		}
+
+		if(Request::ajax())
+		{
+			return Response::json($this->deleted_message, 403);
+		}
+
+		return Redirect::route('$COLLECTION$.index')
+			->with('notification', $this->deleted_message);
+	}
+
+}

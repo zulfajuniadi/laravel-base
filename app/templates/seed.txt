@@ -1,0 +1,22 @@
+<?php
+
+class $CLASS$ extends Seeder {
+
+	public function run()
+	{
+
+    $MODEL$::truncate();
+
+		$datas = [
+      [
+        'name' => 'example'
+      ]
+    ];
+
+		foreach($datas as $data)
+		{
+			$MODEL$::create($data);
+		}
+	}
+
+}
