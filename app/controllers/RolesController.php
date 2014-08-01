@@ -29,14 +29,19 @@ class RolesController extends \BaseController {
 				->with('notification:danger', $this->access_denied_message);
 		}
 
-		$roles = Role::all();
-
 		if(Request::ajax())
 		{
-			return $roles;
+			$roles = Role::select(['roles.id', 'roles.name', DB::raw('count(permissions.id) as count')])
+				-> leftJoin('permission_role', 'roles.id', '=', 'permission_role.role_id')
+				-> leftJoin('permissions', 'permissions.id', '=', 'permission_role.permission_id')
+				-> groupBy('roles.id');
+			return Datatables::of($roles)
+        ->add_column('actions', '{{View::make("roles.actions-row", compact("id"))->render()}}')
+				->remove_column('id')
+				->make();
 		}
 
-		return View::make('roles.index', compact('roles'));
+		return View::make('roles.index');
 	}
 
 	/**
@@ -100,6 +105,8 @@ class RolesController extends \BaseController {
 			return Redirect::back()
 				->with('notification:danger', $this->create_error_message);
 		}
+
+		$role->perms()->sync($data['permissions']);
 
 		if(Request::ajax())
 		{
@@ -202,6 +209,8 @@ class RolesController extends \BaseController {
 				->withInput()
 				->with('notification:danger', $this->update_error_message);
 		}
+
+		$role->perms()->sync($data['permissions']);
 
 		if(Request::ajax())
 		{

@@ -18,7 +18,7 @@ Route::get('/', ['before' => 'auth', function()
 Route::resource('users', 'UserController');
 Route::resource('organizationunits', 'OrganizationUnitsController');
 
-Route::group(['before' => ['auth','admin'], 'prefix' => 'admin'], function(){
+Route::group(['before' => ['auth','admin']], function(){
   Route::resource('roles', 'RolesController');
   Route::resource('permissions', 'PermissionsController');
 });

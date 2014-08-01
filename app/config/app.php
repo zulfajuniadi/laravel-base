@@ -126,7 +126,7 @@ return array(
 		'Zizaco\Confide\ConfideServiceProvider',
 		'Zizaco\Entrust\EntrustServiceProvider',
 		'Baum\BaumServiceProvider',
-
+		'Bllim\Datatables\DatatablesServiceProvider',
 
 	),
 
@@ -197,6 +197,7 @@ return array(
 		'Former'          => 'Former\Facades\Former',
 		'Confide'         => 'Zizaco\Confide\ConfideFacade',
 		'Entrust'         => 'Zizaco\Entrust\EntrustFacade',
+		'Datatables'      => 'Bllim\Datatables\Facade\Datatables',
 
 	),
 

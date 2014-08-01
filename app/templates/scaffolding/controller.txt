@@ -28,19 +28,18 @@ class $NAME$ extends \BaseController {
 			return Redirect::back()
 				->with('notification:danger', $this->access_denied_message);
 		}
-
-		$users_under_me = Auth::user()->get_authorized_userids($MODEL$::$show_authorize_flag);
-		if(is_empty($users_under_me)) {
-			$$COLLECTION$ = $MODEL$::whereNotNull('created_at');	
-		} else {
-			$$COLLECTION$ = $MODEL$::whereIn('user_id', $users_under_me);	
-		}
 		
 		if(Request::ajax())
 		{
-			return $$COLLECTION$;
+			$users_under_me = Auth::user()->get_authorized_userids($MODEL$::$show_authorize_flag);
+			if(is_empty($users_under_me)) {
+				$$COLLECTION$ = $MODEL$::whereNotNull('created_at');	
+			} else {
+				$$COLLECTION$ = $MODEL$::whereIn('user_id', $users_under_me);	
+			}
+			return Datatables::of($$COLLECTION$)->make();
 		}
-		return View::make('$COLLECTION$.index', compact('$COLLECTION$'));
+		return View::make('$COLLECTION$.index');
 	}
 
 	/**
