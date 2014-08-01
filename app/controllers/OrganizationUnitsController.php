@@ -263,4 +263,10 @@ class OrganizationUnitsController extends \BaseController {
 			->with('notification:success', $this->deleted_message);
 	}
 
+	public function __construct()
+	{
+		parent::__construct();
+		View::share('controller', 'OrganizationUnitsController');
+	}
+
 }

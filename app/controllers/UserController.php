@@ -15,7 +15,7 @@ class UserController extends BaseController {
 
 	public function index()
 	{
-		return 'List Users';
+		return View::make('users.index');
 	}
 
 	/**
@@ -231,6 +231,12 @@ class UserController extends BaseController {
 		Confide::logout();
 
 		return Redirect::to('/');
+	}
+
+	public function __construct()
+	{
+		parent::__construct();
+		View::share('controller', 'UserController');
 	}
 
 }

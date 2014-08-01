@@ -10,16 +10,9 @@
 | and give it the Closure to execute when that URI is requested.
 |
 */
-
-if(Auth::user()) {
-  Auth::user()->get_authorized_userids(1);
-  Auth::user()->get_authorized_userids(2);
-  Auth::user()->get_authorized_userids(3);
-}
-
 Route::get('/', ['before' => 'auth', function()
 {
-  return View::make('hello');
+  return View::make('home', ['controller' => 'Home']);
 }]);
 
 Route::resource('users', 'UserController');
