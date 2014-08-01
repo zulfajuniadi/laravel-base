@@ -10,17 +10,22 @@
 | and give it the Closure to execute when that URI is requested.
 |
 */
-Route::get('/', ['before' => 'auth', function()
-{
-  return View::make('home', ['controller' => 'Home']);
-}]);
 
-Route::resource('users', 'UserController');
-Route::resource('organizationunits', 'OrganizationUnitsController');
+Route::group(['before' => 'auth'], function(){
+  Route::get('/', ['before' => 'auth', function()
+  {
+    return View::make('home', ['controller' => 'Home']);
+  }]);
 
-Route::group(['before' => ['auth','admin']], function(){
-  Route::resource('roles', 'RolesController');
-  Route::resource('permissions', 'PermissionsController');
+  Route::resource('users', 'UserController');
+  Route::resource('organizationunits', 'OrganizationUnitsController');
+
+  Route::group(['before' => ['admin']], function(){
+    Route::resource('roles', 'RolesController');
+    Route::resource('permissions', 'PermissionsController');
+  });
+  
+  Route::get( 'auth/logout', 'UserController@logout');
 });
 
 // Confide routes
@@ -33,4 +38,3 @@ Route::get( 'auth/forgot_password',        'UserController@forgot_password');
 Route::post('auth/forgot_password',        'UserController@do_forgot_password');
 Route::get( 'auth/reset_password/{token}', 'UserController@reset_password');
 Route::post('auth/reset_password',         'UserController@do_reset_password');
-Route::get( 'auth/logout',                 'UserController@logout');

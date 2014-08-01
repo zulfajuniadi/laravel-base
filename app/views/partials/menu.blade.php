@@ -14,4 +14,7 @@
   @if($controller === 'UserController')<li class="active">@else<li>@endif
     <a href="{{action('UserController@index')}}">Users</a>
   </li>
+  <li>
+    <a href="{{action('UserController@logout')}}">Logout</a>
+  </li>
 </ul>
