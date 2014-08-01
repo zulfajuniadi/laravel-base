@@ -8,6 +8,7 @@
 </head>
 <body>
   <div class="container">
+    @include('partials.notification')
     @yield('content')
   </div>
   @yield('scripts')

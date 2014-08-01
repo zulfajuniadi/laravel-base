@@ -11,11 +11,19 @@
 |
 */
 
+if(Auth::user()) {
+  Auth::user()->get_authorized_userids(1);
+  Auth::user()->get_authorized_userids(2);
+  Auth::user()->get_authorized_userids(3);
+}
+
 Route::get('/', ['before' => 'auth', function()
 {
   return View::make('hello');
 }]);
 
+Route::resource('users', 'UserController');
+Route::resource('organizationunits', 'OrganizationUnitsController');
 
 Route::group(['before' => ['auth','admin'], 'prefix' => 'admin'], function(){
   Route::resource('roles', 'RolesController');

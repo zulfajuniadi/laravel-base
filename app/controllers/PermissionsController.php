@@ -26,7 +26,7 @@ class PermissionsController extends \BaseController {
 				return Response::json($this->access_denied_message, 403);
 			}
 			return Redirect::back()
-				->with('notification', $this->access_denied_message);
+				->with('notification:danger', $this->access_denied_message);
 		}
 
 		$permissions = Permission::all();
@@ -54,7 +54,7 @@ class PermissionsController extends \BaseController {
 		if(!Permission::canCreate())
 		{
 			return Redirect::back()
-				->with('notification', $this->access_denied_message);
+				->with('notification:danger', $this->access_denied_message);
 		}
 		return View::make('permissions.create');
 	}
@@ -75,7 +75,7 @@ class PermissionsController extends \BaseController {
 				return Response::json($this->access_denied_message, 403);
 			}
 			return Redirect::back()
-				->with('notification', $this->access_denied_message);
+				->with('notification:danger', $this->access_denied_message);
 		}
 
 		if ($validator->fails())
@@ -87,7 +87,7 @@ class PermissionsController extends \BaseController {
 			return Redirect::back()
 				->withErrors($validator)
 				->withInput()
-				->with('notification', $this->validation_error_message);
+				->with('notification:danger', $this->validation_error_message);
 		}
 
 		$permission = Permission::create($data);
@@ -98,7 +98,7 @@ class PermissionsController extends \BaseController {
 				return Response::json($this->create_error_message, 201);
 			}
 			return Redirect::back()
-				->with('notification', $this->create_error_message);
+				->with('notification:danger', $this->create_error_message);
 		}
 
 		if(Request::ajax())
@@ -106,7 +106,7 @@ class PermissionsController extends \BaseController {
 			return Response::json($permission->toJson(), 201);
 		}
 		return Redirect::route('permissions.index')
-			->with('notification', $this->created_message);
+			->with('notification:success', $this->created_message);
 	}
 
 	/**
@@ -125,7 +125,7 @@ class PermissionsController extends \BaseController {
 			{
 				return Response::json($this->access_denied_message, 403);
 			}
-			return Redirect::back()->with('notification', $this->access_denied_message);
+			return Redirect::back()->with('notification:danger', $this->access_denied_message);
 		}
 
 		if(Request::ajax())
@@ -152,7 +152,7 @@ class PermissionsController extends \BaseController {
 		
 		if(!$permission->canUpdate())
 		{
-			return Redirect::back()->with('notification', $this->access_denied_message);
+			return Redirect::back()->with('notification:danger', $this->access_denied_message);
 		}
 
 		return View::make('permissions.edit', compact('permission'));
@@ -175,7 +175,7 @@ class PermissionsController extends \BaseController {
 				return Response::json($this->access_denied_message, 403);
 			}
 			return Redirect::back()
-				->with('notification', $this->access_denied_message);
+				->with('notification:danger', $this->access_denied_message);
 		}
 
 		$validator = Validator::make($data = Input::all(), Permission::$rules);
@@ -189,7 +189,7 @@ class PermissionsController extends \BaseController {
 			return Redirect::back()
 				->withErrors($validator)
 				->withInput()
-				->with('notification', $this->validation_error_message);
+				->with('notification:danger', $this->validation_error_message);
 		}
 
 		if(!$permission->update($data)){
@@ -200,7 +200,7 @@ class PermissionsController extends \BaseController {
 			return Redirect::back()
 				->withErrors($validator)
 				->withInput()
-				->with('notification', $this->update_error_message);
+				->with('notification:success', $this->update_error_message);
 		}
 
 		if(Request::ajax())
@@ -208,7 +208,7 @@ class PermissionsController extends \BaseController {
 			return $permission;
 		}
 		return Redirect::route('permissions.index')
-			->with('notification', $this->updated_message);
+			->with('notification:danger', $this->updated_message);
 	}
 
 	/**
@@ -227,7 +227,7 @@ class PermissionsController extends \BaseController {
 			{
 				return Response::json($this->access_denied_message, 403);
 			}
-			return Redirect::back()->with('notification', $this->access_denied_message);
+			return Redirect::back()->with('notification:danger', $this->access_denied_message);
 		}
 
 		if(!$permission->delete()){
@@ -238,17 +238,17 @@ class PermissionsController extends \BaseController {
 			return Redirect::back()
 				->withErrors($validator)
 				->withInput()
-				->with('notification', $this->delete_error_message);
+				->with('notification:danger', $this->delete_error_message);
 
 		}
 
 		if(Request::ajax())
 		{
-			return Response::json($this->deleted_message, 403);
+			return Response::json($this->deleted_message);
 		}
 
 		return Redirect::route('permissions.index')
-			->with('notification', $this->deleted_message);
+			->with('notification:success', $this->deleted_message);
 	}
 
 }

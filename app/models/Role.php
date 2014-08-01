@@ -33,4 +33,20 @@ class Role extends Zizaco\Entrust\EntrustRole {
     return true;
   }
 
+  public static function boot()
+  {
+    parent::boot();
+
+    static::created(function(){
+      Cache::tags('Role')->flush();
+    });
+
+    static::updated(function(){
+      Cache::tags('Role')->flush();
+    });
+
+    static::deleted(function(){
+      Cache::tags('Role')->flush();
+    });
+  }
 }

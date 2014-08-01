@@ -35,4 +35,21 @@ class Permission extends Zizaco\Entrust\EntrustPermission {
     return true;
   }
 
+  public static function boot()
+  {
+    parent::boot();
+
+    static::created(function(){
+      Cache::tags('Permission')->flush();
+    });
+
+    static::updated(function(){
+      Cache::tags('Permission')->flush();
+    });
+
+    static::deleted(function(){
+      Cache::tags('Permission')->flush();
+    });
+  }
+
 }

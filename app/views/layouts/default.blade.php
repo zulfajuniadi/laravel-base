@@ -6,7 +6,10 @@
   @yield('styles')
 </head>
 <body>
-  @yield('content')
+  <div class="container">
+    @include('partials.notification')
+    @yield('content')
+  </div>
   @yield('scripts')
 </body>
 </html>

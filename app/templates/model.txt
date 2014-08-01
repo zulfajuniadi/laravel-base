@@ -2,6 +2,33 @@
 
 class $NAME$ extends \Eloquent {
 
+  /**
+   * $show_authorize_flag
+   * 0 => all
+   * 1 => show mine only
+   * 2 => if i'm a head of ou, show all under my ou
+   * 3 => if i'm a head of ou, show all under my ou and other entries under his ou's children
+   */
+  static $show_authorize_flag = 0;
+
+  /**
+   * $update_authorize_flag
+   * 0 => all
+   * 1 => show mine only
+   * 2 => if i'm a head of ou, show all under my ou
+   * 3 => if i'm a head of ou, show all under my ou and other entries under his ou's children
+   */
+  static $update_authorize_flag = 0;
+
+  /**
+   * $delete_authorize_flag
+   * 0 => all
+   * 1 => show mine only
+   * 2 => if i'm a head of ou, show all under my ou
+   * 3 => if i'm a head of ou, show all under my ou and other entries under his ou's children
+   */
+  static $delete_authorize_flag = 0;
+
   // Add your validation rules here
   public static $rules = [
     'store' => [
@@ -27,11 +54,14 @@ class $NAME$ extends \Eloquent {
 
   public function canShow()
   {
-    if($user->hasRole('Admin', '$NAME$Admin'))
+    $user = Auth::user();
+    if($user->hasRole('Admin', '$NAME$ Admin'))
       return true;
     if(isset($this->user_id)) {
-      $user = Auth::user();
       if($this->user_id === $user->id) {
+        return true;
+      }
+      if($user->is_authorized(static::$show_authorize_flag, $this->user_id)) {
         return true;
       }
       return false;
@@ -40,11 +70,14 @@ class $NAME$ extends \Eloquent {
   }
 
   public function canUpdate() {
-    if($user->hasRole('Admin', '$NAME$Admin'))
+    $user = Auth::user();
+    if($user->hasRole('Admin', '$NAME$ Admin'))
       return true;
     if(isset($this->user_id)) {
-      $user = Auth::user();
       if($this->user_id === $user->id) {
+        return true;
+      }
+      if($user->is_authorized(static::$update_authorize_flag, $this->user_id)) {
         return true;
       }
       return false;
@@ -53,16 +86,36 @@ class $NAME$ extends \Eloquent {
   }
 
   public function canDelete() {
-    if($user->hasRole('Admin', '$NAME$Admin'))
+    $user = Auth::user();
+    if($user->hasRole('Admin', '$NAME$ Admin'))
       return true;
     if(isset($this->user_id)) {
-      $user = Auth::user();
       if($this->user_id === $user->id) {
+        return true;
+      }
+      if($user->is_authorized(static::$delete_authorize_flag, $this->user_id)) {
         return true;
       }
       return false;
     }
     return true;
+  }
+
+  public static function boot()
+  {
+    parent::boot();
+
+    static::created(function(){
+      Cache::tags('$NAME$')->flush();
+    });
+
+    static::updated(function(){
+      Cache::tags('$NAME$')->flush();
+    });
+
+    static::deleted(function(){
+      Cache::tags('$NAME$')->flush();
+    });
   }
 
 }

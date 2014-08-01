@@ -41,6 +41,22 @@ class PermissionsTableSeeder extends Seeder {
         'display_name' => 'Delete Existing Permissions',
       ],
       [
+        'name' => 'organization_units:view',
+        'display_name' => 'View Organization Units',
+      ],
+      [
+        'name' => 'organization_units:create',
+        'display_name' => 'Create New Organization Units',
+      ],
+      [
+        'name' => 'organization_units:edit',
+        'display_name' => 'Edit Existing Organization Units',
+      ],
+      [
+        'name' => 'organization_units:delete',
+        'display_name' => 'Delete Existing Organization Units',
+      ],
+      [
         'name' => 'users:view',
         'display_name' => 'View Users',
       ],

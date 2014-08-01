@@ -1,17 +1,77 @@
 <?php
+
 use Baum\Node;
 
-/**
-* OrganizationUnit
-*/
-class __OrganizationUnit extends Node {
+class OrganizationUnit extends Node {
 
-  /**
-   * Table name.
-   *
-   * @var string
-   */
-  protected $table = 'organization_units';
+  // Add your validation rules here
+  public static $rules = [
+    'store' => [
+      'name' => 'required',
+    ],
+    'update' => [
+      'name' => 'required',
+    ]
+  ];
+
+  // Don't forget to fill this array
+  protected $fillable = [
+    'name',
+    'parent_id',
+    'lft',
+    'rgt',
+    'depth',
+    'user_id',
+  ];
+
+  public static function canList() {
+    return true;
+  }
+
+  public static function canCreate() {
+    return true;
+  }
+
+  public function canShow()
+  {
+    $user = Auth::user();
+    if($user->hasRole('Admin', 'OrganizationUnit Admin'))
+      return true;
+    if(isset($this->user_id)) {
+      if($this->user_id === $user->id) {
+        return true;
+      }
+      return false;
+    }
+    return true;
+  }
+
+  public function canUpdate() {
+    $user = Auth::user();
+    if($user->hasRole('Admin', 'OrganizationUnit Admin'))
+      return true;
+    if(isset($this->user_id)) {
+      if($this->user_id === $user->id) {
+        return true;
+      }
+      return false;
+    }
+    return true;
+  }
+
+  public function canDelete() {
+    $user = Auth::user();
+    if($user->hasRole('Admin', 'OrganizationUnit Admin'))
+      return true;
+    if(isset($this->user_id)) {
+      $user = Auth::user();
+      if($this->user_id === $user->id) {
+        return true;
+      }
+      return false;
+    }
+    return true;
+  }
 
   //////////////////////////////////////////////////////////////////////////////
 
@@ -121,5 +181,31 @@ class __OrganizationUnit extends Node {
   //     // YOUR CODE HERE
   //   });
   // }
+
+  /**
+   * Relationships
+   */
+  
+  public function users()
+  {
+    return $this->hasMany('User', 'organizationunit_id', 'id');
+  }
+
+  public static function boot()
+  {
+    parent::boot();
+
+    static::created(function(){
+      Cache::tags('OrganizationUnit')->flush();
+    });
+
+    static::updated(function(){
+      Cache::tags('OrganizationUnit')->flush();
+    });
+
+    static::deleted(function(){
+      Cache::tags('OrganizationUnit')->flush();
+    });
+  }
 
 }

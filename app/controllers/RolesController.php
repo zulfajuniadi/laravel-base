@@ -26,7 +26,7 @@ class RolesController extends \BaseController {
 				return Response::json($this->access_denied_message, 403);
 			}
 			return Redirect::back()
-				->with('notification', $this->access_denied_message);
+				->with('notification:danger', $this->access_denied_message);
 		}
 
 		$roles = Role::all();
@@ -54,7 +54,7 @@ class RolesController extends \BaseController {
 		if(!Role::canCreate())
 		{
 			return Redirect::back()
-				->with('notification', $this->access_denied_message);
+				->with('notification:danger', $this->access_denied_message);
 		}
 		return View::make('roles.create');
 	}
@@ -75,7 +75,7 @@ class RolesController extends \BaseController {
 				return Response::json($this->access_denied_message, 403);
 			}
 			return Redirect::back()
-				->with('notification', $this->access_denied_message);
+				->with('notification:danger', $this->access_denied_message);
 		}
 
 		if ($validator->fails())
@@ -87,7 +87,7 @@ class RolesController extends \BaseController {
 			return Redirect::back()
 				->withErrors($validator)
 				->withInput()
-				->with('notification', $this->validation_error_message);
+				->with('notification:danger', $this->validation_error_message);
 		}
 
 		$role = Role::create($data);
@@ -98,7 +98,7 @@ class RolesController extends \BaseController {
 				return Response::json($this->create_error_message, 201);
 			}
 			return Redirect::back()
-				->with('notification', $this->create_error_message);
+				->with('notification:danger', $this->create_error_message);
 		}
 
 		if(Request::ajax())
@@ -106,7 +106,7 @@ class RolesController extends \BaseController {
 			return Response::json($role->toJson(), 201);
 		}
 		return Redirect::route('roles.index')
-			->with('notification', $this->created_message);
+			->with('notification:success', $this->created_message);
 	}
 
 	/**
@@ -125,7 +125,7 @@ class RolesController extends \BaseController {
 			{
 				return Response::json($this->access_denied_message, 403);
 			}
-			return Redirect::back()->with('notification', $this->access_denied_message);
+			return Redirect::back()->with('notification:danger', $this->access_denied_message);
 		}
 
 		if(Request::ajax())
@@ -152,7 +152,7 @@ class RolesController extends \BaseController {
 		
 		if(!$role->canUpdate())
 		{
-			return Redirect::back()->with('notification', $this->access_denied_message);
+			return Redirect::back()->with('notification:danger', $this->access_denied_message);
 		}
 
 		return View::make('roles.edit', compact('role'));
@@ -175,7 +175,7 @@ class RolesController extends \BaseController {
 				return Response::json($this->access_denied_message, 403);
 			}
 			return Redirect::back()
-				->with('notification', $this->access_denied_message);
+				->with('notification:danger', $this->access_denied_message);
 		}
 
 		$validator = Validator::make($data = Input::all(), Role::$rules);
@@ -189,7 +189,7 @@ class RolesController extends \BaseController {
 			return Redirect::back()
 				->withErrors($validator)
 				->withInput()
-				->with('notification', $this->validation_error_message);
+				->with('notification:danger', $this->validation_error_message);
 		}
 
 		if(!$role->update($data)){
@@ -200,7 +200,7 @@ class RolesController extends \BaseController {
 			return Redirect::back()
 				->withErrors($validator)
 				->withInput()
-				->with('notification', $this->update_error_message);
+				->with('notification:danger', $this->update_error_message);
 		}
 
 		if(Request::ajax())
@@ -208,7 +208,7 @@ class RolesController extends \BaseController {
 			return $role;
 		}
 		return Redirect::route('roles.index')
-			->with('notification', $this->updated_message);
+			->with('notification:success', $this->updated_message);
 	}
 
 	/**
@@ -227,7 +227,7 @@ class RolesController extends \BaseController {
 			{
 				return Response::json($this->access_denied_message, 403);
 			}
-			return Redirect::back()->with('notification', $this->access_denied_message);
+			return Redirect::back()->with('notification:danger', $this->access_denied_message);
 		}
 
 		if(!$role->delete()){
@@ -238,17 +238,16 @@ class RolesController extends \BaseController {
 			return Redirect::back()
 				->withErrors($validator)
 				->withInput()
-				->with('notification', $this->delete_error_message);
-
+				->with('notification:danger', $this->delete_error_message);
 		}
 
 		if(Request::ajax())
 		{
-			return Response::json($this->deleted_message, 403);
+			return Response::json($this->deleted_message);
 		}
 
 		return Redirect::route('roles.index')
-			->with('notification', $this->deleted_message);
+			->with('notification:success', $this->deleted_message);
 	}
 
 }

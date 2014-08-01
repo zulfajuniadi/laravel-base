@@ -12,6 +12,12 @@
 
 class UserController extends BaseController {
 
+
+	public function index()
+	{
+		return 'List Users';
+	}
+
 	/**
 	 * Displays the form for account creation
 	 *

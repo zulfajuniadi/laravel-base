@@ -1,6 +1,6 @@
 <?php
 
-class $NAME$ extends \BaseController {
+class OrganizationUnitsController extends \BaseController {
 
 	protected $validation_error_message = 'Validation Error.';
 	protected $access_denied_message = 'Access denied.';
@@ -12,14 +12,14 @@ class $NAME$ extends \BaseController {
 	protected $delete_error_message = 'Error deleting record.';
 
 	/**
-	 * Display a listing of $COLLECTION$
+	 * Display a listing of organizationunits
 	 *
 	 * @return Response
 	 */
 	public function index()
 	{
 		
-		if(!$MODEL$::canList())
+		if(!OrganizationUnit::canList())
 		{
 			if(Request::ajax())
 			{
@@ -29,22 +29,18 @@ class $NAME$ extends \BaseController {
 				->with('notification:danger', $this->access_denied_message);
 		}
 
-		$users_under_me = Auth::user()->get_authorized_userids($MODEL$::$show_authorize_flag);
-		if(is_empty($users_under_me)) {
-			$$COLLECTION$ = $MODEL$::whereNotNull('created_at');	
-		} else {
-			$$COLLECTION$ = $MODEL$::whereIn('user_id', $users_under_me);	
-		}
+		$organizationunits = OrganizationUnit::all();
 		
 		if(Request::ajax())
 		{
-			return $$COLLECTION$;
+			return $organizationunits;
 		}
-		return View::make('$COLLECTION$.index', compact('$COLLECTION$'));
+
+		return View::make('organizationunits.index', compact('organizationunits'));
 	}
 
 	/**
-	 * Show the form for creating a new $RESOURCE$
+	 * Show the form for creating a new organizationunit
 	 *
 	 * @return Response
 	 */
@@ -55,24 +51,24 @@ class $NAME$ extends \BaseController {
 			return Response::json("Bad request", 400);
 		}
 
-		if(!$MODEL$::canCreate())
+		if(!OrganizationUnit::canCreate())
 		{
 			return Redirect::back()
 				->with('notification:danger', $this->access_denied_message);
 		}
-		return View::make('$COLLECTION$.create');
+		return View::make('organizationunits.create');
 	}
 
 	/**
-	 * Store a newly created $RESOURCE$ in storage.
+	 * Store a newly created organizationunit in storage.
 	 *
 	 * @return Response
 	 */
 	public function store()
 	{
-		$validator = Validator::make($data = Input::all(), $MODEL$::$rules['store']);
+		$validator = Validator::make($data = Input::all(), OrganizationUnit::$rules['store']);
 		
-		if(!$MODEL$::canCreate())
+		if(!OrganizationUnit::canCreate())
 		{
 			if(Request::ajax())
 			{
@@ -94,11 +90,11 @@ class $NAME$ extends \BaseController {
 				->with('notification:danger', $this->validation_error_message);
 		}
 
-		Event::fire('$MODEL$.before.create', [$$RESOURCE$]);
+		Event::fire('OrganizationUnit.before.create', [$organizationunit]);
 
-		$$RESOURCE$ = $MODEL$::create($data);
+		$organizationunit = OrganizationUnit::create($data);
 
-		if(!isset($$RESOURCE$->id))
+		if(!isset($organizationunit->id))
 		{
 			if(Request::ajax())
 			{
@@ -108,27 +104,27 @@ class $NAME$ extends \BaseController {
 				->with('notification:danger', $this->create_error_message);
 		}
 
-		Event::fire('$MODEL$.after.create', [$$RESOURCE$]);
+		Event::fire('OrganizationUnit.after.create', [$organizationunit]);
 
 		if(Request::ajax())
 		{
-			return Response::json($$RESOURCE$->toJson(), 201);
+			return Response::json($organizationunit->toJson(), 201);
 		}
-		return Redirect::route('$COLLECTION$.index')
+		return Redirect::route('organizationunits.index')
 			->with('notification:success', $this->created_message);
 	}
 
 	/**
-	 * Display the specified $RESOURCE$.
+	 * Display the specified organizationunit.
 	 *
 	 * @param  int  $id
 	 * @return Response
 	 */
 	public function show($id)
 	{
-		$$RESOURCE$ = $MODEL$::findOrFail($id);
+		$organizationunit = OrganizationUnit::findOrFail($id);
 		
-		if(!$$RESOURCE$->canShow())
+		if(!$organizationunit->canShow())
 		{
 			if(Request::ajax())
 			{
@@ -139,45 +135,45 @@ class $NAME$ extends \BaseController {
 
 		if(Request::ajax())
 		{
-			return Response::json($$RESOURCE$->toJson(), 201);
+			return Response::json($organizationunit->toJson(), 201);
 		}
-		return View::make('$COLLECTION$.show', compact('$RESOURCE$'));
+		return View::make('organizationunits.show', compact('organizationunit'));
 	}
 
 	/**
-	 * Show the form for editing the specified $RESOURCE$.
+	 * Show the form for editing the specified organizationunit.
 	 *
 	 * @param  int  $id
 	 * @return Response
 	 */
 	public function edit($id)
 	{
-		$$RESOURCE$ = $MODEL$::find($id);
+		$organizationunit = OrganizationUnit::find($id);
 
 		if(Request::ajax())
 		{
 			return Response::json("Bad request", 400);
 		}
 		
-		if(!$$RESOURCE$->canUpdate())
+		if(!$organizationunit->canUpdate())
 		{
 			return Redirect::back()->with('notification:danger', $this->access_denied_message);
 		}
 
-		return View::make('$COLLECTION$.edit', compact('$RESOURCE$'));
+		return View::make('organizationunits.edit', compact('organizationunit'));
 	}
 
 	/**
-	 * Update the specified $RESOURCE$ in storage.
+	 * Update the specified organizationunit in storage.
 	 *
 	 * @param  int  $id
 	 * @return Response
 	 */
 	public function update($id)
 	{
-		$$RESOURCE$ = $MODEL$::findOrFail($id);
+		$organizationunit = OrganizationUnit::findOrFail($id);
 		
-		if(!$$RESOURCE$->canUpdate())
+		if(!$organizationunit->canUpdate())
 		{
 			if(Request::ajax())
 			{
@@ -187,7 +183,7 @@ class $NAME$ extends \BaseController {
 				->with('notification:danger', $this->access_denied_message);
 		}
 
-		$validator = Validator::make($data = Input::all(), $MODEL$::$rules['update']);
+		$validator = Validator::make($data = Input::all(), OrganizationUnit::$rules['update']);
 
 		if ($validator->fails())
 		{
@@ -201,9 +197,9 @@ class $NAME$ extends \BaseController {
 				->with('notification:danger', $this->validation_error_message);
 		}
 
-		Event::fire('$MODEL$.before.update', [$$RESOURCE$]);
+		Event::fire('OrganizationUnit.before.update', [$organizationunit]);
 
-		if(!$$RESOURCE$->update($data)){
+		if(!$organizationunit->update($data)){
 			if(Request::ajax())
 			{
 				return Response::json($this->update_error_message, 500);
@@ -214,27 +210,27 @@ class $NAME$ extends \BaseController {
 				->with('notification:danger', $this->update_error_message);
 		}
 
-		Event::fire('$MODEL$.after.update', [$$RESOURCE$]);
+		Event::fire('OrganizationUnit.after.update', [$organizationunit]);
 
 		if(Request::ajax())
 		{
-			return $$RESOURCE$;
+			return $organizationunit;
 		}
-		return Redirect::route('$COLLECTION$.index')
+		return Redirect::route('organizationunits.index')
 			->with('notification:success', $this->updated_message);
 	}
 
 	/**
-	 * Remove the specified $RESOURCE$ from storage.
+	 * Remove the specified organizationunit from storage.
 	 *
 	 * @param  int  $id
 	 * @return Response
 	 */
 	public function destroy($id)
 	{
-		$$RESOURCE$ = $MODEL$::findOrFail($id);
+		$organizationunit = OrganizationUnit::findOrFail($id);
 		
-		if(!$$RESOURCE$->canDelete())
+		if(!$organizationunit->canDelete())
 		{
 			if(Request::ajax())
 			{
@@ -243,9 +239,9 @@ class $NAME$ extends \BaseController {
 			return Redirect::back()->with('notification:danger', $this->access_denied_message);
 		}
 
-		Event::fire('$MODEL$.before.delete', [$$RESOURCE$]);
+		Event::fire('OrganizationUnit.before.delete', [$organizationunit]);
 
-		if(!$$RESOURCE$->delete()){
+		if(!$organizationunit->delete()){
 			if(Request::ajax())
 			{
 				return Response::json($this->delete_error_message, 500);
@@ -256,14 +252,14 @@ class $NAME$ extends \BaseController {
 				->with('notification:danger', $this->delete_error_message);
 		}
 
-		Event::fire('$MODEL$.after.update', [$$RESOURCE$]);
+		Event::fire('OrganizationUnit.after.update', [$organizationunit]);
 
 		if(Request::ajax())
 		{
 			return Response::json($this->deleted_message);
 		}
 
-		return Redirect::route('$COLLECTION$.index')
+		return Redirect::route('organizationunits.index')
 			->with('notification:success', $this->deleted_message);
 	}
 
