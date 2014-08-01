@@ -9,7 +9,16 @@ class RolesTableSeeder extends Seeder {
 
 		$datas = [
       [
-        'name' => 'Administrator'
+        'name' => 'Admin'
+      ],
+      [
+        'name' => 'Role Admin'
+      ],
+      [
+        'name' => 'Permission Admin'
+      ],
+      [
+        'name' => 'User Admin'
       ],
       [
         'name' => 'User'
@@ -17,7 +26,10 @@ class RolesTableSeeder extends Seeder {
     ];
 
     $permissions = [
-      1 => [1,2,3,4,5,6,7,8,9,10,11,12]
+      1 => [],
+      2 => [1,2,3,4],
+      3 => [5,6,7,8],
+      4 => [9,10,11,12]
     ];
 
 		foreach($datas as $data)

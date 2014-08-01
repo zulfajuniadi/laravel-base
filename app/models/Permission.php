@@ -14,6 +14,10 @@ class Permission extends Zizaco\Entrust\EntrustPermission {
     'display_name'
   ];
 
+  public static function canList() {
+    return true;
+  }
+
   public static function canCreate() {
     return true;
   }

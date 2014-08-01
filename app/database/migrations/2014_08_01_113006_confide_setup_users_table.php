@@ -21,6 +21,7 @@ class ConfideSetupUsersTable extends Migration {
             $table->string('confirmation_code')->nullable();
             $table->string('remember_token')->nullable();
             $table->boolean('confirmed')->default(false);
+            $table->integer('organizationunit_id')->default(1);
             $table->timestamps();
         });
 

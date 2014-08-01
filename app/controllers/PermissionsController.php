@@ -18,7 +18,19 @@ class PermissionsController extends \BaseController {
 	 */
 	public function index()
 	{
+		
+		if(!Permission::canList())
+		{
+			if(Request::ajax())
+			{
+				return Response::json($this->access_denied_message, 403);
+			}
+			return Redirect::back()
+				->with('notification', $this->access_denied_message);
+		}
+
 		$permissions = Permission::all();
+
 		if(Request::ajax())
 		{
 			return $permissions;
@@ -54,7 +66,7 @@ class PermissionsController extends \BaseController {
 	 */
 	public function store()
 	{
-		$validator = Validator::make($data = Input::all(), Permission::$rules['store']);
+		$validator = Validator::make($data = Input::all(), Permission::$rules);
 		
 		if(!Permission::canCreate())
 		{
@@ -166,7 +178,7 @@ class PermissionsController extends \BaseController {
 				->with('notification', $this->access_denied_message);
 		}
 
-		$validator = Validator::make($data = Input::all(), Permission::$rules['update']);
+		$validator = Validator::make($data = Input::all(), Permission::$rules);
 
 		if ($validator->fails())
 		{

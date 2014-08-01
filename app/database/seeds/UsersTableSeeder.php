@@ -25,8 +25,8 @@ class UsersTableSeeder extends Seeder {
     ];
 
     $roles = [
-      1 => [1,2],
-      2 => [1]
+      1 => [1],
+      2 => [5]
     ];
 
 		foreach($datas as $data)

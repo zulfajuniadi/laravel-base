@@ -18,7 +18,19 @@ class RolesController extends \BaseController {
 	 */
 	public function index()
 	{
+		
+		if(!Role::canList())
+		{
+			if(Request::ajax())
+			{
+				return Response::json($this->access_denied_message, 403);
+			}
+			return Redirect::back()
+				->with('notification', $this->access_denied_message);
+		}
+
 		$roles = Role::all();
+
 		if(Request::ajax())
 		{
 			return $roles;
@@ -54,7 +66,7 @@ class RolesController extends \BaseController {
 	 */
 	public function store()
 	{
-		$validator = Validator::make($data = Input::all(), Role::$rules['store']);
+		$validator = Validator::make($data = Input::all(), Role::$rules);
 		
 		if(!Role::canCreate())
 		{
@@ -166,7 +178,7 @@ class RolesController extends \BaseController {
 				->with('notification', $this->access_denied_message);
 		}
 
-		$validator = Validator::make($data = Input::all(), Role::$rules['update']);
+		$validator = Validator::make($data = Input::all(), Role::$rules);
 
 		if ($validator->fails())
 		{

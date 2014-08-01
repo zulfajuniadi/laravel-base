@@ -12,6 +12,10 @@ class Role extends Zizaco\Entrust\EntrustRole {
     'name',
   ];
 
+  public static function canList() {
+    return true;
+  }
+
   public static function canCreate() {
     return true;
   }

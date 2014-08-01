@@ -17,20 +17,51 @@ class $NAME$ extends \Eloquent {
     'name',
   ];
 
+  public static function canList() {
+    return true;
+  }
+
   public static function canCreate() {
     return true;
   }
 
   public function canShow()
   {
+    if($user->hasRole('Admin', '$NAME$Admin'))
+      return true;
+    if(isset($this->user_id)) {
+      $user = Auth::user();
+      if($this->user_id === $user->id) {
+        return true;
+      }
+      return false;
+    }
     return true;
   }
 
   public function canUpdate() {
+    if($user->hasRole('Admin', '$NAME$Admin'))
+      return true;
+    if(isset($this->user_id)) {
+      $user = Auth::user();
+      if($this->user_id === $user->id) {
+        return true;
+      }
+      return false;
+    }
     return true;
   }
 
   public function canDelete() {
+    if($user->hasRole('Admin', '$NAME$Admin'))
+      return true;
+    if(isset($this->user_id)) {
+      $user = Auth::user();
+      if($this->user_id === $user->id) {
+        return true;
+      }
+      return false;
+    }
     return true;
   }
 

@@ -18,7 +18,19 @@ class $NAME$ extends \BaseController {
 	 */
 	public function index()
 	{
+		
+		if(!$MODEL$::canList())
+		{
+			if(Request::ajax())
+			{
+				return Response::json($this->access_denied_message, 403);
+			}
+			return Redirect::back()
+				->with('notification', $this->access_denied_message);
+		}
+
 		$$COLLECTION$ = $MODEL$::all();
+		
 		if(Request::ajax())
 		{
 			return $$COLLECTION$;

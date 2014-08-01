@@ -53,7 +53,7 @@ Route::filter('admin', function()
 	$user = Auth::user();
 	if($user) 
 	{
-		if($user->hasRole('Administrator')) 
+		if($user->hasRole('Admin')) 
 		{
 			return;	
 		}
