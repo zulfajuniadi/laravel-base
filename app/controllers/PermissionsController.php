@@ -211,7 +211,7 @@ class PermissionsController extends \BaseController {
 		{
 			return $permission;
 		}
-		return Redirect::route('permissions.index')
+		return Redirect::back()
 			->with('notification:success', $this->updated_message);
 	}
 

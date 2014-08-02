@@ -1,7 +1,6 @@
 {{Former::text('name')
   ->required()}}
-{{Former::hidden('permissions[]', '')}}
-{{Former::select('permissions')
+{{Former::select('role.perms')
   ->name('permissions[]')
   ->label('Permissions')
   ->options(Permission::all()->lists('display_name', 'id'))

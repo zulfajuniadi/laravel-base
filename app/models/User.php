@@ -11,20 +11,50 @@ class User extends ConfideUser implements UserInterface, RemindableInterface {
 
 	use UserTrait, RemindableTrait, HasRole;
 
-	/**
-	 * The database table used by the model.
-	 *
-	 * @var string
-	 */
+  /**
+   * $show_authorize_flag
+   * 0 => all
+   * 1 => show mine only
+   * 2 => if i'm a head of ou, show all under my ou
+   * 3 => if i'm a head of ou, show all under my ou and other entries under his ou's children
+   */
+  static $show_authorize_flag = 0;
+
+  /**
+   * $update_authorize_flag
+   * 0 => all
+   * 1 => show mine only
+   * 2 => if i'm a head of ou, show all under my ou
+   * 3 => if i'm a head of ou, show all under my ou and other entries under his ou's children
+   */
+  static $update_authorize_flag = 0;
+
+  /**
+   * $delete_authorize_flag
+   * 0 => all
+   * 1 => show mine only
+   * 2 => if i'm a head of ou, show all under my ou
+   * 3 => if i'm a head of ou, show all under my ou and other entries under his ou's children
+   */
+  static $delete_authorize_flag = 0;
+
 	protected $table = 'users';
 
   protected $fillable = [
     'username',
     'email',
     'password',
+    'password_confirmation',
     'confirmation_code',
     'confirmed'
   ];
+
+  public static $rules = array(
+      'username' => 'required|alpha_dash|unique:users,username',
+      'email' => 'required|email|unique:users,email',
+      'password' => 'required|min:4|confirmed',
+      'password_confirmation' => 'min:4',
+  );
 
 	/**
 	 * The attributes excluded from the model's JSON form.

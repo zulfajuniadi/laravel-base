@@ -106,6 +106,7 @@ class RolesController extends \BaseController {
 				->with('notification:danger', $this->create_error_message);
 		}
 
+		$data['permissions'] = isset($data['permissions']) ? $data['permissions'] : [];
 		$role->perms()->sync($data['permissions']);
 
 		if(Request::ajax())
@@ -211,6 +212,7 @@ class RolesController extends \BaseController {
 				->with('notification:danger', $this->update_error_message);
 		}
 
+		$data['permissions'] = isset($data['permissions']) ? $data['permissions'] : [];
 		$role->perms()->sync($data['permissions']);
 		$role->touch();
 
@@ -218,7 +220,7 @@ class RolesController extends \BaseController {
 		{
 			return $role;
 		}
-		return Redirect::route('roles.index')
+		return Redirect::back()
 			->with('notification:success', $this->updated_message);
 	}
 

@@ -32,11 +32,16 @@ class $NAME$ extends \BaseController {
 		if(Request::ajax())
 		{
 			$users_under_me = Auth::user()->get_authorized_userids($MODEL$::$show_authorize_flag);
-			if(is_empty($users_under_me)) {
-				$$COLLECTION$ = $MODEL$::whereNotNull('created_at');	
+			if(empty($users_under_me)) {
+				$$COLLECTION$ = $MODEL$::whereNotNull('$COLLECTION$.created_at');	
 			} else {
-				$$COLLECTION$ = $MODEL$::whereIn('user_id', $users_under_me);	
+				$$COLLECTION$ = $MODEL$::whereIn('$COLLECTION$.user_id', $users_under_me);	
 			}
+			$$COLLECTION$ = $$COLLECTION$->select(['$COLLECTION$.id', '$COLLECTION$.name']);
+			return Datatables::of($$COLLECTION$)
+        ->add_column('actions', '{{View::make("$COLLECTION$.actions-row", compact("id"))->render()}}')
+				->remove_column('id')
+				->make();
 			return Datatables::of($$COLLECTION$)->make();
 		}
 		return View::make('$COLLECTION$.index');
@@ -175,6 +180,7 @@ class $NAME$ extends \BaseController {
 	public function update($id)
 	{
 		$$RESOURCE$ = $MODEL$::findOrFail($id);
+		$data = Input::all();
 		
 		if(!$$RESOURCE$->canUpdate())
 		{
@@ -186,18 +192,22 @@ class $NAME$ extends \BaseController {
 				->with('notification:danger', $this->access_denied_message);
 		}
 
-		$validator = Validator::make($data = Input::all(), $MODEL$::$rules['update']);
+		if(!isset($data['_bypass'])) {
+			$validator = Validator::make($data, $MODEL$::$rules['update']);
 
-		if ($validator->fails())
-		{
-			if(Request::ajax())
+			if ($validator->fails())
 			{
-				return Response::json($validator->messages(), 400);
+				if(Request::ajax())
+				{
+					return Response::json($validator->messages(), 400);
+				}
+				return Redirect::back()
+					->withErrors($validator)
+					->withInput()
+					->with('notification:danger', $this->validation_error_message);
 			}
-			return Redirect::back()
-				->withErrors($validator)
-				->withInput()
-				->with('notification:danger', $this->validation_error_message);
+		} else {
+			$MODEL$::$rules['update'] = [];
 		}
 
 		Event::fire('$MODEL$.before.update', [$$RESOURCE$]);
@@ -219,7 +229,7 @@ class $NAME$ extends \BaseController {
 		{
 			return $$RESOURCE$;
 		}
-		return Redirect::route('$COLLECTION$.index')
+		return Redirect::back()
 			->with('notification:success', $this->updated_message);
 	}
 

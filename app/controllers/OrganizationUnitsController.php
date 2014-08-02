@@ -224,7 +224,7 @@ class OrganizationUnitsController extends \BaseController {
 		{
 			return $organizationunit;
 		}
-		return Redirect::route('organizationunits.index')
+		return Redirect::back()
 			->with('notification:success', $this->updated_message);
 	}
 
