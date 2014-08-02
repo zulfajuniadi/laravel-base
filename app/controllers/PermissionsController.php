@@ -33,10 +33,14 @@ class PermissionsController extends \BaseController {
 
 		if(Request::ajax())
 		{
-			return $permissions;
+			$permissions = Permission::select(['id', 'name', 'display_name']);
+			return Datatables::of($permissions)
+        ->add_column('actions', '{{View::make("permissions.actions-row", compact("id"))->render()}}')
+				->remove_column('id')
+				->make();
 		}
 
-		return View::make('permissions.index', compact('permissions'));
+		return View::make('permissions.index');
 	}
 
 	/**
@@ -200,7 +204,7 @@ class PermissionsController extends \BaseController {
 			return Redirect::back()
 				->withErrors($validator)
 				->withInput()
-				->with('notification:success', $this->update_error_message);
+				->with('notification:danger', $this->update_error_message);
 		}
 
 		if(Request::ajax())
@@ -208,7 +212,7 @@ class PermissionsController extends \BaseController {
 			return $permission;
 		}
 		return Redirect::route('permissions.index')
-			->with('notification:danger', $this->updated_message);
+			->with('notification:success', $this->updated_message);
 	}
 
 	/**

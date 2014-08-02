@@ -2,7 +2,7 @@
   @if(isset($has_submit))
     <button class="btn btn-primary">Submit</button>
   @endif
-  @if(!isset($is_list))
+  @if(!isset($is_list) && Role::canList())
     <a href="{{route('roles.index')}}" class="btn btn-default">List</a>  
   @endif
   @if(Role::canCreate())

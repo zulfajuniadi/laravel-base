@@ -8,9 +8,12 @@
 </head>
 <body>
   <div class="container">
+    <br>
     @include('partials.notification')
     @yield('content')
   </div>
+  <script src="{{asset('/assets/jquery/dist/jquery.min.js')}}"></script>
+  <script src="{{asset('/assets/bootstrap/dist/js/bootstrap.min.js')}}"></script>
   @yield('scripts')
 </body>
 </html>
