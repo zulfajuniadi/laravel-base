@@ -2,6 +2,9 @@
   @if($controller === 'Home')<li class="active">@else<li>@endif
     <a href="/">Home</a>
   </li>
+  @if($controller === 'Profile')<li class="active">@else<li>@endif
+    <a href="{{action('UsersController@profile')}}">Profile</a>
+  </li>
   @if(User::canList())
     @if($controller === 'UsersController')<li class="active">@else<li>@endif
       <a href="{{action('UsersController@index')}}">Users</a>

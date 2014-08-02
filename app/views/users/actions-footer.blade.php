@@ -16,20 +16,23 @@
     @if($user->canUpdate())
       <a href="{{ action('users.edit', $user->id) }}" class="btn btn-default">Edit</a>
     @endif
-    @if(!$user->confirmed && $user->canUpdate())
-      {{Former::open(action('users.update', $user->id))->class('form-inline')}}
-        {{Former::hidden('_method', 'PUT')}}
-        {{Former::hidden('_bypass', 'true')}}
-        {{Former::hidden('confirmed', '1')}}
-        <button type="submit" class="btn btn-default">Activate</button>
-      {{Former::close()}}
-    @else
-      {{Former::open(action('users.update', $user->id))->class('form-inline')}}
-        {{Former::hidden('_method', 'PUT')}}
-        {{Former::hidden('_bypass', 'true')}}
-        {{Former::hidden('confirmed', '0')}}
-        <button type="submit" class="btn btn-default">Deactivate</button>
-      {{Former::close()}}
+    @if($user->canSetConfirmation())
+      @if(!$user->confirmed)
+        {{Former::open(action('UsersController@putSetConfirmation', $user->id))->class('form-inline')}}
+          {{Former::hidden('_method', 'PUT')}}
+          {{Former::hidden('confirmed', '1')}}
+          <button type="submit" class="btn btn-default">Activate</button>
+        {{Former::close()}}
+      @else
+        {{Former::open(action('UsersController@putSetConfirmation', $user->id))->class('form-inline')}}
+          {{Former::hidden('_method', 'PUT')}}
+          {{Former::hidden('confirmed', '0')}}
+          <button type="submit" class="btn btn-default">Deactivate</button>
+        {{Former::close()}}
+      @endif
+    @endif
+    @if($user->canSetPassword())
+      <a href="{{ action('UsersController@getSetPassword', $user->id) }}" class="btn btn-default">Set Password</a>
     @endif
     @if($user->canDelete())
       {{Former::open(action('users.destroy', $user->id))->class('form-inline')}}

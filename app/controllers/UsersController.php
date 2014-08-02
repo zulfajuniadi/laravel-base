@@ -10,6 +10,13 @@ class UsersController extends \BaseController {
 	protected $update_error_message = 'Error updating record.';
 	protected $deleted_message = 'Record deleted.';
 	protected $delete_error_message = 'Error deleting record.';
+	protected $set_password_error_message = 'Error setting password.';
+	protected $set_password_message = 'Password set succesfully.';
+	protected $set_confirmation_error_message = 'Error setting activation.';
+	protected $set_confirmation_message = 'Activation set succesfully.';
+	protected $change_password_invalid_message = 'Invalid Old Password.';
+	protected $change_password_error_message = 'Error changing password.';
+	protected $change_password_message = 'Password changed succesfully.';
 
 	/**
 	 * Display a listing of users
@@ -200,29 +207,25 @@ class UsersController extends \BaseController {
 				->with('notification:danger', $this->access_denied_message);
 		}
 
-		if(!isset($data['_bypass'])) {
-			User::$rules['username'] = User::$rules['username'] . ',' . $id;
-			User::$rules['email'] = User::$rules['email'] . ',' . $id;
-			unset(User::$rules['password']);
-			unset(User::$rules['password_confirmation']);
-			$validator = Validator::make($data, User::$rules);
+		User::$rules['username'] = User::$rules['username'] . ',' . $id;
+		User::$rules['email'] = User::$rules['email'] . ',' . $id;
+		unset(User::$rules['password']);
+		unset(User::$rules['password_confirmation']);
+		$validator = Validator::make($data, User::$rules);
 
-			if ($validator->fails())
+		if ($validator->fails())
+		{
+			if(Request::ajax())
 			{
-				if(Request::ajax())
-				{
-					return Response::json($validator->messages(), 400);
-				}
-				return Redirect::back()
-					->withErrors($validator)
-					->withInput()
-					->with('notification:danger', $this->validation_error_message);
+				return Response::json($validator->messages(), 400);
 			}
-			$data['roles'] = isset($data['roles']) ? $data['roles'] : [];
-			$user->roles()->sync($data['roles']);
-		} else {
-			User::$rules = [];
+			return Redirect::back()
+				->withErrors($validator)
+				->withInput()
+				->with('notification:danger', $this->validation_error_message);
 		}
+		$data['roles'] = isset($data['roles']) ? $data['roles'] : [];
+		$user->roles()->sync($data['roles']);
 
 		Event::fire('User.before.update', [$user]);
 
@@ -290,10 +293,233 @@ class UsersController extends \BaseController {
 			->with('notification:success', $this->deleted_message);
 	}
 
+	/**
+	 * ====================================================================================================================
+	 * Additional methods
+	 * ====================================================================================================================
+	 */
+
+	public function profile()
+	{
+		return View::make('users.profile', ['controller' => 'Profile']);	
+	}
+
+	public function getSetPassword()
+	{
+		$user = User::findOrFail($id);
+		if(Request::ajax())
+		{
+			return Response::json($this->access_denied_message, 403);
+		}
+		if(!$user->canSetPassword())
+		{
+			return Redirect::back()
+				->with('notification:danger', $this->access_denied_message);
+		}
+		return View::make('users.set-password', compact('user'));
+	}
+
+	public function putSetPassword()
+	{
+		$user = User::findOrFail($id);
+		$data = Input::all();
+		if(!$user->canSetPassword())
+		{
+			if(Request::ajax())
+			{
+				return Response::json($this->access_denied_message, 403);
+			}
+			return Redirect::back()
+				->with('notification:danger', $this->access_denied_message);
+		}
+
+		User::$rules = [
+      'password' => 'required|min:4|confirmed',
+      'password_confirmation' => 'min:4' 
+    ];
+
+		$validator = Validator::make($data, User::$rules);
+
+		if ($validator->fails())
+		{
+			if(Request::ajax())
+			{
+				return Response::json($validator->messages(), 400);
+			}
+			return Redirect::back()
+				->withErrors($validator)
+				->withInput()
+				->with('notification:danger', $this->validation_error_message);
+		}
+
+		Event::fire('User.before.update', [$user]);
+
+		if(!$user->update($data)){
+			if(Request::ajax())
+			{
+				return Response::json($this->set_password_error_message, 500);
+			}
+			return Redirect::back()
+				->withErrors($validator)
+				->withInput()
+				->with('notification:danger', $this->update_error_message);
+		}
+
+		Event::fire('User.after.update', [$user]);
+
+		if(Request::ajax())
+		{
+			return Response::json($this->set_password_message);
+		}
+		return Redirect::action('users.show', $user->id)
+			->with('notification:success', $this->set_password_message);
+	}
+
+	public function putSetConfirmation($id = null)
+	{
+		$user = User::findOrFail($id);
+		$data = Input::all();
+		if(!$user->canSetConfirmation())
+		{
+			if(Request::ajax())
+			{
+				return Response::json($this->access_denied_message, 403);
+			}
+			return Redirect::back()
+				->with('notification:danger', $this->access_denied_message);
+		}
+
+		User::$rules = [
+      'confirmed' => 'numeric|min:0|max:1',
+    ];
+
+		$validator = Validator::make($data, User::$rules);
+
+		if ($validator->fails())
+		{
+			if(Request::ajax())
+			{
+				return Response::json($validator->messages(), 400);
+			}
+			return Redirect::back()
+				->withErrors($validator)
+				->withInput()
+				->with('notification:danger', $this->validation_error_message);
+		}
+
+		Event::fire('User.before.update', [$user]);
+
+		if(!$user->update($data)){
+			if(Request::ajax())
+			{
+				return Response::json($this->set_confirmation_error_message, 500);
+			}
+			return Redirect::back()
+				->withErrors($validator)
+				->withInput()
+				->with('notification:danger', $this->set_confirmation_error_message);
+		}
+
+		Event::fire('User.after.update', [$user]);
+
+		if(Request::ajax())
+		{
+			return Response::json($this->set_confirmation_message);
+		}
+		return Redirect::action('users.show', $user->id)
+			->with('notification:success', $this->set_confirmation_message);
+	}
+
+
+
+	public function getChangePassword()
+	{
+		$user = Auth::user();
+		if(!$user->canSetPassword())
+		{
+			if(Request::ajax())
+			{
+				return Response::json($this->access_denied_message, 403);
+			}
+			return Redirect::back()
+				->with('notification:danger', $this->access_denied_message);
+		}
+		return View::make('users.change-password', compact('user'));
+	}
+
+	public function putChangePassword()
+	{
+		$user = Auth::user();
+		$data = Input::all();
+		if(!$user->canSetPassword())
+		{
+			if(Request::ajax())
+			{
+				return Response::json($this->access_denied_message, 403);
+			}
+			return Redirect::back()
+				->with('notification:danger', $this->access_denied_message);
+		}
+
+		User::$rules = [
+      'old_password' => 'required|min:4',
+      'password' => 'required|min:4|confirmed',
+      'password_confirmation' => 'min:4' 
+    ];
+
+		$validator = Validator::make($data, User::$rules);
+
+		if ($validator->fails())
+		{
+			if(Request::ajax())
+			{
+				return Response::json($validator->messages(), 400);
+			}
+			return Redirect::back()
+				->withErrors($validator)
+				->withInput()
+				->with('notification:danger', $this->validation_error_message);
+		}
+
+		if(!Hash::check($data['old_password'], $user->password))
+		{
+			if(Request::ajax())
+			{
+				return Response::json($this->change_password_invalid_message, 500);
+			}
+			return Redirect::back()
+				->withErrors($validator)
+				->withInput()
+				->with('notification:danger', $this->change_password_invalid_message);
+		}
+
+		Event::fire('User.before.update', [$user]);
+
+		if(!$user->update($data)){
+			if(Request::ajax())
+			{
+				return Response::json($this->set_password_error_message, 500);
+			}
+			return Redirect::back()
+				->withErrors($validator)
+				->withInput()
+				->with('notification:danger', $this->update_error_message);
+		}
+
+		Event::fire('User.after.update', [$user]);
+
+		if(Request::ajax())
+		{
+			return Response::json($this->set_password_message);
+		}
+		return Redirect::action('UsersController@profile', $user->id)
+			->with('notification:success', $this->set_password_message);
+	}
+
 	public function __construct()
 	{
 		parent::__construct();
-		View::share('controller', 'User');
+		View::share('controller', 'UsersController');
 	}
 
 }

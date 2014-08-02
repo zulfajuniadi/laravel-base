@@ -33,7 +33,7 @@ class RolesTableSeeder extends Seeder {
       2 => [1,2,3,4,5],
       3 => [6,7,8,9,10],
       4 => [11,12,13,14,15],
-      5 => [16,17,18,19,20]
+      5 => [16,17,18,19,20,21,22]
     ];
 
 		foreach($datas as $data)

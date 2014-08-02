@@ -121,6 +121,14 @@ class User extends ConfideUser implements UserInterface, RemindableInterface {
     return (Auth::user() && Auth::user()->ability(['Admin', 'User Admin'], ['User:delete']));
   }
 
+  public function canSetPassword() {
+    return (Auth::user() && Auth::user()->ability(['Admin', 'User Admin'], ['User:set_password']));
+  }
+
+  public function canSetConfirmation() {
+    return (Auth::user() && Auth::user()->ability(['Admin', 'User Admin'], ['User:set_confirmation']));
+  }
+
   public static function boot()
   {
     parent::boot();

@@ -87,6 +87,14 @@ class PermissionsTableSeeder extends Seeder {
       [
         'name' => 'User:delete',
         'display_name' => 'Delete Existing User',
+      ],
+      [
+        'name' => 'User:set_confirmation',
+        'display_name' => 'Set Existing User\'s Confirmed Status',
+      ],
+      [
+        'name' => 'User:set_password',
+        'display_name' => 'Set Existing User\'s Password',
       ]
     ];
 
