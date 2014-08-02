@@ -50,7 +50,6 @@ class UsersController extends \BaseController {
 				-> groupBy('users.id');
 			return Datatables::of($users)
         ->add_column('actions', '{{View::make("users.actions-row", compact("id", "confirmed"))->render()}}')
-        ->edit_column('confirmed', '{{ $confirmed ? \'Yes\' : \'No\' }}')
 				->remove_column('id')
 				->make();
 			return Datatables::of($users)->make();
@@ -301,7 +300,7 @@ class UsersController extends \BaseController {
 
 	public function profile()
 	{
-		return View::make('users.profile', ['controller' => 'Profile']);	
+		return View::make('users.profile', ['controller' => 'Profile', 'user' => Auth::user()]);	
 	}
 
 	public function getSetPassword()

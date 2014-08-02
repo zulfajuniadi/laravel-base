@@ -100,6 +100,10 @@ class User extends ConfideUser implements UserInterface, RemindableInterface {
     return in_array($user_id, $users);
   }
 
+  /**
+   * ACL
+   */
+
   public static function canList() {
     return (Auth::user() && Auth::user()->ability(['Admin', 'User Admin'], ['User:list']));
   }
@@ -128,6 +132,19 @@ class User extends ConfideUser implements UserInterface, RemindableInterface {
   public function canSetConfirmation() {
     return (Auth::user() && Auth::user()->ability(['Admin', 'User Admin'], ['User:set_confirmation']));
   }
+
+  /**
+   * Decorators
+   */
+  
+  public function getConfirmedAttribute($value)
+  {
+    return ($value) ? 'Active' : 'Not Confirmed';
+  }
+
+  /**
+   * Boot
+   */
 
   public static function boot()
   {

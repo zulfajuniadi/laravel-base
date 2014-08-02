@@ -158,6 +158,11 @@ class OrganizationUnit extends Node {
    * Relationships
    */
   
+  public function user()
+  {
+    return $this->belongsTo('User', 'user_id', 'id');
+  }
+  
   public function users()
   {
     return $this->hasMany('User', 'organizationunit_id', 'id');
