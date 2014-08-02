@@ -1,0 +1,54 @@
+<?php
+
+class Role$CLASS$ extends Seeder {
+
+	public function run()
+	{
+
+    $MODEL$::truncate();
+
+    $roles = [
+      [
+        'name' => '$MODEL$ Admin'
+      ]
+    ];
+
+		$permissions = [
+       [
+        'name' => '$MODEL$:list',
+        'display_name' => 'List $MODEL$s',
+      ],
+      [
+        'name' => '$MODEL$:show',
+        'display_name' => 'Show $MODEL$',
+      ],
+      [
+        'name' => '$MODEL$:create',
+        'display_name' => 'Create New $MODEL$',
+      ],
+      [
+        'name' => '$MODEL$:edit',
+        'display_name' => 'Edit Existing $MODEL$',
+      ],
+      [
+        'name' => '$MODEL$:delete',
+        'display_name' => 'Delete Existing $MODEL$',
+      ]
+    ];
+
+    $createdPermissions = [];
+
+    foreach($permissions as $permission)
+    {
+      $created = Permission::create($permission);
+      $createdPermissions[] = $created->id;
+    }
+
+		foreach($roles as $role)
+		{
+			$created = Role::create($role);
+      $created->perms()->sync($createdPermissions);
+		}
+	}
+
+}

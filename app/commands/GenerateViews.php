@@ -47,12 +47,19 @@ class GenerateViews extends Command {
 		$this->getArgumentName();
 		$this->makeViewParams();
 		$this->cleanupFiles();
+		$this->createRoleSeeder();
 		$this->callWayGenerators();
 		$this->makeViewFolder();
 		$this->makeViews();
 		$this->updateController();
 		$this->updateModel();
-		$this->info("All done! Don't forget to add 'Route::resource('" . $this->argparams['$VIEWPATH$'] . "', '" . $this->argparams['$CONTROLLER$'] . "');` to app/routes.php.");
+		$this->info("Update your DatabaseSeeder.php file to call the new seeds");
+	}
+
+	private function createRoleSeeder()
+	{
+		$this->call('generate:seed', array('tableName' => $this->argname, '--templatePath' => app_path('templates') . '/acl_seed.txt'));
+		rename($this->seed_file, $this->role_seed_file);
 	}
 
 	private function getArgumentFields()
@@ -171,6 +178,10 @@ class GenerateViews extends Command {
 		$this->seed_file = app_path('database/seeds') .'/'. $this->argparams['$SEED_FILE$'];
 		if(file_exists($this->seed_file) && $this->confirm('Seed file ' . $this->argparams['$SEED_FILE$'] . ' exists. Delete? [yes|no]')) {
 			unlink($this->seed_file);
+		}
+		$this->role_seed_file = app_path('database/seeds') .'/Role'. $this->argparams['$SEED_FILE$'];
+		if(file_exists($this->role_seed_file) && $this->confirm('Role seed file Role' . $this->argparams['$SEED_FILE$'] . ' exists. Delete? [yes|no]')) {
+			unlink($this->role_seed_file);
 		}
 		$this->migration_dir = app_path('database/migrations');
 		$migration_files = scandir($this->migration_dir);

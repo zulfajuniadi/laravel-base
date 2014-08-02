@@ -127,6 +127,7 @@ return array(
 		'Zizaco\Entrust\EntrustServiceProvider',
 		'Baum\BaumServiceProvider',
 		'Bllim\Datatables\DatatablesServiceProvider',
+		'Profiler\ProfilerServiceProvider'
 
 	),
 
