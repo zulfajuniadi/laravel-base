@@ -9,7 +9,7 @@ use Zizaco\Confide\ConfideUser;
 
 class User extends ConfideUser implements UserInterface, RemindableInterface {
 
-	use UserTrait, RemindableTrait, HasRole;
+	use UserTrait, RemindableTrait, HasRole, UploadableTrait;
 
   /**
    * $show_authorize_flag
