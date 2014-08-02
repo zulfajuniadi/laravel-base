@@ -7,21 +7,21 @@ class OrganizationUnit extends Node {
   // Add your validation rules here
   public static $rules = [
     'store' => [
-      'name' => 'required',
+      'name'      => 'required',
+      'parent_id' => 'numeric|required',
+      'user_id'   => 'numeric|required'
     ],
     'update' => [
-      'name' => 'required',
+      'name'      => 'required',
+      'parent_id' => 'numeric|required',
+      'user_id'   => 'numeric|required'
     ]
   ];
 
   // Don't forget to fill this array
   protected $fillable = [
     'name',
-    'parent_id',
-    'lft',
-    'rgt',
-    'depth',
-    'user_id',
+    'user_id'
   ];
 
   public static function canList() {

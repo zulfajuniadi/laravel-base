@@ -98,6 +98,7 @@ class OrganizationUnitsController extends \BaseController {
 		Event::fire('OrganizationUnit.before.create', [$data]);
 
 		$organizationunit = OrganizationUnit::create($data);
+		$organizationunit->makeChildOf($data['parent_id']);
 
 		if(!isset($organizationunit->id))
 		{
@@ -214,6 +215,8 @@ class OrganizationUnitsController extends \BaseController {
 				->withInput()
 				->with('notification:danger', $this->update_error_message);
 		}
+
+		$organizationunit->makeChildOf($data['parent_id']);
 
 		Event::fire('OrganizationUnit.after.update', [$organizationunit]);
 
