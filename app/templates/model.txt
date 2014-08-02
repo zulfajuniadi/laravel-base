@@ -30,6 +30,21 @@ class $NAME$ extends Ardent {
   static $delete_authorize_flag = 0;
 
   /**
+   * Fillable columns
+   */
+  protected $fillable = [
+    'name',
+  ];
+
+  /**
+   * These attributes excluded from the model's JSON form.
+   * @var array
+   */
+  protected $hidden = [
+    // 'password'
+  ];
+
+  /**
    * Validation Rules
    */
   private static $_rules = [
@@ -48,10 +63,9 @@ class $NAME$ extends Ardent {
     self::$rules = self::$_rules[$name];
   }
 
-  // Don't forget to fill this array
-  protected $fillable = [
-    'name',
-  ];
+  /**
+   * ACL
+   */
 
   public static function canList() {
     return (Auth::user() && Auth::user()->ability(['Admin', '$NAME$ Admin'], ['$NAME$:list']));
@@ -108,6 +122,15 @@ class $NAME$ extends Ardent {
       return false;
     }
     return true;
+  }
+
+  /**
+   * Decorators
+   */
+  
+  public function getNameAttribute($value)
+  {
+    return $value;
   }
 
   /**

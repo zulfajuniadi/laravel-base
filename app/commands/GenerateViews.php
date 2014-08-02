@@ -43,89 +43,44 @@ class GenerateViews extends Command {
 	public function fire()
 	{
 		$this->getArgumentFields();
+		$this->getGeneratorFields();
 		$this->getArgumentName();
 		$this->makeViewParams();
+		$this->cleanupFiles();
+		$this->callWayGenerators();
 		$this->makeViewFolder();
 		$this->makeViews();
-		
-		// dd($this->argparams);
-	}
-
-	private function makeViews()
-	{
-		$this->templatepath = app_path() . '/templates/datatables';
-		$templates = scandir($this->templatepath);
-		foreach ($templates as $template_filename) {
-			if(stristr($template_filename, '.txt')) {
-				$filestr = file_get_contents($this->templatepath . '/' . $template_filename);
-				foreach ($this->argparams as $key => $value) {
-					$filestr = str_replace($key, $value, $filestr);
-				}
-				$newfilename = $this->basepath . '/' . str_replace('.txt', '.blade.php', $template_filename);
-				file_put_contents($newfilename, $filestr);
-			}
-		}
-	}
-
-	private function makeViewFolder()
-	{
-		$this->basepath = app_path() . '/views/' . $this->argparams['$VIEWPATH$'];
-		if(file_exists($this->basepath)) {
-			if ($this->confirm('Folder '.$this->argparams['$VIEWPATH$'].' exists. Overwrite? [yes|no]'))
-			{
-				$dir = $this->basepath;
-				$files = array_diff(scandir($dir), array('.','..')); 
-				foreach ($files as $file) { 
-				  (is_dir("$dir/$file")) ? delTree("$dir/$file") : unlink("$dir/$file"); 
-				} 
-				rmdir($dir); 
-			}
-			else
-			{
-				throw new Exception("View folder exists");
-			}
-		}
-		mkdir($this->basepath);
+		$this->updateController();
+		$this->updateModel();
+		$this->info("All done! Don't forget to add 'Route::resource('" . $this->argparams['$VIEWPATH$'] . "', '" . $this->argparams['$CONTROLLER$'] . "');` to app/routes.php.");
 	}
 
 	private function getArgumentFields()
 	{
-		$fields = $this->argument('fields');
+		$fields = $this->option('fields');
 		$fields = explode(',', $fields);
 		$return = [];
 		foreach ($fields as $field_str) {
 			$field = explode(':', trim($field_str));
-			$return[trim($field[0])] = isset($field[1]) ? trim($field[1]) : trim($field[0]);
+			$return[trim($field[1])] = trim($field[0]);
 		}
 		$this->argfields = array_filter($return);
 	}
 
-	private function makeViewParams()
+	private function getGeneratorFields()
 	{
-		$this->argparams['$VIEWPATH$'] = $replaced_ = str_replace('_', '', $this->argname);
-		$this->argparams['$RESOURCE$'] = str_singular($replaced_);
-		$replaced_sp = str_replace('_', ' ', $this->argname);
-		$this->argparams['$TITLES$'] = $ucwords = ucwords($replaced_sp);
-		$this->argparams['$TITLE$'] = $titsing = str_singular($ucwords);
-		$this->argparams['$MODEL$'] = str_replace(' ', '', $titsing);
-		$this->argparams['$FORM$'] = "\n";
-		foreach ($this->argfields as $key => $value) {
-			$this->argparams['$FORM$'] .= "{{ Former::text('$key')\n";
-			$this->argparams['$FORM$'] .= "  ->label('$value')\n";
-			$this->argparams['$FORM$'] .= "  ->required() }}\n\n";
+		$fields = $this->option('fields');
+		$fields = explode(',', $fields);
+		$return = [];
+		foreach ($fields as $field_str) {
+			$field = explode(':', trim($field_str));
+			array_shift($field);
+			$return[] = implode(':', $field);
 		}
-		$this->argparams['$THEADS$'] = "\n";
-		foreach ($this->argfields as $key => $value) {
-			$this->argparams['$THEADS$'] .= "    <th>$value</th>\n";
-		}
+		$this->genfields = implode(', ', array_filter($return));
 	}
 
 	private function getArgumentName()
-	{
-		$this->argname = $this->checkName();
-	}
-
-	private function checkName()
 	{
 		$name = trim($this->argument('name'));
 		if($strlen = mb_strlen($name) === 0) {
@@ -140,7 +95,146 @@ class GenerateViews extends Command {
 		if(str_plural($name) !== $name) {
 			throw new Exception("Name must be in plural form");	
 		}
-		return $name;
+		return $this->argname = $name;
+	}
+
+	private function makeViewParams()
+	{	
+
+		/* 
+		$VIEWPATH$ = 'leaveholidays'
+		$MODEL$ = 'LeaveHoliday'
+		$RESOURCE$ = 'leaveholiday'
+		$TITLE$ = 'Leave Holiday'
+		$TITLES$ = 'Leave Holidays'
+		$SEED_FILE$ = 'LeaveHolidaysTableSeeder'
+		$CONTROLLER$ = 'LeaveHolidaysController'
+		$CONTROLLER_FILE$ = 'LeaveHolidaysController.php'
+		$MODEL_FILE$ = 'LeaveHoliday.php'
+		$FORM$ = {{Former::text('name')
+		  ->required()}}
+		$THEADS$ = '<th>field</th>'
+		$CONTROLLER_COLUMNS$ = 'leave_holidays.column',\n (4 tab)
+		$MODEL_FILLEABLE$ = 'column',\n (2 tab)
+		$MODEL_VALIDATION$ = 'column' => 'required',\n (3 tab)
+		*/
+
+		$table_name = $this->argname;
+		$this->argparams['$VIEWPATH$'] = $replaced_ = str_replace('_', '', $this->argname);
+		$this->argparams['$RESOURCE$'] = str_singular($replaced_);
+		$replaced_sp = str_replace('_', ' ', $this->argname);
+		$this->argparams['$TITLES$'] = $ucwords = ucwords($replaced_sp);
+		$this->argparams['$SEED_FILE$'] = str_replace(' ', '', $this->argparams['$TITLES$']) . 'TableSeeder.php';
+		$this->argparams['$CONTROLLER$'] = str_replace(' ', '', $this->argparams['$TITLES$']) . 'Controller';
+		$this->argparams['$CONTROLLER_FILE$'] = str_replace(' ', '', $this->argparams['$CONTROLLER$']) . '.php';
+		$this->argparams['$TITLE$'] = $titsing = str_singular($ucwords);
+		$this->argparams['$MODEL$'] = str_replace(' ', '', $titsing);
+		$this->argparams['$MODEL_FILE$'] = str_replace(' ', '', $this->argparams['$MODEL$']) . '.php';
+		$this->argparams['$FORM$'] = "\n";
+		$this->argparams['$CONTROLLER_COLUMNS$'] = "\n";
+		$this->argparams['$MODEL_FILLEABLE$'] = "\n";
+		$this->argparams['$MODEL_VALIDATION$'] = "\n";
+		foreach ($this->argfields as $key => $value) {
+			$this->argparams['$FORM$'] .= "{{ Former::text('$key')\n";
+			$this->argparams['$FORM$'] .= "  ->label('$value')\n";
+			$this->argparams['$FORM$'] .= "  ->required() }}\n";
+
+			$this->argparams['$CONTROLLER_COLUMNS$'] .= "        '$table_name.$key',\n";
+			$this->argparams['$MODEL_FILLEABLE$'] .= "    '$key',\n";
+			$this->argparams['$MODEL_VALIDATION$'] .= "      '$key' => 'required',\n";
+		}
+		$this->argparams['$THEADS$'] = "\n";
+		foreach ($this->argfields as $key => $value) {
+			$this->argparams['$THEADS$'] .= "        <th>$value</th>\n";
+		}
+	}
+
+	private function cleanupFiles()
+	{
+		$this->model_file = app_path('models') . '/' . $this->argparams['$MODEL_FILE$'];
+		if(file_exists($this->model_file) && $this->confirm('Model file ' . $this->argparams['$MODEL_FILE$'] . ' exists. Delete? [yes|no]')) {
+			unlink($this->model_file);
+		}
+		$this->controller_file = app_path('controllers') . '/' . $this->argparams['$CONTROLLER_FILE$'];
+		if(file_exists($this->controller_file) && $this->confirm('Controller file ' . $this->argparams['$CONTROLLER_FILE$'] . ' exists. Delete? [yes|no]')) {
+			unlink($this->controller_file);
+		}
+		$this->view_dir = app_path('views') .'/'. $this->argparams['$VIEWPATH$'];
+		if(is_dir($this->view_dir) && $this->confirm('View directory ' . $this->argparams['$VIEWPATH$'] . ' exists. Delete? [yes|no]')) {
+			$dir = $this->view_dir;
+			$files = array_diff(scandir($dir), array('.','..')); 
+			foreach ($files as $file) { 
+			  (is_dir("$dir/$file")) ? delTree("$dir/$file") : unlink("$dir/$file"); 
+			} 
+			rmdir($dir); 
+		}
+		$this->seed_file = app_path('database/seeds') .'/'. $this->argparams['$SEED_FILE$'];
+		if(file_exists($this->seed_file) && $this->confirm('Seed file ' . $this->argparams['$SEED_FILE$'] . ' exists. Delete? [yes|no]')) {
+			unlink($this->seed_file);
+		}
+		$this->migration_dir = app_path('database/migrations');
+		$migration_files = scandir($this->migration_dir);
+		foreach ($migration_files as $name) {
+			if(stristr($name, $this->argname) && $this->confirm('Migration file ' . $name . ' exists. Delete? [yes|no]')) {
+				$this->call('migrate:reset');
+				unlink($this->migration_dir . '/' . $name);
+				$this->call('dump-autoload');
+			}
+		}
+	}
+
+	private function callWayGenerators()
+	{
+		try {
+			$this->call('generate:scaffold', array('resource' => $this->argname, '--no-interaction', '--fields' => $this->genfields));
+		} catch (Exception $e) {}
+	}
+
+	private function makeViewFolder()
+	{
+		if(file_exists($this->view_dir)) {
+			$dir = $this->view_dir;
+			$files = array_diff(scandir($dir), array('.','..')); 
+			foreach ($files as $file) { 
+			  (is_dir("$dir/$file")) ? delTree("$dir/$file") : unlink("$dir/$file"); 
+			} 
+			rmdir($dir); 
+		}
+		mkdir($this->view_dir);
+	}
+
+	private function makeViews()
+	{
+		$this->templatepath = app_path() . '/templates/datatables';
+		$templates = scandir($this->templatepath);
+		foreach ($templates as $template_filename) {
+			if(stristr($template_filename, '.txt')) {
+				$filestr = file_get_contents($this->templatepath . '/' . $template_filename);
+				foreach ($this->argparams as $key => $value) {
+					$filestr = str_replace($key, $value, $filestr);
+				}
+				$newfilename = $this->view_dir . '/' . str_replace('.txt', '.blade.php', $template_filename);
+				file_put_contents($newfilename, $filestr);
+			}
+		}
+	}
+
+	private function updateController()
+	{
+		$controller_contents = file_get_contents($this->controller_file);
+		foreach ($this->argparams as $key => $value) {
+			$controller_contents = str_replace($key, $value, $controller_contents);
+		}
+		file_put_contents($this->controller_file, $controller_contents);
+	}
+
+	private function updateModel()
+	{
+		$model_contents = file_get_contents($this->model_file);
+		foreach ($this->argparams as $key => $value) {
+			$model_contents = str_replace($key, $value, $model_contents);
+		}
+		file_put_contents($this->model_file, $model_contents);
 	}
 
 	/**
@@ -151,7 +245,6 @@ class GenerateViews extends Command {
 	protected function getArguments()
 	{
 		return array(
-			array('fields', InputArgument::REQUIRED, 'Field names separated in this format: name:Name, '),
 			array('name', InputArgument::REQUIRED, 'the name of the views in this format: leave_holidays (plural, lower case, uderscore separated)'),
 		);
 	}
@@ -164,7 +257,7 @@ class GenerateViews extends Command {
 	protected function getOptions()
 	{
 		return array(
-			
+			array('fields', null, InputOption::VALUE_REQUIRED, 'Field names separated in this format: Name:name:string, ', 'Name:name:string'),
 		);
 	}
 

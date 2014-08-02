@@ -28,7 +28,9 @@ class $NAME$ extends \BaseController {
 			} else {
 				$$COLLECTION$ = $MODEL$::whereIn('$COLLECTION$.user_id', $users_under_me);	
 			}
-			$$COLLECTION$ = $$COLLECTION$->select(['$COLLECTION$.id', '$COLLECTION$.name']);
+			$$COLLECTION$ = $$COLLECTION$->select([
+				'$COLLECTION$.id',$CONTROLLER_COLUMNS$
+			]);
 			return Datatables::of($$COLLECTION$)
         ->add_column('actions', '{{View::make("$COLLECTION$.actions-row", compact("id"))->render()}}')
 				->remove_column('id')
