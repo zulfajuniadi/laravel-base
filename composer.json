@@ -1,6 +1,6 @@
 {
-	"name": "laravel/laravel",
-	"description": "The Laravel Framework.",
+	"name": "zulfajuniadi/laravel-base",
+	"description": "Jumpstart Laravel Development",
 	"keywords": ["framework", "laravel"],
 	"license": "MIT",
 	"require": {
