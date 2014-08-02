@@ -28,15 +28,20 @@ class OrganizationUnitsController extends \BaseController {
 			return Redirect::back()
 				->with('notification:danger', $this->access_denied_message);
 		}
-
-		$organizationunits = OrganizationUnit::all();
 		
 		if(Request::ajax())
 		{
-			return $organizationunits;
+			$organization_units = OrganizationUnit::select(['organization_units.id', 'organization_units.name',  DB::raw('parent.name as pname'), 'users.username'])
+				-> leftJoin('users', 'organization_units.user_id', '=', 'users.id')
+				-> leftJoin(DB::raw('organization_units as "parent"'), 'organization_units.parent_id', '=', 'parent.id')
+				-> groupBy('organization_units.id');
+			return Datatables::of($organization_units)
+        ->add_column('actions', '{{View::make("organizationunits.actions-row", compact("id"))->render()}}')
+				->remove_column('id')
+				->make();
 		}
 
-		return View::make('organizationunits.index', compact('organizationunits'));
+		return View::make('organizationunits.index');
 	}
 
 	/**
@@ -90,7 +95,7 @@ class OrganizationUnitsController extends \BaseController {
 				->with('notification:danger', $this->validation_error_message);
 		}
 
-		Event::fire('OrganizationUnit.before.create', [$organizationunit]);
+		Event::fire('OrganizationUnit.before.create', [$data]);
 
 		$organizationunit = OrganizationUnit::create($data);
 

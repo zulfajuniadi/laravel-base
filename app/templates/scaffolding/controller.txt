@@ -93,7 +93,7 @@ class $NAME$ extends \BaseController {
 				->with('notification:danger', $this->validation_error_message);
 		}
 
-		Event::fire('$MODEL$.before.create', [$$RESOURCE$]);
+		Event::fire('$MODEL$.before.create', [$data]);
 
 		$$RESOURCE$ = $MODEL$::create($data);
 
