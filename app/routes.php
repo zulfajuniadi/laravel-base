@@ -17,19 +17,19 @@ Route::group(['before' => 'auth'], function(){
     return View::make('home', ['controller' => 'Home']);
   });
 
-  Route::group(['before' => ['canList:User']], function(){
+  Route::group(['before' => ['can:User:list']], function(){
     Route::resource('users', 'UsersController');
   });
 
-  Route::group(['before' => ['canList:OrganizationUnit']], function(){
+  Route::group(['before' => ['can:OrganizationUnit:list']], function(){
     Route::resource('organizationunits', 'OrganizationUnitsController');
   });
 
-  Route::group(['before' => ['canList:Role']], function(){
+  Route::group(['before' => ['can:Role:list']], function(){
     Route::resource('roles', 'RolesController');
   });
 
-  Route::group(['before' => ['canList:Permission']], function(){
+  Route::group(['before' => ['can:Permission:list']], function(){
     Route::resource('permissions', 'PermissionsController');
   });
   

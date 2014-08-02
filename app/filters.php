@@ -67,7 +67,7 @@ Route::filter('hasRole', function($route, $request, $role)
 		->with('notification:danger', 'Access denied.');
 });
 
-Route::filter('hasAbility', function($route, $request, $ability)
+Route::filter('can', function($route, $request, $ability)
 {
 	$abilityParts = explode(':', $ability);
 	$role = array_shift($abilityParts) . ' Admin';

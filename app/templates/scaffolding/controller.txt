@@ -5,9 +5,7 @@ class $NAME$ extends \BaseController {
 	protected $validation_error_message = 'Validation Error.';
 	protected $access_denied_message = 'Access denied.';
 	protected $created_message = 'Record created.';
-	protected $create_error_message = 'Error creating record.';
 	protected $updated_message = 'Record updated.';
-	protected $update_error_message = 'Error updating record.';
 	protected $deleted_message = 'Record deleted.';
 	protected $delete_error_message = 'Error deleting record.';
 
@@ -18,17 +16,10 @@ class $NAME$ extends \BaseController {
 	 */
 	public function index()
 	{
-		
 		if(!$MODEL$::canList())
 		{
-			if(Request::ajax())
-			{
-				return Response::json($this->access_denied_message, 403);
-			}
-			return Redirect::back()
-				->with('notification:danger', $this->access_denied_message);
+			return $this->_access_denied();
 		}
-		
 		if(Request::ajax())
 		{
 			$users_under_me = Auth::user()->get_authorized_userids($MODEL$::$show_authorize_flag);
@@ -56,13 +47,11 @@ class $NAME$ extends \BaseController {
 	{
 		if(Request::ajax())
 		{
-			return Response::json("Bad request", 400);
+			return $this->_ajax_denied();
 		}
-
 		if(!$MODEL$::canCreate())
 		{
-			return Redirect::back()
-				->with('notification:danger', $this->access_denied_message);
+			return $this->_access_denied();
 		}
 		return View::make('$COLLECTION$.create');
 	}
@@ -74,46 +63,16 @@ class $NAME$ extends \BaseController {
 	 */
 	public function store()
 	{
-		$validator = Validator::make($data = Input::all(), $MODEL$::$rules['store']);
-		
+		$MODEL$::setRules('store');
 		if(!$MODEL$::canCreate())
 		{
-			if(Request::ajax())
-			{
-				return Response::json($this->access_denied_message, 403);
-			}
-			return Redirect::back()
-				->with('notification:danger', $this->access_denied_message);
+			return $this->_access_denied();
 		}
-
-		if ($validator->fails())
+		$$RESOURCE$ = new $MODEL$;
+		if(!$$RESOURCE$->save())
 		{
-			if(Request::ajax())
-			{
-				return Response::json($validator->messages(), 400);
-			}
-			return Redirect::back()
-				->withErrors($validator)
-				->withInput()
-				->with('notification:danger', $this->validation_error_message);
+			return $this->_validation_error();
 		}
-
-		Event::fire('$MODEL$.before.create', [$data]);
-
-		$$RESOURCE$ = $MODEL$::create($data);
-
-		if(!isset($$RESOURCE$->id))
-		{
-			if(Request::ajax())
-			{
-				return Response::json($this->create_error_message, 201);
-			}
-			return Redirect::back()
-				->with('notification:danger', $this->create_error_message);
-		}
-
-		Event::fire('$MODEL$.after.create', [$$RESOURCE$]);
-
 		if(Request::ajax())
 		{
 			return Response::json($$RESOURCE$->toJson(), 201);
@@ -131,19 +90,13 @@ class $NAME$ extends \BaseController {
 	public function show($id)
 	{
 		$$RESOURCE$ = $MODEL$::findOrFail($id);
-		
 		if(!$$RESOURCE$->canShow())
 		{
-			if(Request::ajax())
-			{
-				return Response::json($this->access_denied_message, 403);
-			}
-			return Redirect::back()->with('notification:danger', $this->access_denied_message);
+			return $this->_access_denied();
 		}
-
 		if(Request::ajax())
 		{
-			return Response::json($$RESOURCE$->toJson(), 201);
+			return Response::json($$RESOURCE$);
 		}
 		return View::make('$COLLECTION$.show', compact('$RESOURCE$'));
 	}
@@ -156,18 +109,15 @@ class $NAME$ extends \BaseController {
 	 */
 	public function edit($id)
 	{
-		$$RESOURCE$ = $MODEL$::find($id);
-
+		$$RESOURCE$ = $MODEL$::findOrFail($id);
 		if(Request::ajax())
 		{
-			return Response::json("Bad request", 400);
+			return $this->_ajax_denied();
 		}
-		
 		if(!$$RESOURCE$->canUpdate())
 		{
-			return Redirect::back()->with('notification:danger', $this->access_denied_message);
+			return _access_denied();
 		}
-
 		return View::make('$COLLECTION$.edit', compact('$RESOURCE$'));
 	}
 
@@ -180,56 +130,20 @@ class $NAME$ extends \BaseController {
 	public function update($id)
 	{
 		$$RESOURCE$ = $MODEL$::findOrFail($id);
+		$MODEL$::setRules('update');
 		$data = Input::all();
-		
 		if(!$$RESOURCE$->canUpdate())
 		{
-			if(Request::ajax())
-			{
-				return Response::json($this->access_denied_message, 403);
-			}
-			return Redirect::back()
-				->with('notification:danger', $this->access_denied_message);
+			return $this->_access_denied();
 		}
-
-		if(!isset($data['_bypass'])) {
-			$validator = Validator::make($data, $MODEL$::$rules['update']);
-
-			if ($validator->fails())
-			{
-				if(Request::ajax())
-				{
-					return Response::json($validator->messages(), 400);
-				}
-				return Redirect::back()
-					->withErrors($validator)
-					->withInput()
-					->with('notification:danger', $this->validation_error_message);
-			}
-		} else {
-			$MODEL$::$rules['update'] = [];
+		if(!$$RESOURCE$->update($data)) {
+			return $this->_validation_error();
 		}
-
-		Event::fire('$MODEL$.before.update', [$$RESOURCE$]);
-
-		if(!$$RESOURCE$->update($data)){
-			if(Request::ajax())
-			{
-				return Response::json($this->update_error_message, 500);
-			}
-			return Redirect::back()
-				->withErrors($validator)
-				->withInput()
-				->with('notification:danger', $this->update_error_message);
-		}
-
-		Event::fire('$MODEL$.after.update', [$$RESOURCE$]);
-
 		if(Request::ajax())
 		{
 			return $$RESOURCE$;
 		}
-		return Redirect::back()
+		return Redirect::route('$COLLECTION$.edit', $$RESOURCE$->id)
 			->with('notification:success', $this->updated_message);
 	}
 
@@ -242,39 +156,61 @@ class $NAME$ extends \BaseController {
 	public function destroy($id)
 	{
 		$$RESOURCE$ = $MODEL$::findOrFail($id);
-		
 		if(!$$RESOURCE$->canDelete())
 		{
-			if(Request::ajax())
-			{
-				return Response::json($this->access_denied_message, 403);
-			}
-			return Redirect::back()->with('notification:danger', $this->access_denied_message);
+			return $this->_access_denied();
 		}
-
-		Event::fire('$MODEL$.before.delete', [$$RESOURCE$]);
-
-		if(!$$RESOURCE$->delete()){
-			if(Request::ajax())
-			{
-				return Response::json($this->delete_error_message, 500);
-			}
-			return Redirect::back()
-				->withErrors($validator)
-				->withInput()
-				->with('notification:danger', $this->delete_error_message);
-		}
-
-		Event::fire('$MODEL$.after.update', [$$RESOURCE$]);
-
+		$$RESOURCE$->delete();
 		if(Request::ajax())
 		{
 			return Response::json($this->deleted_message);
 		}
-
 		return Redirect::route('$COLLECTION$.index')
 			->with('notification:success', $this->deleted_message);
 	}
+
+	/**
+	 * Response Shorthands
+	 */
+
+	public function _ajax_denied()
+	{
+		return Response::json("Bad request", 400);
+	}
+
+	public function _access_denied()
+	{
+		if(Request::ajax())
+		{
+			return Response::json($this->access_denied_message, 403);
+		}
+		return Redirect::back()
+			->with('notification:danger', $this->access_denied_message);
+	}
+
+	public function _validation_error()
+	{
+		if(Request::ajax())
+		{
+			return Response::json($this->validationErrors, 400);
+		}
+		return Redirect::back()
+			->withErrors($this->validationErrors)
+			->withInput()
+			->with('notification:danger', $this->validation_error_message);
+	}
+
+	/**
+	 * Custom Methods. Dont forget to add these to routes: Route::get('example/name', 'ExampleController@getName');
+	 */
+	
+	// public function getName()
+	// {
+	// }
+
+	/**
+	 * Constructor
+	 */
 
 	public function __construct()
 	{

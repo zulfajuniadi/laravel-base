@@ -1,6 +1,6 @@
 <?php
 
-class $NAME$ extends \Eloquent {
+class $NAME$ extends Ardent {
 
   /**
    * $show_authorize_flag
@@ -29,8 +29,10 @@ class $NAME$ extends \Eloquent {
    */
   static $delete_authorize_flag = 0;
 
-  // Add your validation rules here
-  public static $rules = [
+  /**
+   * Validation Rules
+   */
+  private static $_rules = [
     'store' => [
       'name' => 'required'
     ],
@@ -38,6 +40,13 @@ class $NAME$ extends \Eloquent {
       'name' => 'required'
     ]
   ];
+
+  public static $rules = [];
+
+  public static function setRules($name)
+  {
+    self::$rules = self::$_rules[$name];
+  }
 
   // Don't forget to fill this array
   protected $fillable = [
@@ -100,6 +109,10 @@ class $NAME$ extends \Eloquent {
     }
     return true;
   }
+
+  /**
+   * Boot Method
+   */
 
   public static function boot()
   {

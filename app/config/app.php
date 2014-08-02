@@ -198,6 +198,7 @@ return array(
 		'Confide'         => 'Zizaco\Confide\ConfideFacade',
 		'Entrust'         => 'Zizaco\Entrust\EntrustFacade',
 		'Datatables'      => 'Bllim\Datatables\Facade\Datatables',
+		'Ardent'          => 'LaravelBook\Ardent\Ardent'
 
 	),
 
