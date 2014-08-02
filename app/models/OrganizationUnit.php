@@ -25,52 +25,24 @@ class OrganizationUnit extends Node {
   ];
 
   public static function canList() {
-    return true;
+    return (Auth::user() && Auth::user()->ability(['Admin', 'OrganizationUnit Admin'], ['OrganizationUnit:list']));
   }
 
   public static function canCreate() {
-    return true;
+    return (Auth::user() && Auth::user()->ability(['Admin', 'OrganizationUnit Admin'], ['OrganizationUnit:create']));
   }
 
   public function canShow()
   {
-    $user = Auth::user();
-    if($user->hasRole('Admin', 'OrganizationUnit Admin'))
-      return true;
-    if(isset($this->user_id)) {
-      if($this->user_id === $user->id) {
-        return true;
-      }
-      return false;
-    }
-    return true;
+    return (Auth::user() && Auth::user()->ability(['Admin', 'OrganizationUnit Admin'], ['OrganizationUnit:show']));
   }
 
   public function canUpdate() {
-    $user = Auth::user();
-    if($user->hasRole('Admin', 'OrganizationUnit Admin'))
-      return true;
-    if(isset($this->user_id)) {
-      if($this->user_id === $user->id) {
-        return true;
-      }
-      return false;
-    }
-    return true;
+    return (Auth::user() && Auth::user()->ability(['Admin', 'OrganizationUnit Admin'], ['OrganizationUnit:edit']));
   }
 
   public function canDelete() {
-    $user = Auth::user();
-    if($user->hasRole('Admin', 'OrganizationUnit Admin'))
-      return true;
-    if(isset($this->user_id)) {
-      $user = Auth::user();
-      if($this->user_id === $user->id) {
-        return true;
-      }
-      return false;
-    }
-    return true;
+    return (Auth::user() && Auth::user()->ability(['Admin', 'OrganizationUnit Admin'], ['OrganizationUnit:delete']));
   }
 
   //////////////////////////////////////////////////////////////////////////////

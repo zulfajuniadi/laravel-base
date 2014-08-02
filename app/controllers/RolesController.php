@@ -185,6 +185,7 @@ class RolesController extends \BaseController {
 				->with('notification:danger', $this->access_denied_message);
 		}
 
+		Role::$rules['name'] = Role::$rules['name'] . ',' . $id;
 		$validator = Validator::make($data = Input::all(), Role::$rules);
 
 		if ($validator->fails())
@@ -211,6 +212,7 @@ class RolesController extends \BaseController {
 		}
 
 		$role->perms()->sync($data['permissions']);
+		$role->touch();
 
 		if(Request::ajax())
 		{

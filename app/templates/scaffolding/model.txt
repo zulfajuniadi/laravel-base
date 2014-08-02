@@ -45,11 +45,11 @@ class $NAME$ extends \Eloquent {
   ];
 
   public static function canList() {
-    return true;
+    return (Auth::user() && Auth::user()->ability(['Admin', '$NAME$ Admin'], ['$NAME$:list']));
   }
 
   public static function canCreate() {
-    return true;
+    return (Auth::user() && Auth::user()->ability(['Admin', '$NAME$ Admin'], ['$NAME$:create']));
   }
 
   public function canShow()
@@ -57,7 +57,7 @@ class $NAME$ extends \Eloquent {
     $user = Auth::user();
     if($user->hasRole('Admin', '$NAME$ Admin'))
       return true;
-    if(isset($this->user_id)) {
+    if(isset($this->user_id) && $user->can('$NAME$:show')) {
       if($this->user_id === $user->id) {
         return true;
       }
@@ -73,7 +73,7 @@ class $NAME$ extends \Eloquent {
     $user = Auth::user();
     if($user->hasRole('Admin', '$NAME$ Admin'))
       return true;
-    if(isset($this->user_id)) {
+    if(isset($this->user_id) && $user->can('$NAME$:edit')) {
       if($this->user_id === $user->id) {
         return true;
       }
@@ -89,7 +89,7 @@ class $NAME$ extends \Eloquent {
     $user = Auth::user();
     if($user->hasRole('Admin', '$NAME$ Admin'))
       return true;
-    if(isset($this->user_id)) {
+    if(isset($this->user_id) && $user->can('$NAME$:update')) {
       if($this->user_id === $user->id) {
         return true;
       }

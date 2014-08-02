@@ -10,7 +10,7 @@
 |
 */
 
-class UserController extends BaseController {
+class AuthController extends BaseController {
 
 
 	public function index()
@@ -236,7 +236,7 @@ class UserController extends BaseController {
 	public function __construct()
 	{
 		parent::__construct();
-		View::share('controller', 'UserController');
+		View::share('controller', 'AuthController');
 	}
 
 }

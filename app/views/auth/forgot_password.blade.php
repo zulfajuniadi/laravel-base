@@ -2,7 +2,7 @@
 @section('content')
 <h1>Forgot Password</h1>
 <hr>
-<form method="POST" action="{{ (Confide::checkAction('UserController@do_forgot_password')) ?: URL::to('/user/forgot') }}" accept-charset="UTF-8">
+<form method="POST" action="{{ (Confide::checkAction('AuthController@do_forgot_password')) ?: URL::to('/user/forgot') }}" accept-charset="UTF-8">
     <input type="hidden" name="_token" value="{{{ Session::getToken() }}}">
 
     <div class="form-group">
@@ -24,7 +24,7 @@
     @endif
 </form>
 <p class="text-center">
-    {{link_to_action('UserController@login', 'Login')}} | 
-    {{link_to_action('UserController@create', 'Register')}}
+    {{link_to_action('AuthController@login', 'Login')}} | 
+    {{link_to_action('AuthController@create', 'Register')}}
 </p>
 @stop

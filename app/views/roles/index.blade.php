@@ -2,12 +2,12 @@
 @section('content')
   <h2>Roles</h2>
   <hr>
-  <table class="DT">
+  <table class="DT table table-striped table-hover table-bordered">
     <thead>
       <tr>
         <th>Name</th>
         <th>Permissions</th>
-        <th>Actions</th>
+        <th width="200px">Actions</th>
       </tr>
     </thead>
     <tbody></tbody>

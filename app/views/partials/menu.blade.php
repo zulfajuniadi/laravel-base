@@ -11,10 +11,10 @@
   @if($controller === 'RolesController')<li class="active">@else<li>@endif
     <a href="{{action('RolesController@index')}}">Roles</a>
   </li>
-  @if($controller === 'UserController')<li class="active">@else<li>@endif
-    <a href="{{action('UserController@index')}}">Users</a>
+  @if($controller === 'UsersController')<li class="active">@else<li>@endif
+    <a href="{{action('UsersController@index')}}">Users</a>
   </li>
   <li>
-    <a href="{{action('UserController@logout')}}">Logout</a>
+    <a href="{{action('AuthController@logout')}}">Logout</a>
   </li>
 </ul>

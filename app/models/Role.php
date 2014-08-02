@@ -4,7 +4,7 @@ class Role extends Zizaco\Entrust\EntrustRole {
 
   // Add your validation rules here
   public static $rules = [
-    'name' => 'required'
+    'name' => 'required|unique:roles,name'
   ];
 
   // Don't forget to fill this array
@@ -13,24 +13,24 @@ class Role extends Zizaco\Entrust\EntrustRole {
   ];
 
   public static function canList() {
-    return true;
+    return (Auth::user() && Auth::user()->ability(['Admin', 'Role Admin'], ['Role:list']));
   }
 
   public static function canCreate() {
-    return true;
+    return (Auth::user() && Auth::user()->ability(['Admin', 'Role Admin'], ['Role:create']));
   }
 
   public function canShow()
   {
-    return true;
+    return (Auth::user() && Auth::user()->ability(['Admin', 'Role Admin'], ['Role:show']));
   }
 
   public function canUpdate() {
-    return true;
+    return (Auth::user() && Auth::user()->ability(['Admin', 'Role Admin'], ['Role:edit']));
   }
 
   public function canDelete() {
-    return true;
+    return (Auth::user() && Auth::user()->ability(['Admin', 'Role Admin'], ['Role:delete']));
   }
 
   public static function boot()

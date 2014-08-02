@@ -1,4 +1,3 @@
-<br>
 <div class="well">
   @if(isset($has_submit))
     <button class="btn btn-primary">Submit</button>

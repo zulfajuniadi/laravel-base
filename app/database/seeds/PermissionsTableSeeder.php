@@ -9,68 +9,84 @@ class PermissionsTableSeeder extends Seeder {
 
 		$datas = [
       [
-        'name' => 'roles:view',
-        'display_name' => 'View Roles',
+        'name' => 'Role:list',
+        'display_name' => 'List Roles',
       ],
       [
-        'name' => 'roles:create',
-        'display_name' => 'Create New Roles',
+        'name' => 'Role:show',
+        'display_name' => 'Show Role',
       ],
       [
-        'name' => 'roles:edit',
-        'display_name' => 'Edit Existing Roles',
+        'name' => 'Role:create',
+        'display_name' => 'Create New Role',
       ],
       [
-        'name' => 'roles:delete',
-        'display_name' => 'Delete Existing Roles',
+        'name' => 'Role:edit',
+        'display_name' => 'Edit Existing Role',
       ],
       [
-        'name' => 'permissions:view',
-        'display_name' => 'View Permissions',
+        'name' => 'Role:delete',
+        'display_name' => 'Delete Existing Role',
       ],
       [
-        'name' => 'permissions:create',
-        'display_name' => 'Create New Permissions',
+        'name' => 'Permission:list',
+        'display_name' => 'List Permissions',
       ],
       [
-        'name' => 'permissions:edit',
-        'display_name' => 'Edit Existing Permissions',
+        'name' => 'Permission:show',
+        'display_name' => 'Show Permission',
       ],
       [
-        'name' => 'permissions:delete',
-        'display_name' => 'Delete Existing Permissions',
+        'name' => 'Permission:create',
+        'display_name' => 'Create New Permission',
       ],
       [
-        'name' => 'organization_units:view',
-        'display_name' => 'View Organization Units',
+        'name' => 'Permission:edit',
+        'display_name' => 'Edit Existing Permission',
       ],
       [
-        'name' => 'organization_units:create',
-        'display_name' => 'Create New Organization Units',
+        'name' => 'Permission:delete',
+        'display_name' => 'Delete Existing Permission',
       ],
       [
-        'name' => 'organization_units:edit',
-        'display_name' => 'Edit Existing Organization Units',
+        'name' => 'OrganizationUnit:list',
+        'display_name' => 'List Organization Units',
       ],
       [
-        'name' => 'organization_units:delete',
-        'display_name' => 'Delete Existing Organization Units',
+        'name' => 'OrganizationUnit:show',
+        'display_name' => 'Show Organization Unit',
       ],
       [
-        'name' => 'users:view',
-        'display_name' => 'View Users',
+        'name' => 'OrganizationUnit:create',
+        'display_name' => 'Create New Organization Unit',
       ],
       [
-        'name' => 'users:create',
-        'display_name' => 'Create New Users',
+        'name' => 'OrganizationUnit:edit',
+        'display_name' => 'Edit Existing Organization Unit',
       ],
       [
-        'name' => 'users:edit',
-        'display_name' => 'Edit Existing Users',
+        'name' => 'OrganizationUnit:delete',
+        'display_name' => 'Delete Existing Organization Unit',
       ],
       [
-        'name' => 'users:delete',
-        'display_name' => 'Delete Existing Users',
+        'name' => 'User:list',
+        'display_name' => 'List Users',
+      ],
+      [
+        'name' => 'User:show',
+        'display_name' => 'Show User',
+      ],
+      [
+        'name' => 'User:create',
+        'display_name' => 'Create New User',
+      ],
+      [
+        'name' => 'User:edit',
+        'display_name' => 'Edit Existing User',
+      ],
+      [
+        'name' => 'User:delete',
+        'display_name' => 'Delete Existing User',
       ]
     ];
 

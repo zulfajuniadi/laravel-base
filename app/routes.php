@@ -12,29 +12,37 @@
 */
 
 Route::group(['before' => 'auth'], function(){
-  Route::get('/', ['before' => 'auth', function()
+  Route::get('/', function()
   {
     return View::make('home', ['controller' => 'Home']);
-  }]);
+  });
 
-  Route::resource('users', 'UserController');
-  Route::resource('organizationunits', 'OrganizationUnitsController');
+  Route::group(['before' => ['canList:User']], function(){
+    Route::resource('users', 'UsersController');
+  });
 
-  Route::group(['before' => ['admin']], function(){
+  Route::group(['before' => ['canList:OrganizationUnit']], function(){
+    Route::resource('organizationunits', 'OrganizationUnitsController');
+  });
+
+  Route::group(['before' => ['canList:Role']], function(){
     Route::resource('roles', 'RolesController');
+  });
+
+  Route::group(['before' => ['canList:Permission']], function(){
     Route::resource('permissions', 'PermissionsController');
   });
   
-  Route::get( 'auth/logout', 'UserController@logout');
+  Route::get( 'auth/logout', 'AuthController@logout');
 });
 
 // Confide routes
-Route::get( 'auth/register',               'UserController@create');
-Route::post('auth',                        'UserController@store');
-Route::get( 'auth/login',                  'UserController@login');
-Route::post('auth/login',                  'UserController@do_login');
-Route::get( 'auth/confirm/{code}',         'UserController@confirm');
-Route::get( 'auth/forgot_password',        'UserController@forgot_password');
-Route::post('auth/forgot_password',        'UserController@do_forgot_password');
-Route::get( 'auth/reset_password/{token}', 'UserController@reset_password');
-Route::post('auth/reset_password',         'UserController@do_reset_password');
+Route::get( 'auth/register',               'AuthController@create');
+Route::post('auth',                        'AuthController@store');
+Route::get( 'auth/login',                  'AuthController@login');
+Route::post('auth/login',                  'AuthController@do_login');
+Route::get( 'auth/confirm/{code}',         'AuthController@confirm');
+Route::get( 'auth/forgot_password',        'AuthController@forgot_password');
+Route::post('auth/forgot_password',        'AuthController@do_forgot_password');
+Route::get( 'auth/reset_password/{token}', 'AuthController@reset_password');
+Route::post('auth/reset_password',         'AuthController@do_reset_password');
