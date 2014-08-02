@@ -4,4 +4,4 @@ Redis (Cache, Queues)
 
 
 artisan app:reset to reset application
-`artisan generate:scaffold --fields="user:string, is_admin:boolean, phone:integer" users` to generate from /app/templates/scaffolding
+`artisan generate:scaffold --fields="user:string, is_admin:boolean, phone:integer" LeaveHoliday` to generate from /app/templates/scaffolding
