@@ -42,6 +42,8 @@ Route::group(['before' => 'auth'], function(){
   Route::get( 'auth/logout', 'AuthController@logout');
 });
 
+Route::resource('todos', 'TodosController');
+
 // Confide routes
 Route::get( 'auth/register',               'AuthController@create');
 Route::post('auth',                        'AuthController@store');

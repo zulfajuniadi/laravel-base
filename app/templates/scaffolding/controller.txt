@@ -68,10 +68,10 @@ class $NAME$ extends \BaseController {
 		{
 			return $this->_access_denied();
 		}
-		$$RESOURCE$ = new $MODEL$;
+		$$RESOURCE$ = $MODEL$::create(Input::all());
 		if(!$$RESOURCE$->save())
 		{
-			return $this->_validation_error();
+			return $this->_validation_error($$RESOURCE$);
 		}
 		if(Request::ajax())
 		{
@@ -137,7 +137,7 @@ class $NAME$ extends \BaseController {
 			return $this->_access_denied();
 		}
 		if(!$$RESOURCE$->update($data)) {
-			return $this->_validation_error();
+			return $this->_validation_error($$RESOURCE$);
 		}
 		if(Request::ajax())
 		{
@@ -188,14 +188,14 @@ class $NAME$ extends \BaseController {
 			->with('notification:danger', $this->access_denied_message);
 	}
 
-	public function _validation_error()
+	public function _validation_error($$RESOURCE$)
 	{
 		if(Request::ajax())
 		{
-			return Response::json($this->validationErrors, 400);
+			return Response::json($$RESOURCE$->validationErrors, 400);
 		}
 		return Redirect::back()
-			->withErrors($this->validationErrors)
+			->withErrors($$RESOURCE$->validationErrors)
 			->withInput()
 			->with('notification:danger', $this->validation_error_message);
 	}

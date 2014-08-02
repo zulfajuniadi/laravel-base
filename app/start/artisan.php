@@ -13,3 +13,4 @@
 
 
 Artisan::add(new AppReset);
+Artisan::add(new GenerateViews);
