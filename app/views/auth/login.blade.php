@@ -39,10 +39,3 @@
     {{link_to_action('AuthController@create', 'Register')}}
 </p>
 @stop
-@section('styles')
-    <style>
-        label.checkbox {
-            padding-left: 24px;
-        }
-    </style>
-@stop

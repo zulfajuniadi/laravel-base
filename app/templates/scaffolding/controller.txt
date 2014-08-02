@@ -37,7 +37,9 @@ class $NAME$ extends \BaseController {
 				->make();
 			return Datatables::of($$COLLECTION$)->make();
 		}
-		return View::make('$COLLECTION$.index');
+		$script_name = 'index';
+		$style_name = 'index';
+		return View::make('$COLLECTION$.index', compact('script_name', 'style_name'));
 	}
 
 	/**
@@ -100,7 +102,8 @@ class $NAME$ extends \BaseController {
 		{
 			return Response::json($$RESOURCE$);
 		}
-		return View::make('$COLLECTION$.show', compact('$RESOURCE$'));
+		$script_name = 'index';
+		return View::make('$COLLECTION$.show', compact('$RESOURCE$', 'script_name'));
 	}
 
 	/**

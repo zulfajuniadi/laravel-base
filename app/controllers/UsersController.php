@@ -54,7 +54,9 @@ class UsersController extends \BaseController {
 				->make();
 			return Datatables::of($users)->make();
 		}
-		return View::make('users.index');
+		$script_name = 'index';
+		$style_name = 'index';
+		return View::make('users.index', compact('script_name', 'style_name'));
 	}
 
 	/**
@@ -159,7 +161,8 @@ class UsersController extends \BaseController {
 		{
 			return Response::json($user->toJson(), 201);
 		}
-		return View::make('users.show', compact('user'));
+		$script_name = 'show';
+		return View::make('users.show', compact('user', 'script_name'));
 	}
 
 	/**

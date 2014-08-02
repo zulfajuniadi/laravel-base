@@ -8,7 +8,3 @@
     @include('$VIEWPATH$.form')
     @include('$VIEWPATH$.actions-footer', ['has_submit' => true])
 @stop
-@section('scripts')
-@stop
-@section('styles')
-@stop

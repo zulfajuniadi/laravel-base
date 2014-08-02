@@ -39,7 +39,7 @@ return array(
 	|
 	*/
 
-	'timezone' => 'UTC',
+	'timezone' => 'Asia/Kuala_Lumpur',
 
 	/*
 	|--------------------------------------------------------------------------
@@ -127,7 +127,10 @@ return array(
 		'Zizaco\Entrust\EntrustServiceProvider',
 		'Baum\BaumServiceProvider',
 		'Bllim\Datatables\DatatablesServiceProvider',
-		'Profiler\ProfilerServiceProvider'
+		'Codesleeve\AssetPipeline\AssetPipelineServiceProvider',
+		'Clockwork\Support\Laravel\ClockworkServiceProvider',
+		'Maatwebsite\Excel\ExcelServiceProvider',
+		'Intervention\Image\ImageServiceProvider',
 
 	),
 
@@ -199,8 +202,9 @@ return array(
 		'Confide'         => 'Zizaco\Confide\ConfideFacade',
 		'Entrust'         => 'Zizaco\Entrust\EntrustFacade',
 		'Datatables'      => 'Bllim\Datatables\Facade\Datatables',
-		'Ardent'          => 'LaravelBook\Ardent\Ardent'
-
+		'Ardent'          => 'LaravelBook\Ardent\Ardent',
+		'Excel'           => 'Maatwebsite\Excel\Facades\Excel',
+		'Image'           => 'Intervention\Image\Facades\Image'
 	),
 
 );

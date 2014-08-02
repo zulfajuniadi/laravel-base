@@ -8,7 +8,3 @@
     @include('organizationunits.form')
     @include('organizationunits.actions-footer', ['has_submit' => true])
 @stop
-@section('scripts')
-@stop
-@section('styles')
-@stop

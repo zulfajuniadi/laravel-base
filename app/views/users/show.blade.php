@@ -15,13 +15,3 @@
     @include('users.form')
     @include('users.actions-footer')
 @stop
-@section('scripts')
-  <script>
-    $('input:not([type=hidden]),select,textarea', 'form').attr({
-      disabled: true,
-      readonly: true
-    })
-  </script>
-@stop
-@section('styles')
-@stop

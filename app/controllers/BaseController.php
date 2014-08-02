@@ -17,7 +17,7 @@ class BaseController extends Controller {
 
 	public function __construct()
 	{
-		View::share('controller', 'BaseController');
+		View::share('controller', '');
 	}
 
 }

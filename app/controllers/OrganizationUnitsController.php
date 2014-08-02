@@ -41,7 +41,9 @@ class OrganizationUnitsController extends \BaseController {
 				->make();
 		}
 
-		return View::make('organizationunits.index');
+		$script_name = 'index';
+		$style_name = 'index';
+		return View::make('organizationunits.index', compact('script_name', 'style_name'));
 	}
 
 	/**
@@ -143,7 +145,8 @@ class OrganizationUnitsController extends \BaseController {
 		{
 			return Response::json($organizationunit->toJson(), 201);
 		}
-		return View::make('organizationunits.show', compact('organizationunit'));
+		$script_name = 'show';
+		return View::make('organizationunits.show', compact('organizationunit', 'script_name'));
 	}
 
 	/**

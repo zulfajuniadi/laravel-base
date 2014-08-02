@@ -8,7 +8,3 @@
     @include('permissions.form')
     @include('permissions.actions-footer', ['has_submit' => true])
 @stop
-@section('scripts')
-@stop
-@section('styles')
-@stop

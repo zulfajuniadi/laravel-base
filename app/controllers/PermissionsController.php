@@ -40,7 +40,9 @@ class PermissionsController extends \BaseController {
 				->make();
 		}
 
-		return View::make('permissions.index');
+		$script_name = 'index';
+		$style_name = 'index';
+		return View::make('permissions.index', compact('script_name', 'style_name'));
 	}
 
 	/**
@@ -136,7 +138,8 @@ class PermissionsController extends \BaseController {
 		{
 			return Response::json($permission->toJson(), 201);
 		}
-		return View::make('permissions.show', compact('permission'));
+		$script_name = 'show';
+		return View::make('permissions.show', compact('permission','script_name'));
 	}
 
 	/**

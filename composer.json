@@ -9,10 +9,13 @@
 		"zizaco/confide": "3.*",
 		"zizaco/entrust": "1.*",
 		"laravelbook/ardent": "2.*",
-		"loic-sharma/profiler": "1.*",
 		"bllim/datatables": "1.*",
 		"anahkiasen/former": "3.*",
-		"baum/baum": "1.*"
+		"baum/baum": "1.*",
+		"codesleeve/asset-pipeline": "2.*",
+		"itsgoingd/clockwork": "1.*",
+		"maatwebsite/excel": "1.*",
+		"intervention/image": "2.*"
 	},
 	"autoload": {
 		"classmap": [

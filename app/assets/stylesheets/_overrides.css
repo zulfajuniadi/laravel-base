@@ -1,0 +1,11 @@
+label.checkbox {
+  padding-left: 24px;
+}
+
+.form-inline {
+  display: inline
+}
+
+.dataTables_wrapper .dataTables_paginate .paginate_button {
+  padding: 0px;
+}

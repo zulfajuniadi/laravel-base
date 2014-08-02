@@ -40,7 +40,3 @@
     <a href="{{action('UsersController@getChangePassword')}}" class="btn btn-default">Change My Password</a>
   </div>
 @stop
-@section('scripts')
-@stop
-@section('styles')
-@stop

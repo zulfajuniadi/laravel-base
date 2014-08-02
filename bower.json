@@ -1,0 +1,24 @@
+{
+  "name": "laravel-base",
+  "version": "0.0.0",
+  "homepage": "https://github.com/zulfajuniadi/laravel-base",
+  "authors": [
+    "Zulfa Juniadi Zulkifli <zulfajuniadi@gmail.com>"
+  ],
+  "license": "MIT",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "provider/packages",
+    "test",
+    "tests"
+  ],
+  "dependencies": {
+    "bootstrap": "~3.2.0",
+    "bootbox": "~4.3.0",
+    "jquery": "~2.1.1",
+    "notifyjs": "~0.3.2",
+    "datatables": "~1.10.2"
+  }
+}

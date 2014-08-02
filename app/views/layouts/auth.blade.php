@@ -3,17 +3,14 @@
 <head>
   <meta charset="UTF-8">
   <title>App Name {{isset($controller) ? '| ' . $controller : '' }}</title>
-  <link rel="stylesheet" href="{{ asset('assets/bootstrap/dist/css/bootstrap.min.css') }}">
-  @yield('styles')
+  {{stylesheet_link_tag('auth')}}
 </head>
 <body>
   <div class="container">
     <br>
     @include('partials.notification')
     @yield('content')
+    {{javascript_include_tag('auth')}}
   </div>
-  <script src="{{asset('/assets/jquery/dist/jquery.min.js')}}"></script>
-  <script src="{{asset('/assets/bootstrap/dist/js/bootstrap.min.js')}}"></script>
-  @yield('scripts')
 </body>
 </html>

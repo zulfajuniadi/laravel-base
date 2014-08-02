@@ -3,9 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <title>App Name {{isset($controller) ? '| ' . $controller : '' }}</title>
-  <link rel="stylesheet" href="{{ asset('assets/bootstrap/dist/css/bootstrap.min.css') }}">
-  <link rel="stylesheet" href="{{ asset('app/css/style.css') }}">
-  @yield('styles')
+  {{stylesheet_link_tag($style_name)}}
 </head>
 <body>
   <div class="container">
@@ -20,10 +18,6 @@
       </div>
     </div>
   </div>
-  <script src="{{asset('/assets/jquery/dist/jquery.min.js')}}"></script>
-  <script src="{{asset('/assets/bootstrap/dist/js/bootstrap.min.js')}}"></script>
-  <script src="{{asset('/assets/bootbox/bootbox.js')}}"></script>
-  <script src="{{asset('/app/js/script.js')}}"></script>
-  @yield('scripts')
+  {{javascript_include_tag($script_name)}}
 </body>
 </html>

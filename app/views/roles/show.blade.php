@@ -7,13 +7,3 @@
     @include('roles.form')
     @include('roles.actions-footer')
 @stop
-@section('scripts')
-  <script>
-    $('input:not([type=hidden]),select,textarea', 'form').attr({
-      disabled: true,
-      readonly: true
-    })
-  </script>
-@stop
-@section('styles')
-@stop

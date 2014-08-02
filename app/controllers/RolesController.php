@@ -41,7 +41,9 @@ class RolesController extends \BaseController {
 				->make();
 		}
 
-		return View::make('roles.index');
+		$script_name = 'index';
+		$style_name = 'index';
+		return View::make('roles.index', compact('script_name', 'style_name'));
 	}
 
 	/**
@@ -140,7 +142,8 @@ class RolesController extends \BaseController {
 		{
 			return Response::json($role->toJson(), 201);
 		}
-		return View::make('roles.show', compact('role'));
+		$script_name = 'show';
+		return View::make('roles.show', compact('role', 'script_name'));
 	}
 
 	/**

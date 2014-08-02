@@ -78,4 +78,7 @@ App::down(function()
 |
 */
 
+View::share('style_name', 'application');
+View::share('script_name', 'application');
+
 require app_path().'/filters.php';
