@@ -42,8 +42,7 @@ class AppReset extends Command {
 		$this->call('migrate:refresh');
 		$this->call('db:seed');
 		File::cleanDirectory(public_path() . '/uploads');
-		touch(public_path() . '/uploads/.gitkeep');
-		//
+		file_put_contents(public_path() . '/uploads/.gitignore' , "*\n!.gitignore");
 	}
 
 	/**
