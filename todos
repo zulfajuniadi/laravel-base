@@ -1,9 +1,8 @@
 pending
-image manipulation
-hasUpload trait
 migrate 4 controllers and model to new format
 
 doing
+homestead
 
 done
 profile page
@@ -12,3 +11,5 @@ artisan command to create views
 migrate to ardent models
 datatables role seeder
 assetpipeline
+hasUpload trait
+image manipulation

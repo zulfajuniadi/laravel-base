@@ -2,8 +2,11 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
+  <meta name="_token" content="{{csrf_token()}}">
+  @yield('meta')
   <title>App Name {{isset($controller) ? '| ' . $controller : '' }}</title>
   {{stylesheet_link_tag($style_name)}}
+  @yield('styles')
 </head>
 <body>
   <div class="container">
@@ -15,6 +18,7 @@
       <div class="col-sm-10">
         @include('partials.notification')
         @yield('content')
+        @yield('scripts')
       </div>
     </div>
   </div>

@@ -17,11 +17,12 @@ class CreateUploadsTable extends Migration {
 			$table->increments('id');
 			$table->string('uploadable_type');
 			$table->integer('uploadable_id');
+			$table->integer('user_id');
 			$table->string('name');
 			$table->integer('size');
+			$table->string('type');
 			$table->string('url');
 			$table->string('path');
-			$table->string('type');
 			$table->timestamps();
 		});
 	}

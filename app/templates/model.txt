@@ -32,8 +32,7 @@ class $NAME$ extends Ardent {
   /**
    * Fillable columns
    */
-  protected $fillable = [
-    'name',
+  protected $fillable = [$MODEL_FILLEABLE$
   ];
 
   /**
@@ -48,11 +47,9 @@ class $NAME$ extends Ardent {
    * Validation Rules
    */
   private static $_rules = [
-    'store' => [
-      'name' => 'required'
+    'store' => [$MODEL_VALIDATION$
     ],
-    'update' => [
-      'name' => 'required'
+    'update' => [$MODEL_VALIDATION$
     ]
   ];
 
@@ -123,6 +120,12 @@ class $NAME$ extends Ardent {
     }
     return true;
   }
+
+  /**
+   * Relationships
+   */
+
+  
 
   /**
    * Decorators

@@ -9,3 +9,9 @@ label.checkbox {
 .dataTables_wrapper .dataTables_paginate .paginate_button {
   padding: 0px;
 }
+
+.dropzone {
+  min-height: 210px;
+  padding:0px;
+  margin-bottom: 12px;
+}

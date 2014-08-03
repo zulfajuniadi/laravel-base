@@ -19,6 +19,7 @@
     "bootbox": "~4.3.0",
     "jquery": "~2.1.1",
     "notifyjs": "~0.3.2",
-    "datatables": "~1.10.2"
+    "datatables": "~1.10.2",
+    "dropzone": "~3.10.2"
   }
 }

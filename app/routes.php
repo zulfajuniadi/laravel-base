@@ -41,7 +41,7 @@ Route::group(['before' => 'auth'], function(){
   Route::put('profile/change_password', 'UsersController@putChangePassword');
   Route::get( 'auth/logout', 'AuthController@logout');
 
-  Route::resource('uploads', 'UploadsController');
+  Route::resource('uploader', 'UploadsController');
 });
 
 // Confide routes

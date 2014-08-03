@@ -79,7 +79,7 @@ class $NAME$ extends \BaseController {
 		}
 		if(Request::ajax())
 		{
-			return Response::json($$RESOURCE$->toJson(), 201);
+			return Response::json($$RESOURCE$, 201);
 		}
 		return Redirect::route('$COLLECTION$.index')
 			->with('notification:success', $this->created_message);

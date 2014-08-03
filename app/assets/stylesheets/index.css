@@ -2,5 +2,6 @@
  *= require bootstrap/dist/css/bootstrap
  *= require datatables/media/css/jquery.dataTables
  *= require datatables-bootstrap/dist/dataTables.bootstrap
+ *= require dropzone/downloads/css/dropzone
  *= require _overrides
  */

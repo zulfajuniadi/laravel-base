@@ -184,7 +184,6 @@ class UsersController extends \BaseController {
 		{
 			return Redirect::back()->with('notification:danger', $this->access_denied_message);
 		}
-
 		return View::make('users.edit', compact('user'));
 	}
 
