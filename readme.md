@@ -97,12 +97,14 @@ The upload able trait enables upload for records of that model. No modifications
       use UploadableTrait;
     ```
 1. To display the uploader form in your blade templates:
+
     ```php
     {{ $leave->yieldUploader(2 /*max size in MB*/, 'image/*' /*file type*/, 5 /*max files*/) }}
     // where $leave is an instance of a Model that has the UploadableTrait
     ```
 Other supported filetype arguments: image/*, application/pdf, .psd
 1. To display the uploads in your blade templates:
+
     ```php
     {{ $leave->yieldUploadsTable() }}
     // where $leave is an instance of a Model that has the UploadableTrait
