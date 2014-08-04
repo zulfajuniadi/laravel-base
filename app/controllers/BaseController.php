@@ -46,16 +46,15 @@ class BaseController extends Controller {
 	protected function _validation_error($obj)
 	{
 		$validationErrors = (is_subclass_of($obj, 'LaravelBook\Ardent\Ardent')) 
-					 ? $obj->validationErrors 
-					 : $obj;
-
+			? $obj->validationErrors
+			: $obj;
 		if(Request::ajax())
 		{
 			return Response::json($validationErrors, 400);
 		}
+		Session::remove('_old_input');
 		return Redirect::back()
 			->withErrors($validationErrors)
-			->withInput()
 			->with('notification:danger', $this->validation_error_message);
 	}
 

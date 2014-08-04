@@ -149,7 +149,9 @@ class OrganizationUnitsController extends \BaseController {
 		{
 			return $organizationunit;
 		}
-		return Redirect::route('organizationunits.index')
+
+		Session::remove('_old_input');
+		return Redirect::route('organizationunits.edit',$id)
 			->with('notification:success', $this->updated_message);
 	}
 

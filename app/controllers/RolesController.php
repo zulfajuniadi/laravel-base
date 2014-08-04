@@ -132,7 +132,7 @@ class RolesController extends \BaseController {
 		}
 		$role->fill($data);
 		if(!$role->updateUniques()){
-			return $this->_validation_error($data);
+			return $this->_validation_error($role);
 		}
 		$data['perms'] = isset($data['perms']) ? $data['perms'] : [];
 		$role->perms()->sync($data['perms']);
@@ -141,7 +141,8 @@ class RolesController extends \BaseController {
 		{
 			return $role;
 		}
-		return Redirect::route('roles.index')
+		Session::remove('_old_input');
+		return Redirect::route('roles.edit', $id)
 			->with('notification:success', $this->updated_message);
 	}
 

@@ -6,7 +6,6 @@
   ->label('Organization Unit')
   ->options(OrganizationUnit::all()->lists('name', 'id'))
   ->required()}}
-{{Former::select('roles[]')
+{{Former::multiselect('roles')
   ->label('Roles')
-  ->options(Role::all()->lists('name', 'id'), (isset($user) ? $user->roles->lists('id') : []))
-  ->multiple()}}
+  ->options(Role::all()->lists('name', 'id'), (isset($user) ? $user->roles->lists('id') : [])) }}

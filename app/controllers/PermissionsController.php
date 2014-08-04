@@ -132,7 +132,8 @@ class PermissionsController extends \BaseController {
 		{
 			return $permission;
 		}
-		return Redirect::route('permissions.index')
+		Session::remove('_old_input');
+		return Redirect::route('permissions.edit', $id)
 			->with('notification:success', $this->updated_message);
 	}
 

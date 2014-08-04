@@ -141,7 +141,8 @@ class $NAME$ extends \BaseController {
 		{
 			return $$RESOURCE$;
 		}
-		return Redirect::route('$COLLECTION$.index')
+		Session::remove('_old_input');
+		return Redirect::route('$COLLECTION$.edit', $id)
 			->with('notification:success', $this->updated_message);
 	}
 

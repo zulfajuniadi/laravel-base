@@ -154,7 +154,8 @@ class UsersController extends \BaseController {
 		{
 			return $user;
 		}
-		return Redirect::route('users.index')
+		Session::remove('_old_input');
+		return Redirect::route('users.edit', $id)
 			->with('notification:success', $this->updated_message);
 	}
 
@@ -274,13 +275,13 @@ class UsersController extends \BaseController {
 				return Response::json($this->change_password_invalid_message, 400);
 			}
 			return Redirect::back()
-				->withErrors($validator)
+				->withErrors($user->validationErrors)
 				->withInput()
 				->with('notification:danger', $this->change_password_invalid_message);
 		}
 		if(!$user->update($data))
 		{
-			return $this->_validation_error($data);
+			return $this->_validation_error($user);
 		}
 		if(Request::ajax())
 		{
