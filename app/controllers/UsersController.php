@@ -2,21 +2,10 @@
 
 class UsersController extends \BaseController {
 
-	protected $validation_error_message = 'Validation Error.';
-	protected $access_denied_message = 'Access denied.';
-	protected $created_message = 'Record created.';
-	protected $create_error_message = 'Error creating record.';
-	protected $updated_message = 'Record updated.';
-	protected $update_error_message = 'Error updating record.';
-	protected $deleted_message = 'Record deleted.';
-	protected $delete_error_message = 'Error deleting record.';
-	protected $set_password_error_message = 'Error setting password.';
-	protected $set_password_message = 'Password set succesfully.';
-	protected $set_confirmation_error_message = 'Error setting activation.';
-	protected $set_confirmation_message = 'Activation set succesfully.';
-	protected $change_password_invalid_message = 'Invalid Old Password.';
-	protected $change_password_error_message = 'Error changing password.';
-	protected $change_password_message = 'Password changed succesfully.';
+	public $set_password_message = 'Password set succesfully.';
+	public $set_confirmation_message = 'Activation set succesfully.';
+	public $change_password_invalid_message = 'Invalid Old Password.';
+	public $change_password_message = 'Password changed succesfully.';
 
 	/**
 	 * Display a listing of users
@@ -25,17 +14,10 @@ class UsersController extends \BaseController {
 	 */
 	public function index()
 	{
-		
 		if(!User::canList())
 		{
-			if(Request::ajax())
-			{
-				return Response::json($this->access_denied_message, 403);
-			}
-			return Redirect::back()
-				->with('notification:danger', $this->access_denied_message);
+			return $this->_access_denied();
 		}
-		
 		if(Request::ajax())
 		{
 			$users_under_me = Auth::user()->get_authorized_userids(User::$show_authorize_flag);
@@ -54,9 +36,8 @@ class UsersController extends \BaseController {
 				->make();
 			return Datatables::of($users)->make();
 		}
-		$script_name = 'index';
-		$style_name = 'index';
-		return View::make('users.index', compact('script_name', 'style_name'));
+		Asset::push('js', 'datatables');
+		return View::make('users.index');
 	}
 
 	/**
@@ -68,13 +49,11 @@ class UsersController extends \BaseController {
 	{
 		if(Request::ajax())
 		{
-			return Response::json("Bad request", 400);
+			return $this->_ajax_denied();
 		}
-
 		if(!User::canCreate())
 		{
-			return Redirect::back()
-				->with('notification:danger', $this->access_denied_message);
+			return $this->_access_denied();
 		}
 		return View::make('users.create');
 	}
@@ -86,53 +65,23 @@ class UsersController extends \BaseController {
 	 */
 	public function store()
 	{
-		$validator = Validator::make($data = Input::all(), User::$rules);
-		
+		User::setRules('store');
+		$data = Input::all();
 		if(!User::canCreate())
 		{
-			if(Request::ajax())
-			{
-				return Response::json($this->access_denied_message, 403);
-			}
-			return Redirect::back()
-				->with('notification:danger', $this->access_denied_message);
+			return $this->_access_denied();
 		}
-
-		if ($validator->fails())
-		{
-			if(Request::ajax())
-			{
-				return Response::json($validator->messages(), 400);
-			}
-			return Redirect::back()
-				->withErrors($validator)
-				->withInput()
-				->with('notification:danger', $this->validation_error_message);
-		}
-
 		$data['confirmed'] = 1;
 		$data['roles'] = isset($data['roles']) ? $data['roles'] : [];
-
-		Event::fire('User.before.create', [$data]);
-
-		$user = User::create($data);
-		$user->roles()->sync($data['roles']);
-
-		if(!isset($user->id))
-		{
-			if(Request::ajax())
-			{
-				return Response::json($this->create_error_message, 201);
-			}
-			return Redirect::back()
-				->with('notification:danger', $this->create_error_message);
+		$user = new User;
+		$user->fill($data);
+		if(!$user->save()) {
+			return $this->_validation_error($user);
 		}
-
-		Event::fire('User.after.create', [$user]);
-
+		$user->roles()->sync($data['roles']);
 		if(Request::ajax())
 		{
-			return Response::json($user->toJson(), 201);
+			return Response::json($user, 201);
 		}
 		return Redirect::route('users.index')
 			->with('notification:success', $this->created_message);
@@ -147,22 +96,16 @@ class UsersController extends \BaseController {
 	public function show($id)
 	{
 		$user = User::findOrFail($id);
-		
 		if(!$user->canShow())
 		{
-			if(Request::ajax())
-			{
-				return Response::json($this->access_denied_message, 403);
-			}
-			return Redirect::back()->with('notification:danger', $this->access_denied_message);
+			return $this->_access_denied();
 		}
-
 		if(Request::ajax())
 		{
-			return Response::json($user->toJson(), 201);
+			return $user;
 		}
-		$script_name = 'show';
-		return View::make('users.show', compact('user', 'script_name'));
+		Asset::push('js', 'show');
+		return View::make('users.show', compact('user'));
 	}
 
 	/**
@@ -174,15 +117,13 @@ class UsersController extends \BaseController {
 	public function edit($id)
 	{
 		$user = User::find($id);
-
 		if(Request::ajax())
 		{
-			return Response::json("Bad request", 400);
+			return $this->_ajax_denied();
 		}
-		
 		if(!$user->canUpdate())
 		{
-			return Redirect::back()->with('notification:danger', $this->access_denied_message);
+			return $this->_access_denied();
 		}
 		return View::make('users.edit', compact('user'));
 	}
@@ -197,57 +138,23 @@ class UsersController extends \BaseController {
 	{
 		$user = User::findOrFail($id);
 		$data = Input::all();
-		
 		if(!$user->canUpdate())
 		{
-			if(Request::ajax())
-			{
-				return Response::json($this->access_denied_message, 403);
-			}
-			return Redirect::back()
-				->with('notification:danger', $this->access_denied_message);
+			return $this->_access_denied();
 		}
-
-		User::$rules['username'] = User::$rules['username'] . ',' . $id;
-		User::$rules['email'] = User::$rules['email'] . ',' . $id;
-		unset(User::$rules['password']);
-		unset(User::$rules['password_confirmation']);
-		$validator = Validator::make($data, User::$rules);
-
-		if ($validator->fails())
+		User::setRules('update');
+		$user->fill($data);
+		if(!$user->updateUniques())
 		{
-			if(Request::ajax())
-			{
-				return Response::json($validator->messages(), 400);
-			}
-			return Redirect::back()
-				->withErrors($validator)
-				->withInput()
-				->with('notification:danger', $this->validation_error_message);
+			return $this->_validation_error($user);
 		}
 		$data['roles'] = isset($data['roles']) ? $data['roles'] : [];
 		$user->roles()->sync($data['roles']);
-
-		Event::fire('User.before.update', [$user]);
-
-		if(!$user->update($data)){
-			if(Request::ajax())
-			{
-				return Response::json($this->update_error_message, 500);
-			}
-			return Redirect::back()
-				->withErrors($validator)
-				->withInput()
-				->with('notification:danger', $this->update_error_message);
-		}
-
-		Event::fire('User.after.update', [$user]);
-
 		if(Request::ajax())
 		{
 			return $user;
 		}
-		return Redirect::back()
+		return Redirect::route('users.index')
 			->with('notification:success', $this->updated_message);
 	}
 
@@ -263,33 +170,15 @@ class UsersController extends \BaseController {
 		
 		if(!$user->canDelete())
 		{
-			if(Request::ajax())
-			{
-				return Response::json($this->access_denied_message, 403);
-			}
-			return Redirect::back()->with('notification:danger', $this->access_denied_message);
+			return $this->_access_denied();
 		}
-
-		Event::fire('User.before.delete', [$user]);
-
 		if(!$user->delete()){
-			if(Request::ajax())
-			{
-				return Response::json($this->delete_error_message, 500);
-			}
-			return Redirect::back()
-				->withErrors($validator)
-				->withInput()
-				->with('notification:danger', $this->delete_error_message);
+			return $this->_delete_error();
 		}
-
-		Event::fire('User.after.update', [$user]);
-
 		if(Request::ajax())
 		{
 			return Response::json($this->deleted_message);
 		}
-
 		return Redirect::route('users.index')
 			->with('notification:success', $this->deleted_message);
 	}
@@ -305,69 +194,32 @@ class UsersController extends \BaseController {
 		return View::make('users.profile', ['controller' => 'Profile', 'user' => Auth::user()]);	
 	}
 
-	public function getSetPassword()
+	public function getSetPassword($id)
 	{
 		$user = User::findOrFail($id);
 		if(Request::ajax())
 		{
-			return Response::json($this->access_denied_message, 403);
+			return $this->_ajax_denied();
 		}
 		if(!$user->canSetPassword())
 		{
-			return Redirect::back()
-				->with('notification:danger', $this->access_denied_message);
+			return $this->_access_denied();
 		}
 		return View::make('users.set-password', compact('user'));
 	}
 
-	public function putSetPassword()
+	public function putSetPassword($id)
 	{
 		$user = User::findOrFail($id);
 		$data = Input::all();
 		if(!$user->canSetPassword())
 		{
-			if(Request::ajax())
-			{
-				return Response::json($this->access_denied_message, 403);
-			}
-			return Redirect::back()
-				->with('notification:danger', $this->access_denied_message);
+			return $this->_ajax_denied();
 		}
-
-		User::$rules = [
-      'password' => 'required|min:4|confirmed',
-      'password_confirmation' => 'min:4' 
-    ];
-
-		$validator = Validator::make($data, User::$rules);
-
-		if ($validator->fails())
-		{
-			if(Request::ajax())
-			{
-				return Response::json($validator->messages(), 400);
-			}
-			return Redirect::back()
-				->withErrors($validator)
-				->withInput()
-				->with('notification:danger', $this->validation_error_message);
-		}
-
-		Event::fire('User.before.update', [$user]);
-
+		User::setRules('setPassword');
 		if(!$user->update($data)){
-			if(Request::ajax())
-			{
-				return Response::json($this->set_password_error_message, 500);
-			}
-			return Redirect::back()
-				->withErrors($validator)
-				->withInput()
-				->with('notification:danger', $this->update_error_message);
+			$this->_validation_error($user);
 		}
-
-		Event::fire('User.after.update', [$user]);
-
 		if(Request::ajax())
 		{
 			return Response::json($this->set_password_message);
@@ -382,47 +234,12 @@ class UsersController extends \BaseController {
 		$data = Input::all();
 		if(!$user->canSetConfirmation())
 		{
-			if(Request::ajax())
-			{
-				return Response::json($this->access_denied_message, 403);
-			}
-			return Redirect::back()
-				->with('notification:danger', $this->access_denied_message);
+			return $this->_access_denied();
 		}
-
-		User::$rules = [
-      'confirmed' => 'numeric|min:0|max:1',
-    ];
-
-		$validator = Validator::make($data, User::$rules);
-
-		if ($validator->fails())
-		{
-			if(Request::ajax())
-			{
-				return Response::json($validator->messages(), 400);
-			}
-			return Redirect::back()
-				->withErrors($validator)
-				->withInput()
-				->with('notification:danger', $this->validation_error_message);
-		}
-
-		Event::fire('User.before.update', [$user]);
-
+		User::setRules('setConfirmation');
 		if(!$user->update($data)){
-			if(Request::ajax())
-			{
-				return Response::json($this->set_confirmation_error_message, 500);
-			}
-			return Redirect::back()
-				->withErrors($validator)
-				->withInput()
-				->with('notification:danger', $this->set_confirmation_error_message);
+			return $this->_validation_error($user);
 		}
-
-		Event::fire('User.after.update', [$user]);
-
 		if(Request::ajax())
 		{
 			return Response::json($this->set_confirmation_message);
@@ -431,19 +248,12 @@ class UsersController extends \BaseController {
 			->with('notification:success', $this->set_confirmation_message);
 	}
 
-
-
 	public function getChangePassword()
 	{
 		$user = Auth::user();
 		if(!$user->canSetPassword())
 		{
-			if(Request::ajax())
-			{
-				return Response::json($this->access_denied_message, 403);
-			}
-			return Redirect::back()
-				->with('notification:danger', $this->access_denied_message);
+			return $this->_access_denied();
 		}
 		return View::make('users.change-password', compact('user'));
 	}
@@ -454,61 +264,24 @@ class UsersController extends \BaseController {
 		$data = Input::all();
 		if(!$user->canSetPassword())
 		{
-			if(Request::ajax())
-			{
-				return Response::json($this->access_denied_message, 403);
-			}
-			return Redirect::back()
-				->with('notification:danger', $this->access_denied_message);
+			return $this->_access_denied();
 		}
-
-		User::$rules = [
-      'old_password' => 'required|min:4',
-      'password' => 'required|min:4|confirmed',
-      'password_confirmation' => 'min:4' 
-    ];
-
-		$validator = Validator::make($data, User::$rules);
-
-		if ($validator->fails())
-		{
-			if(Request::ajax())
-			{
-				return Response::json($validator->messages(), 400);
-			}
-			return Redirect::back()
-				->withErrors($validator)
-				->withInput()
-				->with('notification:danger', $this->validation_error_message);
-		}
-
+		User::setRules('changePassword');
 		if(!Hash::check($data['old_password'], $user->password))
 		{
 			if(Request::ajax())
 			{
-				return Response::json($this->change_password_invalid_message, 500);
+				return Response::json($this->change_password_invalid_message, 400);
 			}
 			return Redirect::back()
 				->withErrors($validator)
 				->withInput()
 				->with('notification:danger', $this->change_password_invalid_message);
 		}
-
-		Event::fire('User.before.update', [$user]);
-
-		if(!$user->update($data)){
-			if(Request::ajax())
-			{
-				return Response::json($this->set_password_error_message, 500);
-			}
-			return Redirect::back()
-				->withErrors($validator)
-				->withInput()
-				->with('notification:danger', $this->update_error_message);
+		if(!$user->update($data))
+		{
+			return $this->_validation_error($data);
 		}
-
-		Event::fire('User.after.update', [$user]);
-
 		if(Request::ajax())
 		{
 			return Response::json($this->set_password_message);

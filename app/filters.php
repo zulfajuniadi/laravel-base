@@ -156,3 +156,24 @@ Route::filter('csrf', function()
 		throw new Illuminate\Session\TokenMismatchException;
 	}
 });
+
+
+Route::filter('no_xhr', function()
+{
+	if(Request::ajax())
+	{
+		return Response::json("Bad request", 400);
+	}
+});
+
+Route::filter('only_xhr', function()
+{
+	if(!Request::ajax())
+	{
+		return Redirec::back()
+			->with('notification:error', 'Access denied.');
+	}
+});
+
+// Route::filter('')
+

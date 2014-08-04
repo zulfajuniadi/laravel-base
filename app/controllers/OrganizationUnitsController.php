@@ -2,15 +2,6 @@
 
 class OrganizationUnitsController extends \BaseController {
 
-	protected $validation_error_message = 'Validation Error.';
-	protected $access_denied_message = 'Access denied.';
-	protected $created_message = 'Record created.';
-	protected $create_error_message = 'Error creating record.';
-	protected $updated_message = 'Record updated.';
-	protected $update_error_message = 'Error updating record.';
-	protected $deleted_message = 'Record deleted.';
-	protected $delete_error_message = 'Error deleting record.';
-
 	/**
 	 * Display a listing of organizationunits
 	 *
@@ -18,17 +9,10 @@ class OrganizationUnitsController extends \BaseController {
 	 */
 	public function index()
 	{
-		
 		if(!OrganizationUnit::canList())
 		{
-			if(Request::ajax())
-			{
-				return Response::json($this->access_denied_message, 403);
-			}
-			return Redirect::back()
-				->with('notification:danger', $this->access_denied_message);
+			return $this->_access_denied();
 		}
-		
 		if(Request::ajax())
 		{
 			$organization_units = OrganizationUnit::select(['organization_units.id', 'organization_units.name',  DB::raw('parent.name as pname'), 'users.username'])
@@ -40,10 +24,8 @@ class OrganizationUnitsController extends \BaseController {
 				->remove_column('id')
 				->make();
 		}
-
-		$script_name = 'index';
-		$style_name = 'index';
-		return View::make('organizationunits.index', compact('script_name', 'style_name'));
+		Asset::push('js', 'datatables');
+		return View::make('organizationunits.index');
 	}
 
 	/**
@@ -55,13 +37,11 @@ class OrganizationUnitsController extends \BaseController {
 	{
 		if(Request::ajax())
 		{
-			return Response::json("Bad request", 400);
+			return _ajax_denied();
 		}
-
 		if(!OrganizationUnit::canCreate())
 		{
-			return Redirect::back()
-				->with('notification:danger', $this->access_denied_message);
+			return $this->_access_denied();
 		}
 		return View::make('organizationunits.create');
 	}
@@ -74,46 +54,22 @@ class OrganizationUnitsController extends \BaseController {
 	public function store()
 	{
 		$validator = Validator::make($data = Input::all(), OrganizationUnit::$rules['store']);
-		
 		if(!OrganizationUnit::canCreate())
 		{
-			if(Request::ajax())
-			{
-				return Response::json($this->access_denied_message, 403);
-			}
-			return Redirect::back()
-				->with('notification:danger', $this->access_denied_message);
+			return $this->_access_denied();
 		}
-
 		if ($validator->fails())
 		{
-			if(Request::ajax())
-			{
-				return Response::json($validator->messages(), 400);
-			}
-			return Redirect::back()
-				->withErrors($validator)
-				->withInput()
-				->with('notification:danger', $this->validation_error_message);
+			return $this->_validation_error($validator->messages());
 		}
-
-		Event::fire('OrganizationUnit.before.create', [$data]);
-
 		$organizationunit = OrganizationUnit::create($data);
-		$organizationunit->makeChildOf($data['parent_id']);
-
 		if(!isset($organizationunit->id))
 		{
-			if(Request::ajax())
-			{
-				return Response::json($this->create_error_message, 201);
-			}
-			return Redirect::back()
-				->with('notification:danger', $this->create_error_message);
-		}
-
-		Event::fire('OrganizationUnit.after.create', [$organizationunit]);
-
+			return $this->_create_error();
+		} 
+		$parent = OrganizationUnit::findOrFail($data['parent_id']);
+		$organizationunit->makeChildOf($parent);
+		$parent->touch();
 		if(Request::ajax())
 		{
 			return Response::json($organizationunit->toJson(), 201);
@@ -131,22 +87,16 @@ class OrganizationUnitsController extends \BaseController {
 	public function show($id)
 	{
 		$organizationunit = OrganizationUnit::findOrFail($id);
-		
 		if(!$organizationunit->canShow())
 		{
-			if(Request::ajax())
-			{
-				return Response::json($this->access_denied_message, 403);
-			}
-			return Redirect::back()->with('notification:danger', $this->access_denied_message);
+			return $this->_access_denied();
 		}
-
 		if(Request::ajax())
 		{
-			return Response::json($organizationunit->toJson(), 201);
+			return $organizationunit;
 		}
-		$script_name = 'show';
-		return View::make('organizationunits.show', compact('organizationunit', 'script_name'));
+		Asset::push('js', 'show');
+		return View::make('organizationunits.show', compact('organizationunit'));
 	}
 
 	/**
@@ -158,17 +108,14 @@ class OrganizationUnitsController extends \BaseController {
 	public function edit($id)
 	{
 		$organizationunit = OrganizationUnit::find($id);
-
 		if(Request::ajax())
 		{
-			return Response::json("Bad request", 400);
+			return _ajax_denied();
 		}
-		
 		if(!$organizationunit->canUpdate())
 		{
-			return Redirect::back()->with('notification:danger', $this->access_denied_message);
+			return $this->_access_denied();
 		}
-
 		return View::make('organizationunits.edit', compact('organizationunit'));
 	}
 
@@ -181,53 +128,28 @@ class OrganizationUnitsController extends \BaseController {
 	public function update($id)
 	{
 		$organizationunit = OrganizationUnit::findOrFail($id);
-		
 		if(!$organizationunit->canUpdate())
 		{
-			if(Request::ajax())
-			{
-				return Response::json($this->access_denied_message, 403);
-			}
-			return Redirect::back()
-				->with('notification:danger', $this->access_denied_message);
+			return $this->_access_denied();
 		}
-
 		$validator = Validator::make($data = Input::all(), OrganizationUnit::$rules['update']);
-
 		if ($validator->fails())
 		{
-			if(Request::ajax())
-			{
-				return Response::json($validator->messages(), 400);
-			}
-			return Redirect::back()
-				->withErrors($validator)
-				->withInput()
-				->with('notification:danger', $this->validation_error_message);
+			return $this->_validation_error($validator->messages());
 		}
-
-		Event::fire('OrganizationUnit.before.update', [$organizationunit]);
-
 		if(!$organizationunit->update($data)){
-			if(Request::ajax())
-			{
-				return Response::json($this->update_error_message, 500);
-			}
-			return Redirect::back()
-				->withErrors($validator)
-				->withInput()
-				->with('notification:danger', $this->update_error_message);
+			return $this->_update_error();
 		}
-
-		$organizationunit->makeChildOf($data['parent_id']);
-
-		Event::fire('OrganizationUnit.after.update', [$organizationunit]);
-
+		if((int)$organizationunit->parent_id !== (int)$data['parent_id'])
+		{
+			$organizationunit->makeChildOf($data['parent_id']);
+			static::find($data['parent_id'])->touch();
+		}
 		if(Request::ajax())
 		{
 			return $organizationunit;
 		}
-		return Redirect::back()
+		return Redirect::route('organizationunits.index')
 			->with('notification:success', $this->updated_message);
 	}
 
@@ -240,36 +162,17 @@ class OrganizationUnitsController extends \BaseController {
 	public function destroy($id)
 	{
 		$organizationunit = OrganizationUnit::findOrFail($id);
-		
 		if(!$organizationunit->canDelete())
 		{
-			if(Request::ajax())
-			{
-				return Response::json($this->access_denied_message, 403);
-			}
-			return Redirect::back()->with('notification:danger', $this->access_denied_message);
+			return $this->_access_denied();
 		}
-
-		Event::fire('OrganizationUnit.before.delete', [$organizationunit]);
-
 		if(!$organizationunit->delete()){
-			if(Request::ajax())
-			{
-				return Response::json($this->delete_error_message, 500);
-			}
-			return Redirect::back()
-				->withErrors($validator)
-				->withInput()
-				->with('notification:danger', $this->delete_error_message);
+			return $this->_delete_error();
 		}
-
-		Event::fire('OrganizationUnit.after.update', [$organizationunit]);
-
 		if(Request::ajax())
 		{
 			return Response::json($this->deleted_message);
 		}
-
 		return Redirect::route('organizationunits.index')
 			->with('notification:success', $this->deleted_message);
 	}
@@ -279,5 +182,4 @@ class OrganizationUnitsController extends \BaseController {
 		parent::__construct();
 		View::share('controller', 'OrganizationUnitsController');
 	}
-
 }

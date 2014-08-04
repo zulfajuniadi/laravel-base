@@ -2,11 +2,26 @@
 
 class Permission extends Zizaco\Entrust\EntrustPermission {
 
-  // Add your validation rules here
-  public static $rules = [
-    'name' => 'required',
-    'display_name' => 'required'
+  /**
+   * Validation Rules
+   */
+  private static $_rules = [
+    'store' => [
+      'name' => 'required|unique:permission,name',
+      'display_name' => 'required',
+    ],
+    'update' => [
+      'name' => 'required|unique:permission,name',
+      'display_name' => 'required',
+    ]
   ];
+
+  public static $rules = [];
+
+  public static function setRules($name)
+  {
+    self::$rules = self::$_rules[$name];
+  }
 
   // Don't forget to fill this array
   protected $fillable = [

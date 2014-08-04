@@ -1,0 +1,8 @@
+/**
+ *= require bootstrap/dist/css/bootstrap
+ *= require_self
+ */
+
+label.checkbox {
+  padding-left: 24px;
+}

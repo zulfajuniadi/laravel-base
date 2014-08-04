@@ -49,12 +49,40 @@ class User extends ConfideUser implements UserInterface, RemindableInterface {
     'confirmed'
   ];
 
-  public static $rules = array(
+  /**
+   * Validation Rules
+   */
+  private static $_rules = [
+    'store' => [
       'username' => 'required|alpha_dash|unique:users,username',
       'email' => 'required|email|unique:users,email',
       'password' => 'required|min:4|confirmed',
       'password_confirmation' => 'min:4',
-  );
+    ],
+    'update' => [
+      'username' => 'required|alpha_dash|unique:users,username',
+      'email' => 'required|email|unique:users,email',
+    ],
+    'setPassword' => [
+      'password' => 'required|min:4|confirmed',
+      'password_confirmation' => 'min:4' 
+    ],
+    'setConfirmation' => [
+      'confirmed' => 'numeric|min:0|max:1',
+    ],
+    'changePassword' => [
+      'old_password' => 'required|min:4',
+      'password' => 'required|min:4|confirmed',
+      'password_confirmation' => 'min:4' 
+    ]
+  ];
+
+  public static $rules = [];
+
+  public static function setRules($name)
+  {
+    self::$rules = self::$_rules[$name];
+  }
 
 	/**
 	 * The attributes excluded from the model's JSON form.

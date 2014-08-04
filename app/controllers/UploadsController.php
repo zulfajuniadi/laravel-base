@@ -2,12 +2,6 @@
 
 class UploadsController extends \BaseController {
 
-	protected $validation_error_message = 'Validation Error.';
-	protected $access_denied_message = 'Access denied.';
-	protected $created_message = 'Record created.';
-	protected $deleted_message = 'Record deleted.';
-	protected $delete_error_message = 'Error deleting record.';
-
 	/**
 	 * Store a newly created upload in storage.
 	 *
@@ -33,7 +27,8 @@ class UploadsController extends \BaseController {
 		$data['uploadable_type'] = Request::header('X-Uploader-Class');
 		$data['uploadable_id'] = Request::header('X-Uploader-Id');
 		$file->move($data['path'], $data['name']);
-		$upload = Upload::create($data);
+		$upload = new Upload;
+		$upload->fill($data);
 		if(!$upload->save())
 		{
 			return $this->_validation_error($upload);
@@ -67,32 +62,6 @@ class UploadsController extends \BaseController {
 		}
 		return Redirect::back()
 			->with('notification:success', $this->deleted_message);
-	}
-
-	/**
-	 * Response Shorthands
-	 */
-
-	public function _access_denied()
-	{
-		if(Request::ajax())
-		{
-			return Response::json($this->access_denied_message, 403);
-		}
-		return Redirect::back()
-			->with('notification:danger', $this->access_denied_message);
-	}
-
-	public function _validation_error($upload)
-	{
-		if(Request::ajax())
-		{
-			return Response::json($upload->validationErrors, 400);
-		}
-		return Redirect::back()
-			->withErrors($upload->validationErrors)
-			->withInput()
-			->with('notification:danger', $this->validation_error_message);
 	}
 
 	/**

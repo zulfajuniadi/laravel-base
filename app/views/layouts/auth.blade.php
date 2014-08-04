@@ -3,8 +3,8 @@
 <head>
   <meta charset="UTF-8">
   @yield('meta')
-  <title>App Name {{isset($controller) ? '| ' . $controller : '' }}</title>
-  {{stylesheet_link_tag('auth')}}
+  <title>App Name</title>
+  {{Asset::tags('css')}}
   @yield('styles')
 </head>
 <body>
@@ -12,7 +12,7 @@
     <br>
     @include('partials.notification')
     @yield('content')
-    {{javascript_include_tag('auth')}}
+    {{Asset::tags('js')}}
     @yield('scripts')
   </div>
 </body>

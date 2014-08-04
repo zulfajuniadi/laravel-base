@@ -1,27 +1,28 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <meta name="_token" content="{{csrf_token()}}">
-  @yield('meta')
-  <title>App Name {{isset($controller) ? '| ' . $controller : '' }}</title>
-  {{stylesheet_link_tag($style_name)}}
-  @yield('styles')
-</head>
-<body>
-  <div class="container">
-    <br>
-    <div class="row">
-      <div class="col-sm-2">
-        @include('partials.menu')
-      </div>
-      <div class="col-sm-10">
-        @include('partials.notification')
-        @yield('content')
-        @yield('scripts')
+  <head>
+    <meta charset="UTF-8">
+    <meta name="_token" content="{{csrf_token()}}">
+    @yield('meta')
+    <title>App Name</title>
+    {{Asset::tags('css')}}
+    @yield('styles')
+  </head>
+  <body>
+    <div class="container">
+      <br>
+      <div class="row">
+        <div class="col-sm-2">
+          @include('partials.menu')
+        </div>
+        <div class="col-sm-10">
+          @include('partials.notification')
+          @yield('content')
+          @yield('scripts')
+        </div>
       </div>
     </div>
-  </div>
-  {{javascript_include_tag($script_name)}}
-</body>
+    {{Asset::tags('js')}}
+    @yield('scripts')
+  </body>
 </html>

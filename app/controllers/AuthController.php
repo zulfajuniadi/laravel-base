@@ -50,14 +50,13 @@ class AuthController extends BaseController {
 		if ( $user->getKey() )
 		{
 			$notice = Lang::get('confide::confide.alerts.account_created') . ' ' . Lang::get('confide::confide.alerts.instructions_sent');
-			
-					// Redirect with success message, You may replace "Lang::get(..." for your custom message.
+			// Redirect with success message, You may replace "Lang::get(..." for your custom message.
 			return Redirect::action('AuthController@login')
 			->with( 'notice', $notice );
 		}
 		else
 		{
-					// Get validation errors (see Ardent package)
+			// Get validation errors (see Ardent package)
 			$error = $user->errors()->all(':message');
 
 			return Redirect::action('AuthController@create')
@@ -74,8 +73,8 @@ class AuthController extends BaseController {
 	{
 		if( Confide::user() )
 		{
-					// If user is logged, redirect to internal
-					// page, change it to '/admin', '/dashboard' or something
+			// If user is logged, redirect to internal
+			// page, change it to '/admin', '/dashboard' or something
 			return Redirect::to('/');
 		}
 		else
@@ -91,47 +90,47 @@ class AuthController extends BaseController {
 	public function do_login()
 	{
 		$input = array(
-					'email'    => Input::get( 'email' ), // May be the username too
-					'username' => Input::get( 'email' ), // so we have to pass both
-					'password' => Input::get( 'password' ),
-					'remember' => Input::get( 'remember' ),
-					);
+			'email'    => Input::get( 'email' ), // May be the username too
+			'username' => Input::get( 'email' ), // so we have to pass both
+			'password' => Input::get( 'password' ),
+			'remember' => Input::get( 'remember' ),
+		);
 
-			// If you wish to only allow login from confirmed users, call logAttempt
-			// with the second parameter as true.
-			// logAttempt will check if the 'email' perhaps is the username.
-			// Get the value from the config file instead of changing the controller
+		// If you wish to only allow login from confirmed users, call logAttempt
+		// with the second parameter as true.
+		// logAttempt will check if the 'email' perhaps is the username.
+		// Get the value from the config file instead of changing the controller
 		if ( Confide::logAttempt( $input, Config::get('confide::signup_confirm') ) )
 		{
-					// Redirect the user to the URL they were trying to access before
-					// caught by the authentication filter IE Redirect::guest('user/login').
-					// Otherwise fallback to '/'
-					// Fix pull #145
-					return Redirect::intended('/'); // change it to '/admin', '/dashboard' or something
-				}
-				else
-				{
-					$user = new User;
+			// Redirect the user to the URL they were trying to access before
+			// caught by the authentication filter IE Redirect::guest('user/login').
+			// Otherwise fallback to '/'
+			// Fix pull #145
+			return Redirect::intended('/'); // change it to '/admin', '/dashboard' or something
+		}
+		else
+		{
+			$user = new User;
 
-					// Check if there was too many login attempts
-					if( Confide::isThrottled( $input ) )
-					{
-						$err_msg = Lang::get('confide::confide.alerts.too_many_attempts');
-					}
-					elseif( $user->checkUserExists( $input ) and ! $user->isConfirmed( $input ) )
-					{
-						$err_msg = Lang::get('confide::confide.alerts.not_confirmed');
-					}
-					else
-					{
-						$err_msg = Lang::get('confide::confide.alerts.wrong_credentials');
-					}
-
-					return Redirect::action('AuthController@login')
-					->withInput(Input::except('password'))
-					->with( 'error', $err_msg );
-				}
+			// Check if there was too many login attempts
+			if( Confide::isThrottled( $input ) )
+			{
+				$err_msg = Lang::get('confide::confide.alerts.too_many_attempts');
 			}
+			elseif( $user->checkUserExists( $input ) and ! $user->isConfirmed( $input ) )
+			{
+				$err_msg = Lang::get('confide::confide.alerts.not_confirmed');
+			}
+			else
+			{
+				$err_msg = Lang::get('confide::confide.alerts.wrong_credentials');
+			}
+
+			return Redirect::action('AuthController@login')
+			->withInput(Input::except('password'))
+			->with( 'error', $err_msg );
+		}
+	}
 
 	/**
 	 * Attempt to confirm account with code
@@ -237,6 +236,8 @@ class AuthController extends BaseController {
 	{
 		parent::__construct();
 		View::share('controller', 'AuthController');
+		Asset::push('js', 'login');
+		Asset::push('css', 'login');
 	}
 
 }

@@ -2,15 +2,6 @@
 
 class PermissionsController extends \BaseController {
 
-	protected $validation_error_message = 'Validation Error.';
-	protected $access_denied_message = 'Access denied.';
-	protected $created_message = 'Record created.';
-	protected $create_error_message = 'Error creating record.';
-	protected $updated_message = 'Record updated.';
-	protected $update_error_message = 'Error updating record.';
-	protected $deleted_message = 'Record deleted.';
-	protected $delete_error_message = 'Error deleting record.';
-
 	/**
 	 * Display a listing of permissions
 	 *
@@ -18,19 +9,10 @@ class PermissionsController extends \BaseController {
 	 */
 	public function index()
 	{
-		
 		if(!Permission::canList())
 		{
-			if(Request::ajax())
-			{
-				return Response::json($this->access_denied_message, 403);
-			}
-			return Redirect::back()
-				->with('notification:danger', $this->access_denied_message);
+			return $this->_access_denied();
 		}
-
-		$permissions = Permission::all();
-
 		if(Request::ajax())
 		{
 			$permissions = Permission::select(['id', 'name', 'display_name']);
@@ -39,10 +21,8 @@ class PermissionsController extends \BaseController {
 				->remove_column('id')
 				->make();
 		}
-
-		$script_name = 'index';
-		$style_name = 'index';
-		return View::make('permissions.index', compact('script_name', 'style_name'));
+		Asset::push('js', 'datatables');
+		return View::make('permissions.index');
 	}
 
 	/**
@@ -54,13 +34,11 @@ class PermissionsController extends \BaseController {
 	{
 		if(Request::ajax())
 		{
-			return Response::json("Bad request", 400);
+			return _ajax_denied();
 		}
-
 		if(!Permission::canCreate())
 		{
-			return Redirect::back()
-				->with('notification:danger', $this->access_denied_message);
+			return $this->_access_denied();
 		}
 		return View::make('permissions.create');
 	}
@@ -72,44 +50,20 @@ class PermissionsController extends \BaseController {
 	 */
 	public function store()
 	{
-		$validator = Validator::make($data = Input::all(), Permission::$rules);
-		
 		if(!Permission::canCreate())
 		{
-			if(Request::ajax())
-			{
-				return Response::json($this->access_denied_message, 403);
-			}
-			return Redirect::back()
-				->with('notification:danger', $this->access_denied_message);
+			return _access_denied();
 		}
-
-		if ($validator->fails())
+		Permission::setRules('store');
+		$permission = new Permission;
+		$permission->fill(Input::all());
+		if(!$permission->save())
 		{
-			if(Request::ajax())
-			{
-				return Response::json($validator->messages(), 400);
-			}
-			return Redirect::back()
-				->withErrors($validator)
-				->withInput()
-				->with('notification:danger', $this->validation_error_message);
+			return $this->_validation_error($permission);
 		}
-
-		$permission = Permission::create($data);
-		if(!isset($permission->id))
-		{
-			if(Request::ajax())
-			{
-				return Response::json($this->create_error_message, 201);
-			}
-			return Redirect::back()
-				->with('notification:danger', $this->create_error_message);
-		}
-
 		if(Request::ajax())
 		{
-			return Response::json($permission->toJson(), 201);
+			return Response::json($permission, 201);
 		}
 		return Redirect::route('permissions.index')
 			->with('notification:success', $this->created_message);
@@ -124,22 +78,16 @@ class PermissionsController extends \BaseController {
 	public function show($id)
 	{
 		$permission = Permission::findOrFail($id);
-		
 		if(!$permission->canShow())
 		{
-			if(Request::ajax())
-			{
-				return Response::json($this->access_denied_message, 403);
-			}
-			return Redirect::back()->with('notification:danger', $this->access_denied_message);
+			return _access_denied();
 		}
-
 		if(Request::ajax())
 		{
-			return Response::json($permission->toJson(), 201);
+			return $permission;
 		}
-		$script_name = 'show';
-		return View::make('permissions.show', compact('permission','script_name'));
+		Asset::push('js', 'show');
+		return View::make('permissions.show', compact('permission'));
 	}
 
 	/**
@@ -151,17 +99,14 @@ class PermissionsController extends \BaseController {
 	public function edit($id)
 	{
 		$permission = Permission::find($id);
-
 		if(Request::ajax())
 		{
-			return Response::json("Bad request", 400);
+			return _ajax_denied();
 		}
-		
 		if(!$permission->canUpdate())
 		{
-			return Redirect::back()->with('notification:danger', $this->access_denied_message);
+			return _access_denied();
 		}
-
 		return View::make('permissions.edit', compact('permission'));
 	}
 
@@ -174,47 +119,20 @@ class PermissionsController extends \BaseController {
 	public function update($id)
 	{
 		$permission = Permission::findOrFail($id);
-		
+		Permission::setRules('update');
 		if(!$permission->canUpdate())
 		{
-			if(Request::ajax())
-			{
-				return Response::json($this->access_denied_message, 403);
-			}
-			return Redirect::back()
-				->with('notification:danger', $this->access_denied_message);
+			return _access_denied();
 		}
-
-		$validator = Validator::make($data = Input::all(), Permission::$rules);
-
-		if ($validator->fails())
-		{
-			if(Request::ajax())
-			{
-				return Response::json($validator->messages(), 400);
-			}
-			return Redirect::back()
-				->withErrors($validator)
-				->withInput()
-				->with('notification:danger', $this->validation_error_message);
+		$permission->load(Input::all());
+		if(!$permission->updateUniques()){
+			return $this->_validation_error($permission);
 		}
-
-		if(!$permission->update($data)){
-			if(Request::ajax())
-			{
-				return Response::json($this->update_error_message, 500);
-			}
-			return Redirect::back()
-				->withErrors($validator)
-				->withInput()
-				->with('notification:danger', $this->update_error_message);
-		}
-
 		if(Request::ajax())
 		{
 			return $permission;
 		}
-		return Redirect::back()
+		return Redirect::route('permissions.index')
 			->with('notification:success', $this->updated_message);
 	}
 
@@ -227,33 +145,17 @@ class PermissionsController extends \BaseController {
 	public function destroy($id)
 	{
 		$permission = Permission::findOrFail($id);
-		
 		if(!$permission->canDelete())
 		{
-			if(Request::ajax())
-			{
-				return Response::json($this->access_denied_message, 403);
-			}
-			return Redirect::back()->with('notification:danger', $this->access_denied_message);
+			return _access_denied();
 		}
-
 		if(!$permission->delete()){
-			if(Request::ajax())
-			{
-				return Response::json($this->delete_error_message, 500);
-			}
-			return Redirect::back()
-				->withErrors($validator)
-				->withInput()
-				->with('notification:danger', $this->delete_error_message);
-
+			return $this->_delete_error();
 		}
-
 		if(Request::ajax())
 		{
 			return Response::json($this->deleted_message);
 		}
-
 		return Redirect::route('permissions.index')
 			->with('notification:success', $this->deleted_message);
 	}

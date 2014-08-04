@@ -2,10 +2,24 @@
 
 class Role extends Zizaco\Entrust\EntrustRole {
 
-  // Add your validation rules here
-  public static $rules = [
-    'name' => 'required|unique:roles,name'
+  /**
+   * Validation Rules
+   */
+  private static $_rules = [
+    'store' => [
+      'name' => 'required|unique:roles,name'
+    ],
+    'update' => [
+      'name' => 'required|unique:roles,name'
+    ]
   ];
+
+  public static $rules = [];
+
+  public static function setRules($name)
+  {
+    self::$rules = self::$_rules[$name];
+  }
 
   // Don't forget to fill this array
   protected $fillable = [

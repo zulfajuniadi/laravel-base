@@ -42,8 +42,8 @@ return array(
     */
 
     'filter' => array(
-        // 'routes',    // collecting routes data on every request might use a lot of disk space
-        // 'viewsData', // collecting views data, including all variables passed to the view on every request might use a lot of disk space
+        'routes',    // collecting routes data on every request might use a lot of disk space
+        'viewsData', // collecting views data, including all variables passed to the view on every request might use a lot of disk space
     ),
 
     /*
@@ -58,6 +58,7 @@ return array(
 
     'filter_uris' => array(
         '/__clockwork/.*', // disable collecting data for clockwork-web assets
+        '/assets/.*',
     ),
 
     /*

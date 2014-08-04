@@ -2,13 +2,6 @@
 
 class $NAME$ extends \BaseController {
 
-	protected $validation_error_message = 'Validation Error.';
-	protected $access_denied_message = 'Access denied.';
-	protected $created_message = 'Record created.';
-	protected $updated_message = 'Record updated.';
-	protected $deleted_message = 'Record deleted.';
-	protected $delete_error_message = 'Error deleting record.';
-
 	/**
 	 * Display a listing of $COLLECTION$
 	 *
@@ -37,9 +30,8 @@ class $NAME$ extends \BaseController {
 				->make();
 			return Datatables::of($$COLLECTION$)->make();
 		}
-		$script_name = 'index';
-		$style_name = 'index';
-		return View::make('$COLLECTION$.index', compact('script_name', 'style_name'));
+		Asset::push('js', 'datatables');
+		return View::make('$COLLECTION$.index');
 	}
 
 	/**
@@ -72,7 +64,8 @@ class $NAME$ extends \BaseController {
 		{
 			return $this->_access_denied();
 		}
-		$$RESOURCE$ = $MODEL$::create(Input::all());
+		$$RESOURCE$ = new $MODEL$;
+		$$RESOURCE$->fill(Input::all());
 		if(!$$RESOURCE$->save())
 		{
 			return $this->_validation_error($$RESOURCE$);
@@ -102,8 +95,8 @@ class $NAME$ extends \BaseController {
 		{
 			return Response::json($$RESOURCE$);
 		}
-		$script_name = 'index';
-		return View::make('$COLLECTION$.show', compact('$RESOURCE$', 'script_name'));
+		Asset::push('js', 'show');
+		return View::make('$COLLECTION$.show', compact('$RESOURCE$'));
 	}
 
 	/**
@@ -148,7 +141,7 @@ class $NAME$ extends \BaseController {
 		{
 			return $$RESOURCE$;
 		}
-		return Redirect::route('$COLLECTION$.edit', $$RESOURCE$->id)
+		return Redirect::route('$COLLECTION$.index')
 			->with('notification:success', $this->updated_message);
 	}
 
@@ -172,37 +165,6 @@ class $NAME$ extends \BaseController {
 		}
 		return Redirect::route('$COLLECTION$.index')
 			->with('notification:success', $this->deleted_message);
-	}
-
-	/**
-	 * Response Shorthands
-	 */
-
-	public function _ajax_denied()
-	{
-		return Response::json("Bad request", 400);
-	}
-
-	public function _access_denied()
-	{
-		if(Request::ajax())
-		{
-			return Response::json($this->access_denied_message, 403);
-		}
-		return Redirect::back()
-			->with('notification:danger', $this->access_denied_message);
-	}
-
-	public function _validation_error($$RESOURCE$)
-	{
-		if(Request::ajax())
-		{
-			return Response::json($$RESOURCE$->validationErrors, 400);
-		}
-		return Redirect::back()
-			->withErrors($$RESOURCE$->validationErrors)
-			->withInput()
-			->with('notification:danger', $this->validation_error_message);
 	}
 
 	/**

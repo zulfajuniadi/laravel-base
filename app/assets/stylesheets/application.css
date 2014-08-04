@@ -1,5 +1,21 @@
 /**
  *= require bootstrap/dist/css/bootstrap
+ *= require datatables/media/css/jquery.dataTables
+ *= require datatables-bootstrap/dist/dataTables.bootstrap
  *= require dropzone/downloads/css/dropzone
- *= require _overrides
+ *= require_self
  */
+
+.form-inline {
+  display: inline
+}
+
+.dataTables_wrapper .dataTables_paginate .paginate_button {
+  padding: 0px;
+}
+
+.dropzone {
+  min-height: 210px;
+  padding:0px;
+  margin-bottom: 12px;
+}

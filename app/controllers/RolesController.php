@@ -2,15 +2,6 @@
 
 class RolesController extends \BaseController {
 
-	protected $validation_error_message = 'Validation Error.';
-	protected $access_denied_message = 'Access denied.';
-	protected $created_message = 'Record created.';
-	protected $create_error_message = 'Error creating record.';
-	protected $updated_message = 'Record updated.';
-	protected $update_error_message = 'Error updating record.';
-	protected $deleted_message = 'Record deleted.';
-	protected $delete_error_message = 'Error deleting record.';
-
 	/**
 	 * Display a listing of roles
 	 *
@@ -18,17 +9,10 @@ class RolesController extends \BaseController {
 	 */
 	public function index()
 	{
-		
 		if(!Role::canList())
 		{
-			if(Request::ajax())
-			{
-				return Response::json($this->access_denied_message, 403);
-			}
-			return Redirect::back()
-				->with('notification:danger', $this->access_denied_message);
+			return $this->_access_denied();
 		}
-
 		if(Request::ajax())
 		{
 			$roles = Role::select(['roles.id', 'roles.name', DB::raw('count(permissions.id) as count')])
@@ -40,10 +24,8 @@ class RolesController extends \BaseController {
 				->remove_column('id')
 				->make();
 		}
-
-		$script_name = 'index';
-		$style_name = 'index';
-		return View::make('roles.index', compact('script_name', 'style_name'));
+		Asset::push('js', 'datatables');
+		return View::make('roles.index');
 	}
 
 	/**
@@ -55,13 +37,11 @@ class RolesController extends \BaseController {
 	{
 		if(Request::ajax())
 		{
-			return Response::json("Bad request", 400);
+			return $this->_ajax_denied();
 		}
-
 		if(!Role::canCreate())
 		{
-			return Redirect::back()
-				->with('notification:danger', $this->access_denied_message);
+			return $this->_access_denied();
 		}
 		return View::make('roles.create');
 	}
@@ -73,47 +53,22 @@ class RolesController extends \BaseController {
 	 */
 	public function store()
 	{
-		$validator = Validator::make($data = Input::all(), Role::$rules);
-		
 		if(!Role::canCreate())
 		{
-			if(Request::ajax())
-			{
-				return Response::json($this->access_denied_message, 403);
-			}
-			return Redirect::back()
-				->with('notification:danger', $this->access_denied_message);
+			return $this->_access_denied();
 		}
-
-		if ($validator->fails())
+		Role::setRules('store');
+		$role = new Role;
+		$role->fill(Input::all());
+		if(!$role->save())
 		{
-			if(Request::ajax())
-			{
-				return Response::json($validator->messages(), 400);
-			}
-			return Redirect::back()
-				->withErrors($validator)
-				->withInput()
-				->with('notification:danger', $this->validation_error_message);
+			return $this->_validation_error($role);
 		}
-
-		$role = Role::create($data);
-		if(!isset($role->id))
-		{
-			if(Request::ajax())
-			{
-				return Response::json($this->create_error_message, 201);
-			}
-			return Redirect::back()
-				->with('notification:danger', $this->create_error_message);
-		}
-
-		$data['permissions'] = isset($data['permissions']) ? $data['permissions'] : [];
-		$role->perms()->sync($data['permissions']);
-
+		$data['perms'] = isset($data['perms']) ? $data['perms'] : [];
+		$role->perms()->sync($data['perms']);
 		if(Request::ajax())
 		{
-			return Response::json($role->toJson(), 201);
+			return Response::json($role, 201);
 		}
 		return Redirect::route('roles.index')
 			->with('notification:success', $this->created_message);
@@ -128,22 +83,16 @@ class RolesController extends \BaseController {
 	public function show($id)
 	{
 		$role = Role::findOrFail($id);
-		
 		if(!$role->canShow())
 		{
-			if(Request::ajax())
-			{
-				return Response::json($this->access_denied_message, 403);
-			}
-			return Redirect::back()->with('notification:danger', $this->access_denied_message);
+			return $this->_access_denied();
 		}
-
 		if(Request::ajax())
 		{
-			return Response::json($role->toJson(), 201);
+			return $role;
 		}
-		$script_name = 'show';
-		return View::make('roles.show', compact('role', 'script_name'));
+		Asset::push('js', 'show');
+		return View::make('roles.show', compact('role'));
 	}
 
 	/**
@@ -155,17 +104,14 @@ class RolesController extends \BaseController {
 	public function edit($id)
 	{
 		$role = Role::find($id);
-
 		if(Request::ajax())
 		{
-			return Response::json("Bad request", 400);
+			return $this->_ajax_denied();
 		}
-		
 		if(!$role->canUpdate())
 		{
-			return Redirect::back()->with('notification:danger', $this->access_denied_message);
+			return $this->_access_denied();
 		}
-
 		return View::make('roles.edit', compact('role'));
 	}
 
@@ -178,52 +124,24 @@ class RolesController extends \BaseController {
 	public function update($id)
 	{
 		$role = Role::findOrFail($id);
-		
+		$data = Input::all();
+		Role::setRules('update');
 		if(!$role->canUpdate())
 		{
-			if(Request::ajax())
-			{
-				return Response::json($this->access_denied_message, 403);
-			}
-			return Redirect::back()
-				->with('notification:danger', $this->access_denied_message);
+			return $this->_ajax_denied();
 		}
-
-		Role::$rules['name'] = Role::$rules['name'] . ',' . $id;
-		$validator = Validator::make($data = Input::all(), Role::$rules);
-
-		if ($validator->fails())
-		{
-			if(Request::ajax())
-			{
-				return Response::json($validator->messages(), 400);
-			}
-			return Redirect::back()
-				->withErrors($validator)
-				->withInput()
-				->with('notification:danger', $this->validation_error_message);
+		$role->fill($data);
+		if(!$role->updateUniques()){
+			return $this->_validation_error($data);
 		}
-
-		if(!$role->update($data)){
-			if(Request::ajax())
-			{
-				return Response::json($this->update_error_message, 500);
-			}
-			return Redirect::back()
-				->withErrors($validator)
-				->withInput()
-				->with('notification:danger', $this->update_error_message);
-		}
-
-		$data['permissions'] = isset($data['permissions']) ? $data['permissions'] : [];
-		$role->perms()->sync($data['permissions']);
+		$data['perms'] = isset($data['perms']) ? $data['perms'] : [];
+		$role->perms()->sync($data['perms']);
 		$role->touch();
-
 		if(Request::ajax())
 		{
 			return $role;
 		}
-		return Redirect::back()
+		return Redirect::route('roles.index')
 			->with('notification:success', $this->updated_message);
 	}
 
@@ -236,32 +154,17 @@ class RolesController extends \BaseController {
 	public function destroy($id)
 	{
 		$role = Role::findOrFail($id);
-		
 		if(!$role->canDelete())
 		{
-			if(Request::ajax())
-			{
-				return Response::json($this->access_denied_message, 403);
-			}
-			return Redirect::back()->with('notification:danger', $this->access_denied_message);
+			return $this->_access_denied();
 		}
-
 		if(!$role->delete()){
-			if(Request::ajax())
-			{
-				return Response::json($this->delete_error_message, 500);
-			}
-			return Redirect::back()
-				->withErrors($validator)
-				->withInput()
-				->with('notification:danger', $this->delete_error_message);
+			return $this->_delete_error();
 		}
-
 		if(Request::ajax())
 		{
 			return Response::json($this->deleted_message);
 		}
-
 		return Redirect::route('roles.index')
 			->with('notification:success', $this->deleted_message);
 	}

@@ -39,7 +39,7 @@ Route::group(['before' => 'auth'], function(){
   Route::put('users/{user_id}/set_activation', 'UsersController@putSetConfirmation');
   Route::get('profile/change_password', 'UsersController@getChangePassword');
   Route::put('profile/change_password', 'UsersController@putChangePassword');
-  Route::get( 'auth/logout', 'AuthController@logout');
+  Route::get('auth/logout', 'AuthController@logout');
 
   Route::resource('uploader', 'UploadsController');
 });
