@@ -1,8 +1,8 @@
 pending
-migrate 4 controllers and model to new format
 
 doing
-homestead
+GraphableTrait
+ReportableTrait
 
 done
 profile page
@@ -13,3 +13,4 @@ datatables role seeder
 assetpipeline
 hasUpload trait
 image manipulation
+migrate 4 controllers and model to new format
