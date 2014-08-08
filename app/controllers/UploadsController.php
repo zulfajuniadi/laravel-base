@@ -1,15 +1,13 @@
 <?php
 
-class UploadsController extends \BaseController
-{
+class UploadsController extends \BaseController {
 
     /**
      * Store a newly created upload in storage.
      *
      * @return Response
      */
-    public function store()
-    {
+    public function store() {
         Upload::setRules('store');
         if (!Upload::canCreate()) {
             return $this->_access_denied();
@@ -48,8 +46,7 @@ class UploadsController extends \BaseController
      * @param  int  $id
      * @return Response
      */
-    public function destroy($id)
-    {
+    public function destroy($id) {
         $upload = Upload::findOrFail($id);
         if (!$upload->canDelete()) {
             return $this->_access_denied();
@@ -75,8 +72,7 @@ class UploadsController extends \BaseController
      * Constructor
      */
 
-    public function __construct()
-    {
+    public function __construct() {
         parent::__construct();
         View::share('controller', 'Upload');
     }

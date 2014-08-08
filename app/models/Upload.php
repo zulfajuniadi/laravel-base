@@ -1,7 +1,6 @@
 <?php
 
-class Upload extends Ardent
-{
+class Upload extends Ardent {
 
     /**
      * Fillable columns
@@ -42,8 +41,7 @@ class Upload extends Ardent
 
     static $rules = [];
 
-    public static function setRules($name)
-    {
+    public static function setRules($name) {
         self::$rules = self::$_rules[$name];
     }
 
@@ -51,13 +49,11 @@ class Upload extends Ardent
      * ACL
      */
 
-    public static function canCreate()
-    {
+    public static function canCreate() {
         return true;
     }
 
-    public function canDelete()
-    {
+    public function canDelete() {
         $user = Auth::user();
         if ($user->hasRole('Admin', 'Upload Admin')) {
             return true;
@@ -73,8 +69,7 @@ class Upload extends Ardent
      * Relationships
      */
 
-    public function uploadable()
-    {
+    public function uploadable() {
         return $this->morphTo();
     }
 
@@ -82,12 +77,11 @@ class Upload extends Ardent
      * Boot Method
      */
 
-    public static function boot()
-    {
+    public static function boot() {
         parent::boot();
 
         self::creating(function ($data) {
-            $data->userId = Auth::user()->id;
+            $data->user_id = Auth::user()->id;
         });
 
         self::created(function () {
@@ -107,8 +101,7 @@ class Upload extends Ardent
      * Decorators
      */
 
-    public function getSizeAttribute($bytes)
-    {
+    public function getSizeAttribute($bytes) {
         $decimals = 2;
         $size     = array('B', 'kB', 'MB', 'GB', 'TB', 'PB', 'EB', 'ZB', 'YB');
         $factor   = floor((strlen($bytes)-1)/3);

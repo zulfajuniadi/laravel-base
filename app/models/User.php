@@ -7,8 +7,7 @@ use Illuminate\Auth\UserTrait;
 use Zizaco\Confide\ConfideUser;
 use Zizaco\Entrust\HasRole;
 
-class User extends ConfideUser implements UserInterface, RemindableInterface
-{
+class User extends ConfideUser implements UserInterface, RemindableInterface {
 
     use UserTrait, RemindableTrait, HasRole;
 
@@ -79,8 +78,7 @@ class User extends ConfideUser implements UserInterface, RemindableInterface
 
     static $rules = [];
 
-    public static function setRules($name)
-    {
+    public static function setRules($name) {
         self::$rules = self::$_rules[$name];
     }
 
@@ -91,13 +89,11 @@ class User extends ConfideUser implements UserInterface, RemindableInterface
      */
     protected $hidden = array('password', 'remember_token');
 
-    public function organizationunit()
-    {
+    public function organizationunit() {
         return $this->belongsTo('OrganizationUnit', 'organizationunit_id');
     }
 
-    public function getAuthorizedUserids($authorization_flag)
-    {
+    public function getAuthorizedUserids($authorization_flag) {
         if ($authorization_flag === 0) {
             return [];
         }
@@ -122,8 +118,7 @@ class User extends ConfideUser implements UserInterface, RemindableInterface
         });
     }
 
-    public function isAuthorized($authorization_flag, $user_id)
-    {
+    public function isAuthorized($authorization_flag, $user_id) {
         if ($authorization_flag == 0) {
             return true;
         }
@@ -135,38 +130,31 @@ class User extends ConfideUser implements UserInterface, RemindableInterface
      * ACL
      */
 
-    public static function canList()
-    {
+    public static function canList() {
         return (Auth::user() && Auth::user()->ability(['Admin', 'User Admin'], ['User:list']));
     }
 
-    public static function canCreate()
-    {
+    public static function canCreate() {
         return (Auth::user() && Auth::user()->ability(['Admin', 'User Admin'], ['User:create']));
     }
 
-    public function canShow()
-    {
+    public function canShow() {
         return (Auth::user() && Auth::user()->ability(['Admin', 'User Admin'], ['User:show']));
     }
 
-    public function canUpdate()
-    {
+    public function canUpdate() {
         return (Auth::user() && Auth::user()->ability(['Admin', 'User Admin'], ['User:edit']));
     }
 
-    public function canDelete()
-    {
+    public function canDelete() {
         return (Auth::user() && Auth::user()->ability(['Admin', 'User Admin'], ['User:delete']));
     }
 
-    public function canSetPassword()
-    {
+    public function canSetPassword() {
         return (Auth::user() && Auth::user()->ability(['Admin', 'User Admin'], ['User:set_password']));
     }
 
-    public function canSetConfirmation()
-    {
+    public function canSetConfirmation() {
         return (Auth::user() && Auth::user()->ability(['Admin', 'User Admin'], ['User:set_confirmation']));
     }
 
@@ -174,8 +162,7 @@ class User extends ConfideUser implements UserInterface, RemindableInterface
      * Decorators
      */
 
-    public function getConfirmedAttribute($value)
-    {
+    public function getConfirmedAttribute($value) {
         return ($value)?'Active':'Not Confirmed';
     }
 
@@ -183,8 +170,7 @@ class User extends ConfideUser implements UserInterface, RemindableInterface
      * Boot
      */
 
-    public static function boot()
-    {
+    public static function boot() {
         parent::boot();
 
         self::created(function () {
