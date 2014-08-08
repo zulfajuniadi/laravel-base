@@ -1,5 +1,4 @@
 pending
-reindent controller so that PSR compatible
 generate resource one by one rather than using generate:resource. (confirmation issue)
 
 doing
@@ -16,3 +15,4 @@ assetpipeline
 hasUpload trait
 image manipulation
 migrate 4 controllers and model to new format
+reindent controller so that PSR compatible

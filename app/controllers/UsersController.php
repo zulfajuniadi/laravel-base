@@ -25,10 +25,11 @@ class UsersController extends \BaseController
             } else {
                 $users = User::whereIn('users.user_id', $users_under_me);
             }
-            $users = $users->select(['users.id', 'users.username', 'organization_units.name', DB::raw('count(assigned_roles.id)'), 'users.confirmed'])
-                           ->leftJoin('assigned_roles', 'assigned_roles.user_id', '=', 'users.id')
-                           ->leftJoin('organization_units', 'organization_units.id', '=', 'users.organizationunit_id')
-                           ->groupBy('users.id');
+            $users = $users
+                ->select(['users.id', 'users.username', 'organization_units.name', DB::raw('count(assigned_roles.id)'), 'users.confirmed'])
+                ->leftJoin('assigned_roles', 'assigned_roles.user_id', '=', 'users.id')
+                ->leftJoin('organization_units', 'organization_units.id', '=', 'users.organizationunit_id')
+                ->groupBy('users.id');
             return Datatables::of($users)
                 ->add_column('actions', '{{View::make("users.actions-row", compact("id", "confirmed"))->render()}}')
                 ->remove_column('id')
