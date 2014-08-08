@@ -37,7 +37,8 @@ class GenerateViews extends Command {
 
     private $argname;
     private $argfields;
-    private $argparams = [];
+    private $argparams    = [];
+    private $noMigrations = false;
 
     public function fire() {
         $this->call('migrate:reset');
