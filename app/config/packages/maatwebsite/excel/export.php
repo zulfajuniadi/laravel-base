@@ -10,8 +10,8 @@ return array(
     | Disable/enable column autosize or set the autosizing for
     | an array of columns ( array('A', 'B') )
     |
-    */
-    'autosize'  => true,
+     */
+    'autosize' => true,
 
     /*
     |--------------------------------------------------------------------------
@@ -33,7 +33,7 @@ return array(
     | method is significantly slower, and its accuracy is still dependent on
     | having the appropriate fonts installed.
     |
-    */
+     */
     'autosize-method' => PHPExcel_Shared_Font::AUTOSIZE_METHOD_APPROX,
 
     /*
@@ -44,29 +44,29 @@ return array(
     | If set to true, the array indices (or model attribute names)
     | will automatically be used as first row (table heading)
     |
-    */
-    'generate_heading_by_indices'  => true,
+     */
+    'generate_heading_by_indices' => true,
 
     /*
     |--------------------------------------------------------------------------
     | Auto set aligment on merged cells
     |--------------------------------------------------------------------------
-    */
-    'merged_cell_alignment'       => 'left',
+     */
+    'merged_cell_alignment' => 'left',
 
     /*
     |--------------------------------------------------------------------------
     | Pre-calculate formulas during export
     |--------------------------------------------------------------------------
-    */
-    'calculate'                   => false,
+     */
+    'calculate' => false,
 
     /*
     |--------------------------------------------------------------------------
     | Default sheet settings
     |--------------------------------------------------------------------------
-    */
-    'sheets'    => array(
+     */
+    'sheets' => array(
 
         /*
         |--------------------------------------------------------------------------
@@ -79,36 +79,36 @@ return array(
         | 3) Alternativly you can pass an array with 4 margins
         |    Default order: array(top, right, bottom, left)
         |
-        */
-        'page_margin'           => false,
+         */
+        'page_margin' => false,
 
         /*
         |--------------------------------------------------------------------------
         | Value in source array that stands for blank cell
         |--------------------------------------------------------------------------
-        */
-        'nullValue'             => null,
+         */
+        'nullValue' => null,
 
         /*
         |--------------------------------------------------------------------------
         | Insert array starting from this cell address as the top left coordinate
         |--------------------------------------------------------------------------
-        */
-        'startCell'             => 'A1',
+         */
+        'startCell' => 'A1',
 
         /*
         |--------------------------------------------------------------------------
         | Apply strict comparison when testing for null values in the array
         |--------------------------------------------------------------------------
-        */
-        'strictNullComparison'  => false
+         */
+        'strictNullComparison' => false
     ),
 
     /*
     |--------------------------------------------------------------------------
     | Store settings
     |--------------------------------------------------------------------------
-    */
+     */
 
     'store' => array(
 
@@ -119,7 +119,7 @@ return array(
         |
         | The path we want to save excel file to
         |
-        */
+         */
         'path' => storage_path('exports'),
 
         /*
@@ -129,8 +129,8 @@ return array(
         |
         | Whether we want to return information about the stored file or not
         |
-        */
-        'returnInfo'    =>  false
+         */
+        'returnInfo' => false
 
     )
 );

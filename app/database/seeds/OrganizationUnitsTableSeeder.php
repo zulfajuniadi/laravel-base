@@ -1,23 +1,23 @@
 <?php
 
-class OrganizationUnitsTableSeeder extends Seeder {
+class OrganizationUnitsTableSeeder extends Seeder
+{
 
-	public function run()
-	{
+    public function run()
+    {
 
-    OrganizationUnit::truncate();
+        OrganizationUnit::truncate();
 
-		$datas = [
-      [
-        'name'    => 'root',
-        'user_id' => 1
-      ]
-    ];
+        $datas = [
+            [
+                'name'    => 'root',
+                'user_id' => 1
+            ]
+        ];
 
-		foreach($datas as $data)
-		{
-			OrganizationUnit::create($data);
-		}
-	}
+        foreach ($datas as $data) {
+            OrganizationUnit::create($data);
+        }
+    }
 
 }

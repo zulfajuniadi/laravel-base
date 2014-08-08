@@ -11,9 +11,9 @@ return array(
     |
     | Options: true|false|slugged|ascii|numeric|hashed|trans|original
     |
-    */
+     */
 
-    'heading'   => 'slugged',
+    'heading' => 'slugged',
 
     /*
     |--------------------------------------------------------------------------
@@ -23,7 +23,7 @@ return array(
     | The default seperator which is used for the cell names
     | Note: only applies to 'heading' settings 'true' && 'slugged'
     |
-    */
+     */
 
     'seperator' => '_',
 
@@ -35,20 +35,20 @@ return array(
     | Convert headings to ASCII
     | Note: only applies to 'heading' settings 'true' && 'slugged'
     |
-    */
+     */
 
-    'to_ascii'  =>  true,
+    'to_ascii' => true,
 
     /*
     |--------------------------------------------------------------------------
     | Import encoding
     |--------------------------------------------------------------------------
-    */
+     */
 
-    'encoding'  => array(
+    'encoding' => array(
 
-        'input'     =>  'UTF-8',
-        'output'    =>  'UTF-8'
+        'input'  => 'UTF-8',
+        'output' => 'UTF-8',
 
     ),
 
@@ -59,7 +59,7 @@ return array(
     |
     | By default cells with formulas will be calculated.
     |
-    */
+     */
 
     'calculate' => true,
 
@@ -70,7 +70,7 @@ return array(
     |
     | By default empty cells are not ignored
     |
-    */
+     */
 
     'ignoreEmpty' => false,
 
@@ -84,7 +84,7 @@ return array(
     | a row collection instead of a sheet collection.
     | When set to true, it will return a sheet collection instead.
     |
-    */
+     */
     'force_sheets_collection' => false,
 
     /*
@@ -94,7 +94,7 @@ return array(
     |
     | The format dates will be parsed to
     |
-    */
+     */
 
     'dates' => array(
 
@@ -102,8 +102,8 @@ return array(
         |--------------------------------------------------------------------------
         | Enable/disable date formatting
         |--------------------------------------------------------------------------
-        */
-        'enabled'   => true,
+         */
+        'enabled' => true,
 
         /*
         |--------------------------------------------------------------------------
@@ -112,23 +112,23 @@ return array(
         |
         | If set to false, a carbon object will return
         |
-        */
-        'format'    => false,
+         */
+        'format' => false,
 
         /*
         |--------------------------------------------------------------------------
         | Date columns
         |--------------------------------------------------------------------------
-        */
-        'columns'   => array()
+         */
+        'columns' => array()
     ),
 
     /*
     |--------------------------------------------------------------------------
     | Import sheets by config
     |--------------------------------------------------------------------------
-    */
-    'sheets'    => array(
+     */
+    'sheets' => array(
 
         /*
         |--------------------------------------------------------------------------
@@ -137,11 +137,11 @@ return array(
         |
         | Example sheet "test" will grab the firstname at cell A2
         |
-        */
+         */
 
-        'test'       =>  array(
+        'test' => array(
 
-            'firstname' => 'A2'
+            'firstname' => 'A2',
 
         )
 

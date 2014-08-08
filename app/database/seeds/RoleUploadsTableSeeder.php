@@ -1,22 +1,22 @@
 <?php
 
-class RoleUploadsTableSeeder extends Seeder {
+class RoleUploadsTableSeeder extends Seeder
+{
 
-	public function run()
-	{
+    public function run()
+    {
 
-    Upload::truncate();
+        Upload::truncate();
 
-    $roles = [
-      [
-        'name' => 'Upload Admin'
-      ]
-    ];
+        $roles = [
+            [
+                'name' => 'Upload Admin'
+            ]
+        ];
 
-		foreach($roles as $role)
-		{
-			$created = Role::create($role);
-		}
-	}
+        foreach ($roles as $role) {
+            $created = Role::create($role);
+        }
+    }
 
 }

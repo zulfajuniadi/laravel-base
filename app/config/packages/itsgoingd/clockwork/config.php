@@ -14,7 +14,7 @@ return array(
     | When set to null, Clockwork behavior is controlled by app.debug setting.
     | Default: null
     |
-    */
+     */
 
     'enable' => null,
 
@@ -27,7 +27,7 @@ return array(
     | recorded even when Clockwork is disabled (useful for later analysis).
     | Default: false
     |
-    */
+     */
 
     'collect_data_always' => false,
 
@@ -39,10 +39,10 @@ return array(
     | You can filter collected data by specifying what you don't want to collect
     | here.
     |
-    */
+     */
 
     'filter' => array(
-        'routes',    // collecting routes data on every request might use a lot of disk space
+        'routes', // collecting routes data on every request might use a lot of disk space
         'viewsData', // collecting views data, including all variables passed to the view on every request might use a lot of disk space
     ),
 
@@ -54,7 +54,7 @@ return array(
     | You can disable data collection for specific URIs by adding matching
     | regular expressions here.
     |
-    */
+     */
 
     'filter_uris' => array(
         '/__clockwork/.*', // disable collecting data for clockwork-web assets
@@ -66,12 +66,12 @@ return array(
     | Send Headers for AJAX request
     |--------------------------------------------------------------------------
     |
-    | When trying to collect data the AJAX method can sometimes fail if it is 
-    | missing required headers. For example, an API might require a version 
-    | number using Accept headers to route the HTTP request to the correct 
+    | When trying to collect data the AJAX method can sometimes fail if it is
+    | missing required headers. For example, an API might require a version
+    | number using Accept headers to route the HTTP request to the correct
     | codebase.
     |
-    */
+     */
 
     'headers' => array(
         // 'Accept' => 'application/vnd.com.whatever.v1+json',

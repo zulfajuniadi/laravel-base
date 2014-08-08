@@ -6,8 +6,8 @@ return array(
     |--------------------------------------------------------------------------
     | Enable/Disable cell caching
     |--------------------------------------------------------------------------
-    */
-    'enable'    =>     true,
+     */
+    'enable' => true,
 
     /*
     |--------------------------------------------------------------------------
@@ -19,18 +19,18 @@ return array(
     | Available methods:
     | memory|gzip|serialized|igbinary|discISAM|apc|memcache|temp|wincache|sqlite|sqlite3
     |
-    */
-    'driver'    =>     'memory',
+     */
+    'driver' => 'memory',
 
     /*
     |--------------------------------------------------------------------------
     | Cache settings
     |--------------------------------------------------------------------------
-    */
-    'settings'  => array(
+     */
+    'settings' => array(
 
-        'memoryCacheSize'   => '32MB',
-        'cacheTime'         => 600
+        'memoryCacheSize' => '32MB',
+        'cacheTime'       => 600,
 
     ),
 
@@ -38,11 +38,11 @@ return array(
     |--------------------------------------------------------------------------
     | Memcache settings
     |--------------------------------------------------------------------------
-    */
-    'memcache'  =>  array(
+     */
+    'memcache' => array(
 
-        'host'    =>  'localhost',
-        'port'      =>  11211,
+        'host' => 'localhost',
+        'port' => 11211,
 
     ),
 
@@ -50,7 +50,7 @@ return array(
     |--------------------------------------------------------------------------
     | Cache dir (for discISAM)
     |--------------------------------------------------------------------------
-    */
+     */
 
     'dir' => storage_path('cache')
 
