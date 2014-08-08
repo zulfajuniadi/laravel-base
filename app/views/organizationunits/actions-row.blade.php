@@ -1,5 +1,4 @@
-<?php
-$organizationunit = OrganizationUnit::find($id);
+@if($organizationunit = OrganizationUnit::find($id))@endif
 @if($organizationunit->canShow())
     <a href="{{ URL::route( 'organizationunits.show', array($id)) }}" class="btn btn-default">View</a>
 @endif

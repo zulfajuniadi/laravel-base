@@ -1,5 +1,4 @@
-<?php
-$role = Role::find($id);
+@if($role = Role::find($id))@endif
 @if($role->canShow())
     <a href="{{ URL::route( 'roles.show', array($id)) }}" class="btn btn-default">View</a>
 @endif

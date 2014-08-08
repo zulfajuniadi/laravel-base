@@ -1,5 +1,4 @@
-<?php
-$permission = Permission::find($id);
+@if($permission = Permission::find($id))@endif
 @if($permission->canShow())
     <a href="{{ URL::route( 'permissions.show', array($id)) }}" class="btn btn-default">View</a>
 @endif

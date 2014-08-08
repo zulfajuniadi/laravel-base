@@ -1,5 +1,4 @@
-<?php
-$user = User::find($id);
+@if($user = User::find($id))@endif
 @if($user->canShow())
     <a href="{{ URL::route( 'users.show', array($id)) }}" class="btn btn-default">View</a>
 @endif

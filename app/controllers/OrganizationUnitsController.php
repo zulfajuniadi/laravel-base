@@ -129,7 +129,7 @@ class OrganizationUnitsController extends \BaseController
         }
         if ((int) $organizationunit->parent_id !== (int) $data['parent_id']) {
             $organizationunit->makeChildOf($data['parent_id']);
-            ::find(static $data['parent_id'])->touch();
+            self::find($data['parent_id'])->touch();
         }
         if (Request::ajax()) {
             return $organizationunit;
