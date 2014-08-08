@@ -5,6 +5,7 @@
   <table data-path="/permissions" class="DT table table-striped table-hover table-bordered">
     <thead>
       <tr>
+        <th>Group</th>
         <th>Name</th>
         <th>Description</th>
         <th width="200px">Actions</th>

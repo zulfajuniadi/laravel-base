@@ -19,3 +19,20 @@
   padding:0px;
   margin-bottom: 12px;
 }
+
+.permission-matrix input[type="checkbox"] {
+    margin-left: -22px;
+    margin-right: 5px;
+}
+.permission-matrix {
+    padding-left: 22px;
+    padding-right: 15px;
+}
+
+.permission-matrix p {
+    margin-top: 7px;
+    margin-bottom: 0px;
+}
+.permission-matrix hr {
+    margin-top: 8px;
+}

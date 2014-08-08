@@ -15,7 +15,7 @@ class PermissionsController extends \BaseController {
 		}
 		if(Request::ajax())
 		{
-			$permissions = Permission::select(['id', 'name', 'display_name']);
+			$permissions = Permission::select(['id', 'group_name', 'name', 'display_name']);
 			return Datatables::of($permissions)
         ->add_column('actions', '{{View::make("permissions.actions-row", compact("id"))->render()}}')
 				->remove_column('id')
