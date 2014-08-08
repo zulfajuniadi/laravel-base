@@ -2,7 +2,7 @@
 @section('content')
 <h1>Reset Password</h1>
 <hr>
-<form method="POST" action="{{{ (Confide::checkAction('AuthController@do_reset_password'))    ?: URL::to('/user/reset') }}}" accept-charset="UTF-8">
+<form method="POST" action="{{{ (Confide::checkAction('AuthController@doResetPassword'))    ?: URL::to('/user/reset') }}}" accept-charset="UTF-8">
     <input type="hidden" name="token" value="{{{ $token }}}">
     <input type="hidden" name="_token" value="{{{ Session::getToken() }}}">
 

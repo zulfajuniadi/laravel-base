@@ -42,7 +42,7 @@ Takes out the boredom of boiler plating code and provides sensible defaults to j
     - Generated Database Seeds provides a base to fill in: 
         - Default values for seeding
         - Basic RBAC entries for the model
-1.  Uploadable trait. When applied to a model, this enables upload for records of that model. 
+1.  Uploadable trait. When applied to a model, this enables upload for records of that model.
 1.  Artisan app:reset command that does:
     1. Dumps autoload
     1. Clears cache
@@ -109,6 +109,7 @@ Other supported filetype arguments: image/*, application/pdf, .psd
     {{ $leave->yieldUploadsTable() }}
     // where $leave is an instance of a Model that has the UploadableTrait
     ```
+1. To automatically generate thumbnails for your uploaded image add: ``protected $generate_image_thumbnails = true;`` into the model.
     
 #Todos
 1.  Unit tests

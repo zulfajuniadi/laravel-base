@@ -10,9 +10,9 @@ return array(
     | Defines how many login failed tries may be done within
     | the 'throttle_time_period', which is in minutes.
     |
-    */
+     */
 
-    'throttle_limit' => 9,
+    'throttle_limit'       => 9,
     'throttle_time_period' => 2,
 
     /*
@@ -25,7 +25,7 @@ return array(
     |
     | Default: email
     |
-    */
+     */
     'login_cache_field' => 'email',
 
     /*
@@ -46,11 +46,11 @@ return array(
     | 'signup_form' => 'user.signup'
     |
     |
-    */
-    'login_form' =>             'auth.login',
-    'signup_form' =>            'auth.signup',
-    'forgot_password_form' =>   'auth.forgot_password',
-    'reset_password_form' =>    'auth.reset_password',
+     */
+    'login_form'           => 'auth.login',
+    'signup_form'          => 'auth.signup',
+    'forgot_password_form' => 'auth.forgot_password',
+    'reset_password_form'  => 'auth.reset_password',
 
     /*
     |--------------------------------------------------------------------------
@@ -68,9 +68,9 @@ return array(
     | 'email_account_confirmation' => 'email.confirmation'
     |
     |
-    */
+     */
 
-    'email_reset_password' =>       'auth.emails.passwordreset', // with $user and $token.
+    'email_reset_password'       => 'auth.emails.passwordreset', // with $user and $token.
     'email_account_confirmation' => 'auth.emails.confirm', // with $user
 
     /*
@@ -86,9 +86,9 @@ return array(
     | Time is in minutes.
     |
     |
-    */
+     */
     'signup_cache' => 120,
-    
+
     /*
     |--------------------------------------------------------------------------
     | Signup E-mail and confirmation (true or false)
@@ -106,12 +106,12 @@ return array(
     | signup_confirm:
     | is to decide of a member needs to be confirmed before he is able to login
     | so when you set this to true, then a member has to be confirmed before
-    | he is able to login, so if you want to use an IPN for confirmation, be 
+    | he is able to login, so if you want to use an IPN for confirmation, be
     | sure that the ipn process also changes the confirmed flag in the member
     | table, otherwise they will not be able to login after the payment.
     |
-    */
-    'signup_email'      => true,
-    'signup_confirm'    => true,
+     */
+    'signup_email'   => true,
+    'signup_confirm' => true,
 
 );

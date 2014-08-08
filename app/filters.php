@@ -175,5 +175,3 @@ Route::filter('only_xhr', function()
 	}
 });
 
-// Route::filter('')
-

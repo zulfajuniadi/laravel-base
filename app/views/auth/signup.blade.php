@@ -41,7 +41,7 @@
     </fieldset>
 </form>
 <p class="text-center">
-    {{link_to_action('AuthController@forgot_password', 'Forgot Password')}} | 
+    {{link_to_action('AuthController@forgotPassword', 'Forgot Password')}} |
     {{link_to_action('AuthController@login', 'Login')}}
 </p>
 @stop

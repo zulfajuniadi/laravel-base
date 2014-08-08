@@ -25,7 +25,7 @@ class $NAME$ extends \BaseController {
 				'$COLLECTION$.id',$CONTROLLER_COLUMNS$
 			]);
 			return Datatables::of($$COLLECTION$)
-        ->add_column('actions', '{{View::make("$COLLECTION$.actions-row", compact("id"))->render()}}')
+        		->add_column('actions', '{{View::make("$COLLECTION$.actions-row", compact("id"))->render()}}')
 				->remove_column('id')
 				->make();
 			return Datatables::of($$COLLECTION$)->make();
@@ -59,13 +59,14 @@ class $NAME$ extends \BaseController {
 	 */
 	public function store()
 	{
+		$data = Input::all();
 		$MODEL$::setRules('store');
 		if(!$MODEL$::canCreate())
 		{
 			return $this->_access_denied();
 		}
 		$$RESOURCE$ = new $MODEL$;
-		$$RESOURCE$->fill(Input::all());
+		$$RESOURCE$->fill($data);
 		if(!$$RESOURCE$->save())
 		{
 			return $this->_validation_error($$RESOURCE$);

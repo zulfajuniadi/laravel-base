@@ -1,4 +1,6 @@
 pending
+reindent controller so that PSR compatible
+generate resource one by one rather than using generate:resource. (confirmation issue)
 
 doing
 GraphableTrait
