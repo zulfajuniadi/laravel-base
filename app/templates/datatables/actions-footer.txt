@@ -1,26 +1,26 @@
 <div class="well">
-  @if(isset($has_submit))
-    <button class="btn btn-primary">Submit</button>
-  @endif
-  @if(!isset($is_list) && $MODEL$::canList())
-    <a href="{{route('$VIEWPATH$.index')}}" class="btn btn-default">List</a>  
-  @endif
-  @if($MODEL$::canCreate())
-    <a href="{{route('$VIEWPATH$.create')}}" class="btn btn-default">Create</a>
-  @endif
-  {{Former::close()}}
-  @if(isset($$RESOURCE$))
-    @if($$RESOURCE$->canShow())
-      <a href="{{ action('$VIEWPATH$.show', $$RESOURCE$->id) }}" class="btn btn-default">Details</a>
+    @if(isset($has_submit))
+        <button class="btn btn-primary">Submit</button>
     @endif
-    @if($$RESOURCE$->canUpdate())
-      <a href="{{ action('$VIEWPATH$.edit', $$RESOURCE$->id) }}" class="btn btn-default">Edit</a>
+    @if(!isset($is_list) && $MODEL$::canList())
+        <a href="{{route('$VIEWPATH$.index')}}" class="btn btn-default">List</a>  
     @endif
-    @if($$RESOURCE$->canDelete())
-      {{Former::open(action('$VIEWPATH$.destroy', $$RESOURCE$->id))->class('form-inline')}}
-        {{Former::hidden('_method', 'DELETE')}}
-        <button type="button" class="btn btn-default confirm-delete">Delete</button>
-      {{Former::close()}}
+    @if($MODEL$::canCreate())
+        <a href="{{route('$VIEWPATH$.create')}}" class="btn btn-default">Create</a>
     @endif
-  @endif
+    {{Former::close()}}
+    @if(isset($$RESOURCE$))
+        @if($$RESOURCE$->canShow())
+          <a href="{{ action('$VIEWPATH$.show', $$RESOURCE$->id) }}" class="btn btn-default">Details</a>
+        @endif
+        @if($$RESOURCE$->canUpdate())
+          <a href="{{ action('$VIEWPATH$.edit', $$RESOURCE$->id) }}" class="btn btn-default">Edit</a>
+        @endif
+        @if($$RESOURCE$->canDelete())
+          {{Former::open(action('$VIEWPATH$.destroy', $$RESOURCE$->id))->class('form-inline')}}
+            {{Former::hidden('_method', 'DELETE')}}
+            <button type="button" class="btn btn-default confirm-delete">Delete</button>
+          {{Former::close()}}
+        @endif
+    @endif
 </div>

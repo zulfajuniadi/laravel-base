@@ -1,13 +1,14 @@
-<?php $role = Role::find($id); ?>
+<?php
+$role = Role::find($id);
 @if($role->canShow())
-  <a href="{{ URL::route( 'roles.show', array($id)) }}" class="btn btn-default">View</a>
+    <a href="{{ URL::route( 'roles.show', array($id)) }}" class="btn btn-default">View</a>
 @endif
 @if($role->canUpdate())
-  <a href="{{ URL::route( 'roles.edit', array($id)) }}" class="btn btn-default">Edit</a>
+    <a href="{{ URL::route( 'roles.edit', array($id)) }}" class="btn btn-default">Edit</a>
 @endif
 @if($role->canDelete())
-  {{Former::open(action('roles.destroy', $role->id))->class('form-inline')}}
-    {{Former::hidden('_method', 'DELETE')}}
-    <button type="button" class="btn btn-default confirm-delete">Delete</button>
-  {{Former::close()}}
+    {{Former::open(action('roles.destroy', $role->id))->class('form-inline')}}
+        {{Former::hidden('_method', 'DELETE')}}
+        <button type="button" class="btn btn-default confirm-delete">Delete</button>
+    {{Former::close()}}
 @endif

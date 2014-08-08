@@ -1,10 +1,10 @@
 {{Former::text('name')
-  ->required()}}
+    ->required()}}
 {{Former::select('parent_id')
-  ->label('Parent')
-  ->options(OrganizationUnit::all()->lists('name', 'id'))
-  ->required()}}
+    ->label('Parent')
+    ->options(OrganizationUnit::all()->lists('name', 'id'))
+    ->required()}}
 {{Former::select('user_id')
-  ->label('Head')
-  ->options(User::all()->lists('username', 'id'))
-  ->required()}}
+    ->label('Head')
+    ->options(User::all()->lists('username', 'id'))
+    ->required()}}

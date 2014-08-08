@@ -1,3 +1,3 @@
 {{Former::text('name')
-  ->required()}}
+    ->required()}}
 @include('permissions.matrix')

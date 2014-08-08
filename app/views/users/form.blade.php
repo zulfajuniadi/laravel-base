@@ -1,11 +1,11 @@
 {{Former::text('username')
-  ->required()}}
+    ->required()}}
 {{Former::email('email')
-  ->required()}}
+    ->required()}}
 {{Former::select('organizationunit_id')
-  ->label('Organization Unit')
-  ->options(OrganizationUnit::all()->lists('name', 'id'))
-  ->required()}}
+    ->label('Organization Unit')
+    ->options(OrganizationUnit::all()->lists('name', 'id'))
+    ->required()}}
 {{Former::multiselect('roles')
-  ->label('Roles')
-  ->options(Role::all()->lists('name', 'id'), (isset($user) ? $user->roles->lists('id') : [])) }}
+    ->label('Roles')
+    ->options(Role::all()->lists('name', 'id'), (isset($user) ? $user->roles->lists('id') : [])) }}

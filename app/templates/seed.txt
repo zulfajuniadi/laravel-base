@@ -8,10 +8,10 @@ class $CLASS$ extends Seeder {
     $MODEL$::truncate();
 
 		$datas = [
-      [
-        'name' => 'example'
-      ]
-    ];
+            [
+                'name' => 'example'
+            ]
+        ];
 
 		foreach($datas as $data)
 		{
