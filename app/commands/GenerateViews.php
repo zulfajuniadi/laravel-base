@@ -37,10 +37,13 @@ class GenerateViews extends Command {
 
     private $argname;
     private $argfields;
-    private $argparams    = [];
-    private $noMigrations = false;
+    private $argparams   = [];
+    private $noMigration = false;
 
     public function fire() {
+        if ($this->argument('noMigration')) {
+            $this->noMigration = true;
+        }
         $this->call('migrate:reset');
         $this->call('dump-autoload');
         $this->getArgumentFields();
@@ -178,11 +181,13 @@ class GenerateViews extends Command {
         if (file_exists($this->role_seed_file) && $this->confirm('Role seed file Role'.$this->argparams['$SEED_FILE$'].' exists. Delete? [yes|no]')) {
             unlink($this->role_seed_file);
         }
-        $this->migration_dir = app_path('database/migrations');
-        $migration_files     = scandir($this->migration_dir);
-        foreach ($migration_files as $name) {
-            if (stristr($name, $this->argname) && $this->confirm('Migration file '.$name.' exists. Delete? [yes|no]')) {
-                unlink($this->migration_dir.'/'.$name);
+        if (!$this->noMigration) {
+            $this->migration_dir = app_path('database/migrations');
+            $migration_files     = scandir($this->migration_dir);
+            foreach ($migration_files as $name) {
+                if (stristr($name, $this->argname) && $this->confirm('Migration file '.$name.' exists. Delete? [yes|no]')) {
+                    unlink($this->migration_dir.'/'.$name);
+                }
             }
         }
     }
@@ -191,7 +196,9 @@ class GenerateViews extends Command {
         try {
             $this->call('generate:model', ['modelName' => $this->argparams['$MODEL$'], '--templatePath' => app_path('/templates/datatable-classes/model.txt')]);
             $this->call('generate:controller', ['controllerName' => $this->argparams['$CONTROLLER$'], '--templatePath' => app_path('/templates/datatable-classes/controller.txt')]);
-            $this->call('generate:migration', ['migrationName' => 'create_'.$this->argparams['$VIEWPATH$'].'_table', '--fields' => $this->genfields]);
+            if (!$this->noMigration) {
+                $this->call('generate:migration', ['migrationName' => 'create_'.$this->argparams['$VIEWPATH$'].'_table', '--fields' => $this->genfields]);
+            }
             $this->call('generate:seeder', ['tableName' => $this->argparams['$VIEWPATH$']]);
         } catch (Exception $e) {}
     }
@@ -247,6 +254,7 @@ class GenerateViews extends Command {
     protected function getArguments() {
         return array(
             array('name', InputArgument::REQUIRED, 'the name of the views in this format: leave_holidays (plural, lower case, uderscore separated)'),
+            array('noMigration', InputArgument::OPTIONAL, 'If true, will not generate migrations'),
         );
     }
 
