@@ -1,6 +1,0 @@
-<?php
-
-trait ReportableTrait
-{
-
-}
