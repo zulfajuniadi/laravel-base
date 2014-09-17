@@ -39,7 +39,7 @@ class AppReset extends Command {
 	{
 		$this->call('dump-autoload');
 		$this->call('cache:clear');
-		$this->call('migrate:refresh');
+		// $this->call('migrate:refresh');
 		$this->call('db:seed');
 		File::cleanDirectory(public_path() . '/uploads');
 		file_put_contents(public_path() . '/uploads/.gitignore' , "*\n!.gitignore");

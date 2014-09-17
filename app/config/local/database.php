@@ -18,7 +18,7 @@ return array(
 	|
 	*/
 
-	'default' => 'sqlite',
+	'default' => 'mysql',
 
 	'connections' => array(
 
@@ -31,7 +31,7 @@ return array(
 		'mysql' => array(
 			'driver'    => 'mysql',
 			'host'      => 'localhost',
-			'database'  => 'dev',
+			'database'  => 'laravel_base',
 			'username'  => 'root',
 			'password'  => '',
 			'charset'   => 'utf8',
