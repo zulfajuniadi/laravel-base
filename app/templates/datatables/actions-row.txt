@@ -1,7 +1,5 @@
 <?php $$RESOURCE$ = $MODEL$::find($id); ?>
-@if($$RESOURCE$->canShow())
-    <a href="{{ URL::route( '$VIEWPATH$.show', array($id)) }}" class="btn btn-default">View</a>
-@endif
+<a href="{{ URL::route( '$VIEWPATH$.show', array($id)) }}" class="btn btn-default">View</a>
 @if($$RESOURCE$->canUpdate())
     <a href="{{ URL::route( '$VIEWPATH$.edit', array($id)) }}" class="btn btn-default">Edit</a>
 @endif

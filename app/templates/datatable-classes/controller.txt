@@ -17,12 +17,12 @@ class $NAME$ extends \BaseController {
 		{
 			$users_under_me = Auth::user()->getAuthorizedUserids($MODEL$::$show_authorize_flag);
 			if(empty($users_under_me)) {
-				$$COLLECTION$ = $MODEL$::whereNotNull('$COLLECTION$.created_at');	
+				$$COLLECTION$ = $MODEL$::whereNotNull('$TABLE_NAME$.created_at');	
 			} else {
-				$$COLLECTION$ = $MODEL$::whereIn('$COLLECTION$.user_id', $users_under_me);	
+				$$COLLECTION$ = $MODEL$::whereIn('$TABLE_NAME$.user_id', $users_under_me);	
 			}
 			$$COLLECTION$ = $$COLLECTION$->select([
-				'$COLLECTION$.id',$CONTROLLER_COLUMNS$
+				'$TABLE_NAME$.id',$CONTROLLER_COLUMNS$
 			]);
 			return Datatables::of($$COLLECTION$)
         		->add_column('actions', '{{View::make("$COLLECTION$.actions-row", compact("id"))->render()}}')

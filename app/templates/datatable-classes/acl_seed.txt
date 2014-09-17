@@ -5,8 +5,6 @@ class Role$CLASS$ extends Seeder {
 	public function run()
 	{
 
-        $MODEL$::truncate();
-
         $roles = [
             [
             'name' => '$MODEL$ Admin'
@@ -16,28 +14,28 @@ class Role$CLASS$ extends Seeder {
         $permissions = [
             [
                 'name' => '$MODEL$:list',
-                'display_name' => 'List $MODEL$s',
-                'group_name' => '$MODEL$'
+                'display_name' => 'List $TITLE$s',
+                'group_name' => '$TITLE$'
             ],
             [
                 'name' => '$MODEL$:show',
-                'display_name' => 'Show $MODEL$',
-                'group_name' => '$MODEL$'
+                'display_name' => 'Show $TITLE$',
+                'group_name' => '$TITLE$'
             ],
             [
                 'name' => '$MODEL$:create',
-                'display_name' => 'Create New $MODEL$',
-                'group_name' => '$MODEL$'
+                'display_name' => 'Create New $TITLE$',
+                'group_name' => '$TITLE$'
             ],
             [
                 'name' => '$MODEL$:edit',
-                'display_name' => 'Edit Existing $MODEL$',
-                'group_name' => '$MODEL$'
+                'display_name' => 'Edit Existing $TITLE$',
+                'group_name' => '$TITLE$'
             ],
             [
                 'name' => '$MODEL$:delete',
-                'display_name' => 'Delete Existing $MODEL$',
-                'group_name' => '$MODEL$'
+                'display_name' => 'Delete Existing $TITLE$',
+                'group_name' => '$TITLE$'
             ]
         ];
         

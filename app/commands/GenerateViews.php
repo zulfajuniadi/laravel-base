@@ -18,7 +18,7 @@ class GenerateViews extends Command {
      *
      * @var string
      */
-    protected $description = 'Generate Datatable Views';
+    protected $description = 'Generate Datatable Views. Usage: generate:datatable --fields="Name:name:varchar, Is Done:is_done:boolean" todos true';
 
     /**
      * Create a new command instance.
@@ -38,13 +38,14 @@ class GenerateViews extends Command {
     private $argname;
     private $argfields;
     private $argparams   = [];
-    private $noMigration = false;
+    private $no_migration = false;
 
     public function fire() {
-        if ($this->argument('noMigration')) {
-            $this->noMigration = true;
+        if ($this->argument('no_migration')) {
+            $this->no_migration = true;
+        } else {
+            $this->call('migrate:reset');
         }
-        $this->call('migrate:reset');
         $this->call('dump-autoload');
         $this->getArgumentFields();
         $this->getGeneratorFields();
@@ -57,6 +58,7 @@ class GenerateViews extends Command {
         $this->makeViews();
         $this->updateController();
         $this->updateModel();
+        $this->updateRoleSeeds();
         $this->info("Update your DatabaseSeeder.php file to call the new seeds. Update your routes.php to reflect new routes");
     }
 
@@ -126,6 +128,7 @@ class GenerateViews extends Command {
          */
 
         $table_name                              = $this->argname;
+        $this->argparams['$TABLE_NAME$']          = $table_name;
         $this->argparams['$VIEWPATH$']           = $replaced_           = str_replace('_', '', $this->argname);
         $this->argparams['$RESOURCE$']           = str_singular($replaced_);
         $replaced_sp                             = str_replace('_', ' ', $this->argname);
@@ -181,7 +184,7 @@ class GenerateViews extends Command {
         if (file_exists($this->role_seed_file) && $this->confirm('Role seed file Role'.$this->argparams['$SEED_FILE$'].' exists. Delete? [yes|no]')) {
             unlink($this->role_seed_file);
         }
-        if (!$this->noMigration) {
+        if (!$this->no_migration) {
             $this->migration_dir = app_path('database/migrations');
             $migration_files     = scandir($this->migration_dir);
             foreach ($migration_files as $name) {
@@ -193,14 +196,12 @@ class GenerateViews extends Command {
     }
 
     private function callWayGenerators() {
-        try {
-            $this->call('generate:model', ['modelName' => $this->argparams['$MODEL$'], '--templatePath' => app_path('/templates/datatable-classes/model.txt')]);
-            $this->call('generate:controller', ['controllerName' => $this->argparams['$CONTROLLER$'], '--templatePath' => app_path('/templates/datatable-classes/controller.txt')]);
-            if (!$this->noMigration) {
-                $this->call('generate:migration', ['migrationName' => 'create_'.$this->argparams['$VIEWPATH$'].'_table', '--fields' => $this->genfields]);
-            }
-            $this->call('generate:seeder', ['tableName' => $this->argparams['$VIEWPATH$']]);
-        } catch (Exception $e) {}
+        $this->call('generate:seed', ['tableName' => $this->argparams['$TABLE_NAME$']]);
+        $this->call('generate:model', ['modelName' => $this->argparams['$MODEL$'], '--templatePath' => app_path('/templates/datatable-classes/model.txt')]);
+        $this->call('generate:controller', ['controllerName' => $this->argparams['$CONTROLLER$'], '--templatePath' => app_path('/templates/datatable-classes/controller.txt')]);
+        if (!$this->no_migration) {
+            $this->call('generate:migration', ['migrationName' => 'create_'.$this->argparams['$VIEWPATH$'].'_table', '--fields' => $this->genfields]);
+        }
     }
 
     private function makeViewFolder() {
@@ -246,6 +247,14 @@ class GenerateViews extends Command {
         file_put_contents($this->model_file, $model_contents);
     }
 
+    private function updateRoleSeeds() {
+        $role_seed_contents = file_get_contents($this->role_seed_file);
+        foreach ($this->argparams as $key => $value) {
+            $role_seed_contents = str_replace($key, $value, $role_seed_contents);
+        }
+        file_put_contents($this->role_seed_file, $role_seed_contents);
+    }
+
     /**
      * Get the console command arguments.
      *
@@ -254,7 +263,7 @@ class GenerateViews extends Command {
     protected function getArguments() {
         return array(
             array('name', InputArgument::REQUIRED, 'the name of the views in this format: leave_holidays (plural, lower case, uderscore separated)'),
-            array('noMigration', InputArgument::OPTIONAL, 'If true, will not generate migrations'),
+            array('no_migration', InputArgument::OPTIONAL, 'If true, will not generate migrations'),
         );
     }
 
