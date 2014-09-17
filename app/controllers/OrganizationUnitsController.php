@@ -16,7 +16,7 @@ class OrganizationUnitsController extends \BaseController
         if (Request::ajax()) {
             $organization_units = OrganizationUnit::select(['organization_units.id', 'organization_units.name', DB::raw('parent.name as pname'), 'users.username'])
                 ->leftJoin('users', 'organization_units.user_id', '=', 'users.id')
-                ->leftJoin(DB::raw('organization_units as "parent"'), 'organization_units.parent_id', '=', 'parent.id')
+                ->leftJoin(DB::raw('organization_units as parent'), 'organization_units.parent_id', '=', 'parent.id')
                 ->groupBy('organization_units.id');
             return Datatables::of($organization_units)
                 ->add_column('actions', '{{View::make("organizationunits.actions-row", compact("id"))->render()}}')
