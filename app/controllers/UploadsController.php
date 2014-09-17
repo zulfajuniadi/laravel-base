@@ -19,11 +19,12 @@ class UploadsController extends \BaseController {
         $data['path'] = public_path().'/uploads/'.$hash.'/';
         mkdir($data['path']);
         $data['url']             = url('uploads/'.$hash);
-        $data['name']            = $file->getClientOriginalName();
+        $data['name']            = preg_replace('/[^a-zA-Z0-9_.-]/', '_', $file->getClientOriginalName());
         $data['type']            = $file->getMimeType();
         $data['size']            = $file->getSize();
         $data['uploadable_type'] = Request::header('X-Uploader-Class');
-        $data['uploadable_id']   = Request::header('X-Uploader-Id');
+        $data['uploadable_id']   = (Request::header('X-Uploader-Id')) ? Request::header('X-Uploader-Id') : 0;
+        $data['token']           = Request::header('X-CSRF-Token');
         $file->move($data['path'], $data['name']);
         if (property_exists($data['uploadable_type'], 'generate_image_thumbnails')) {
             Queue::push('ThumbnailService', array('path' => $data['path'].'/'.$data['name']));

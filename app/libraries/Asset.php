@@ -19,7 +19,6 @@ class Asset
 
   public static function tags($type)
   {
-    \Log::info(self::$queued[$type]);
     $returnString = '';
     foreach (self::$queued[$type] as $path) {
       if($type === 'js')
