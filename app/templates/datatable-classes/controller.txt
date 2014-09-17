@@ -9,17 +9,17 @@ class $NAME$ extends \BaseController {
 	 */
 	public function index()
 	{
-		if(!$MODEL$::canList())
+		if(!$MODEL2$::canList())
 		{
 			return $this->_access_denied();
 		}
 		if(Request::ajax())
 		{
-			$users_under_me = Auth::user()->getAuthorizedUserids($MODEL$::$show_authorize_flag);
+			$users_under_me = Auth::user()->getAuthorizedUserids($MODEL2$::$show_authorize_flag);
 			if(empty($users_under_me)) {
-				$$COLLECTION$ = $MODEL$::whereNotNull('$TABLE_NAME$.created_at');	
+				$$COLLECTION$ = $MODEL2$::whereNotNull('$TABLE_NAME$.created_at');	
 			} else {
-				$$COLLECTION$ = $MODEL$::whereIn('$TABLE_NAME$.user_id', $users_under_me);	
+				$$COLLECTION$ = $MODEL2$::whereIn('$TABLE_NAME$.user_id', $users_under_me);	
 			}
 			$$COLLECTION$ = $$COLLECTION$->select([
 				'$TABLE_NAME$.id',$CONTROLLER_COLUMNS$
@@ -45,7 +45,7 @@ class $NAME$ extends \BaseController {
 		{
 			return $this->_ajax_denied();
 		}
-		if(!$MODEL$::canCreate())
+		if(!$MODEL2$::canCreate())
 		{
 			return $this->_access_denied();
 		}
@@ -60,8 +60,8 @@ class $NAME$ extends \BaseController {
 	public function store()
 	{
 		$data = Input::all();
-		$MODEL$::setRules('store');
-		if(!$MODEL$::canCreate())
+		$MODEL2$::setRules('store');
+		if(!$MODEL2$::canCreate())
 		{
 			return $this->_access_denied();
 		}
@@ -87,7 +87,7 @@ class $NAME$ extends \BaseController {
 	 */
 	public function show($id)
 	{
-		$$RESOURCE$ = $MODEL$::findOrFail($id);
+		$$RESOURCE$ = $MODEL2$::findOrFail($id);
 		if(!$$RESOURCE$->canShow())
 		{
 			return $this->_access_denied();
@@ -108,7 +108,7 @@ class $NAME$ extends \BaseController {
 	 */
 	public function edit($id)
 	{
-		$$RESOURCE$ = $MODEL$::findOrFail($id);
+		$$RESOURCE$ = $MODEL2$::findOrFail($id);
 		if(Request::ajax())
 		{
 			return $this->_ajax_denied();
@@ -128,8 +128,8 @@ class $NAME$ extends \BaseController {
 	 */
 	public function update($id)
 	{
-		$$RESOURCE$ = $MODEL$::findOrFail($id);
-		$MODEL$::setRules('update');
+		$$RESOURCE$ = $MODEL2$::findOrFail($id);
+		$MODEL2$::setRules('update');
 		$data = Input::all();
 		if(!$$RESOURCE$->canUpdate())
 		{
@@ -155,7 +155,7 @@ class $NAME$ extends \BaseController {
 	 */
 	public function destroy($id)
 	{
-		$$RESOURCE$ = $MODEL$::findOrFail($id);
+		$$RESOURCE$ = $MODEL2$::findOrFail($id);
 		if(!$$RESOURCE$->canDelete())
 		{
 			return $this->_access_denied();

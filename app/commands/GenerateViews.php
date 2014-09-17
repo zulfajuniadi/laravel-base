@@ -128,16 +128,17 @@ class GenerateViews extends Command {
          */
 
         $table_name                              = $this->argname;
-        $this->argparams['$TABLE_NAME$']          = $table_name;
+        $this->argparams['$TABLE_NAME$']         = $table_name;
         $this->argparams['$VIEWPATH$']           = $replaced_           = str_replace('_', '', $this->argname);
         $this->argparams['$RESOURCE$']           = str_singular($replaced_);
         $replaced_sp                             = str_replace('_', ' ', $this->argname);
-        $this->argparams['$TITLES$']             = $ucwords             = ucwords($replaced_sp);
+        $this->argparams['$TITLES$']             = $title_case             = ucwords($replaced_sp);
         $this->argparams['$SEED_FILE$']          = str_replace(' ', '', $this->argparams['$TITLES$']).'TableSeeder.php';
         $this->argparams['$CONTROLLER$']         = str_replace(' ', '', $this->argparams['$TITLES$']).'Controller';
         $this->argparams['$CONTROLLER_FILE$']    = str_replace(' ', '', $this->argparams['$CONTROLLER$']).'.php';
-        $this->argparams['$TITLE$']              = $titsing              = str_singular($ucwords);
-        $this->argparams['$MODEL$']              = str_replace(' ', '', $titsing);
+        $this->argparams['$TITLE$']              = $title_string              = str_singular($title_case);
+        $this->argparams['$MODEL$']              = str_replace(' ', '', $title_string);
+        $this->argparams['$MODEL2$']              = $this->argparams['$MODEL$']; // used for controller generation, clashing with way\generators
         $this->argparams['$MODEL_FILE$']         = str_replace(' ', '', $this->argparams['$MODEL$']).'.php';
         $this->argparams['$FORM$']               = "\n";
         $this->argparams['$CONTROLLER_COLUMNS$'] = "\n";
