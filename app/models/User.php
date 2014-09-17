@@ -45,6 +45,7 @@ class User extends ConfideUser implements UserInterface, RemindableInterface {
         'email',
         'password',
         'password_confirmation',
+        'organization_unit_id',
         'confirmation_code',
         'confirmed'
     ];
@@ -90,7 +91,7 @@ class User extends ConfideUser implements UserInterface, RemindableInterface {
     protected $hidden = array('password', 'remember_token');
 
     public function organizationunit() {
-        return $this->belongsTo('OrganizationUnit', 'organizationunit_id');
+        return $this->belongsTo('OrganizationUnit', 'organization_unit_id');
     }
 
     public function getAuthorizedUserids($authorization_flag) {
@@ -111,7 +112,7 @@ class User extends ConfideUser implements UserInterface, RemindableInterface {
                     $result = $user->organizationunit->users->lists('id');
                 }
                 if ($authorization_flag == 3) {
-                    $result = User::whereIn('organizationunit_id', $user->organizationunit->descendantsAndSelf()->get()->lists('id'))->lists('id');
+                    $result = User::whereIn('organization_unit_id', $user->organizationunit->descendantsAndSelf()->get()->lists('id'))->lists('id');
                 }
             }
             return $result;
