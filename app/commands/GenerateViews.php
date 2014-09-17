@@ -180,7 +180,7 @@ class GenerateViews extends Command {
         if (file_exists($this->seed_file) && $this->confirm('Seed file '.$this->argparams['$SEED_FILE$'].' exists. Delete? [yes|no]')) {
             unlink($this->seed_file);
         }
-        $this->role_seed_file = app_path('database/seeds').'/Role'.$this->argparams['$SEED_FILE$'];
+        $this->role_seed_file = app_path('database/seeds').'/roles/Role'.$this->argparams['$SEED_FILE$'];
         if (file_exists($this->role_seed_file) && $this->confirm('Role seed file Role'.$this->argparams['$SEED_FILE$'].' exists. Delete? [yes|no]')) {
             unlink($this->role_seed_file);
         }
