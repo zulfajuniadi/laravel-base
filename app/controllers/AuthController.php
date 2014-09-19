@@ -44,6 +44,8 @@ class AuthController extends BaseController
         // auto validation.
         $user->password_confirmation = Input::get('password_confirmation');
 
+        User::setRules('store');
+
         // Save if valid. Password field will be hashed before save
         $user->save();
 
@@ -157,7 +159,7 @@ class AuthController extends BaseController
                 ->with('notice', $notice_msg);
         } else {
             $error_msg = Lang::get('confide::confide.alerts.wrong_password_forgot');
-            return Redirect::action('AuthController@forgot_password')
+            return Redirect::action('AuthController@forgotPassword')
                 ->withInput()
                 ->with('error', $error_msg);
         }
@@ -185,6 +187,8 @@ class AuthController extends BaseController
             'password_confirmation' => Input::get('password_confirmation'),
         );
 
+        User::setRules('resetPassword');
+
         // By passing an array with the token, password and confirmation
         if (Confide::resetPassword($input)) {
             $notice_msg = Lang::get('confide::confide.alerts.password_reset');
@@ -192,7 +196,7 @@ class AuthController extends BaseController
                 ->with('notice', $notice_msg);
         } else {
             $error_msg = Lang::get('confide::confide.alerts.wrong_password_reset');
-            return Redirect::action('AuthController@reset_password', array('token' => $input['token']))
+            return Redirect::action('AuthController@resetPassword', array('token' => $input['token']))
                 ->withInput()
                 ->with('error', $error_msg);
         }
