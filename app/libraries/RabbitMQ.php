@@ -26,7 +26,5 @@ class RabbitMQ
 
     public function __construct()
     {
-        Route::post('/_rabbit', function(){
-        });
     }
 }
