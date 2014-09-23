@@ -163,10 +163,6 @@ class User extends ConfideUser implements UserInterface, RemindableInterface {
      * Decorators
      */
 
-    public function getConfirmedAttribute($value) {
-        return ($value)?'Active':'Not Confirmed';
-    }
-
     /**
      * Boot
      */
