@@ -86,53 +86,53 @@ return array(
             new Codesleeve\AssetPipeline\Filters\URLRewrite(App::make('url')->to('/')),
         ),
         '.js' => array(
-            new EnvironmentFilter(new Codesleeve\AssetPipeline\Filters\JSMinPlusFilter, App::environment()),
+            // new EnvironmentFilter(new Codesleeve\AssetPipeline\Filters\JSMinPlusFilter, App::environment()),
         ),
         '.js.coffee' => array(
             new Codesleeve\AssetPipeline\Filters\CoffeeScript,
-            new EnvironmentFilter(new Codesleeve\AssetPipeline\Filters\JSMinPlusFilter, App::environment()),
+            // new EnvironmentFilter(new Codesleeve\AssetPipeline\Filters\JSMinPlusFilter, App::environment()),
         ),
         '.coffee' => array(
             new Codesleeve\AssetPipeline\Filters\CoffeeScript,
-            new EnvironmentFilter(new Codesleeve\AssetPipeline\Filters\JSMinPlusFilter, App::environment()),
+            // new EnvironmentFilter(new Codesleeve\AssetPipeline\Filters\JSMinPlusFilter, App::environment()),
         ),
         '.css' => array(
             new Codesleeve\AssetPipeline\Filters\URLRewrite(App::make('url')->to('/')),
-            new EnvironmentFilter(new Codesleeve\AssetPipeline\Filters\CssMinFilter, App::environment()),
+            // new EnvironmentFilter(new Codesleeve\AssetPipeline\Filters\CssMinFilter, App::environment()),
         ),
         '.css.less' => array(
             new Codesleeve\AssetPipeline\Filters\LessphpFilter,
             new Codesleeve\AssetPipeline\Filters\URLRewrite(App::make('url')->to('/')),
-            new EnvironmentFilter(new Codesleeve\AssetPipeline\Filters\CssMinFilter, App::environment()),
+            // new EnvironmentFilter(new Codesleeve\AssetPipeline\Filters\CssMinFilter, App::environment()),
         ),
         '.css.sass' => array(
             new Codesleeve\AssetPipeline\Filters\SassFilter,
             new Codesleeve\AssetPipeline\Filters\URLRewrite(App::make('url')->to('/')),
-            new EnvironmentFilter(new Codesleeve\AssetPipeline\Filters\CssMinFilter, App::environment()),
+            // new EnvironmentFilter(new Codesleeve\AssetPipeline\Filters\CssMinFilter, App::environment()),
         ),
         '.css.scss' => array(
             new Assetic\Filter\ScssphpFilter,
             new Codesleeve\AssetPipeline\Filters\URLRewrite(App::make('url')->to('/')),
-            new EnvironmentFilter(new Codesleeve\AssetPipeline\Filters\CssMinFilter, App::environment()),
+            // new EnvironmentFilter(new Codesleeve\AssetPipeline\Filters\CssMinFilter, App::environment()),
         ),
         '.less' => array(
             new Codesleeve\AssetPipeline\Filters\LessphpFilter,
             new Codesleeve\AssetPipeline\Filters\URLRewrite(App::make('url')->to('/')),
-            new EnvironmentFilter(new Codesleeve\AssetPipeline\Filters\CssMinFilter, App::environment()),
+            // new EnvironmentFilter(new Codesleeve\AssetPipeline\Filters\CssMinFilter, App::environment()),
         ),
         '.sass' => array(
             new Codesleeve\AssetPipeline\Filters\SassFilter,
             new Codesleeve\AssetPipeline\Filters\URLRewrite(App::make('url')->to('/')),
-            new EnvironmentFilter(new Codesleeve\AssetPipeline\Filters\CssMinFilter, App::environment()),
+            // new EnvironmentFilter(new Codesleeve\AssetPipeline\Filters\CssMinFilter, App::environment()),
         ),
         '.scss' => array(
             new Assetic\Filter\ScssphpFilter,
             new Codesleeve\AssetPipeline\Filters\URLRewrite(App::make('url')->to('/')),
-            new EnvironmentFilter(new Codesleeve\AssetPipeline\Filters\CssMinFilter, App::environment()),
+            // new EnvironmentFilter(new Codesleeve\AssetPipeline\Filters\CssMinFilter, App::environment()),
         ),
         '.html' => array(
             new Codesleeve\AssetPipeline\Filters\JST,
-            new EnvironmentFilter(new Codesleeve\AssetPipeline\Filters\JSMinPlusFilter, App::environment()),
+            // new EnvironmentFilter(new Codesleeve\AssetPipeline\Filters\JSMinPlusFilter, App::environment()),
         )
     ),
 

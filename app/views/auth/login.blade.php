@@ -23,11 +23,11 @@
             </label>
         </div>
         @if ( Session::get('error') )
-            <div class="alert alert-error">{{{ Session::get('error') }}}</div>
+            <div class="alert alert-danger">{{{ Session::get('error') }}}</div>
         @endif
 
         @if ( Session::get('notice') )
-            <div class="alert">{{{ Session::get('notice') }}}</div>
+            <div class="alert alert-info">{{{ Session::get('notice') }}}</div>
         @endif
         <div class="form-group">
             <button tabindex="3" type="submit" class="btn btn-default">{{{ Lang::get('confide::confide.login.submit') }}}</button>

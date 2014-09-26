@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     @yield('meta')
     <title>App Name</title>
-    {{Asset::tags('css')}}
+    <link rel="stylesheet" href="/assets/login.less">
     @yield('styles')
 </head>
 <body>
@@ -12,7 +12,6 @@
         <br>
         @include('partials.notification')
         @yield('content')
-        {{Asset::tags('js')}}
         @yield('scripts')
     </div>
 </body>

@@ -1,5 +1,5 @@
 /**
- *= require bootstrap/dist/css/bootstrap
+ *= require bootswatch
  *= require datatables/media/css/jquery.dataTables
  *= require datatables-bootstrap/dist/dataTables.bootstrap
  *= require dropzone/downloads/css/dropzone
@@ -11,6 +11,13 @@
 }
 
 .dataTables_wrapper .dataTables_paginate .paginate_button {
+  &:active, &:hover {
+    color: #FFF !important;
+    border: 1px solid #FFF;
+    background: none;
+    background-color: transparent;
+    box-shadow: none;
+  }
   padding: 0px;
 }
 
@@ -39,12 +46,4 @@
 
 .permission-matrix .col-sm-3 {
   margin-bottom: 4px;
-}
-
-.dataTables_wrapper .dataTables_paginate .paginate_button:hover, .dataTables_wrapper .dataTables_paginate .paginate_button:active {
-  color: #FFF !important;
-  border: 1px solid #FFF;
-  background: none;
-  background-color: transparent;
-  box-shadow: none;
 }

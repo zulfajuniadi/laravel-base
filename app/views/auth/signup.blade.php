@@ -23,7 +23,7 @@
         </div>
 
         @if ( Session::get('error') )
-            <div class="alert alert-error alert-danger">
+            <div class="alert alert-danger">
                 @if ( is_array(Session::get('error')) )
                     {{ head(Session::get('error')) }}
                 @endif
@@ -31,7 +31,7 @@
         @endif
 
         @if ( Session::get('notice') )
-            <div class="alert">{{ Session::get('notice') }}</div>
+            <div class="alert alert-info">{{ Session::get('notice') }}</div>
         @endif
 
         <div class="form-actions form-group">

@@ -16,11 +16,11 @@
     </div>
 
     @if ( Session::get('error') )
-        <div class="alert alert-error alert-danger">{{{ Session::get('error') }}}</div>
+        <div class="alert alert-danger">{{{ Session::get('error') }}}</div>
     @endif
 
     @if ( Session::get('notice') )
-        <div class="alert">{{{ Session::get('notice') }}}</div>
+        <div class="alert alert-info">{{{ Session::get('notice') }}}</div>
     @endif
 
     <div class="form-actions form-group">
