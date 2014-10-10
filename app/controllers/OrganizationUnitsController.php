@@ -19,7 +19,16 @@ class OrganizationUnitsController extends \BaseController
                 ->leftJoin(DB::raw('organization_units as parent'), 'organization_units.parent_id', '=', 'parent.id')
                 ->groupBy('organization_units.id');
             return Datatables::of($organization_units)
-                ->add_column('actions', '{{View::make("organizationunits.actions-row", compact("id"))->render()}}')
+                ->add_column('actions', function($data){
+                    $actions   = [];
+                    $actions[] = $data->canShow() ? link_to_action('organizationunits.show', 'Show', $data->id, ['class' => 'btn btn-primary'] ) : '';
+                    $actions[] = $data->canUpdate() ? link_to_action('organizationunits.update', 'Update', $data->id, ['class' => 'btn btn-default'] ) : '';
+                    $actions[] = $data->canDelete() ? Former::open(action('organizationunits.destroy', $data->id))->class('form-inline') 
+                        . Former::hidden('_method', 'DELETE')
+                        . '<button type="button" class="btn btn-danger confirm-delete">Delete</button>'
+                        . Former::close() : '';
+                    return implode(' ', $actions);
+                })
                 ->remove_column('id')
                 ->make();
         }

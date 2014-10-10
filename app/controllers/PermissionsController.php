@@ -16,7 +16,16 @@ class PermissionsController extends \BaseController
         if (Request::ajax()) {
             $permissions = Permission::select(['id', 'group_name', 'name', 'display_name']);
             return Datatables::of($permissions)
-                ->add_column('actions', '{{View::make("permissions.actions-row", compact("id"))->render()}}')
+                ->add_column('actions', function($data){
+                    $actions   = [];
+                    $actions[] = $data->canShow() ? link_to_action('permissions.show', 'Show', $data->id, ['class' => 'btn btn-primary'] ) : '';
+                    $actions[] = $data->canUpdate() ? link_to_action('permissions.update', 'Update', $data->id, ['class' => 'btn btn-default'] ) : '';
+                    $actions[] = $data->canDelete() ? Former::open(action('permissions.destroy', $data->id))->class('form-inline') 
+                        . Former::hidden('_method', 'DELETE')
+                        . '<button type="button" class="btn btn-danger confirm-delete">Delete</button>'
+                        . Former::close() : '';
+                    return implode(' ', $actions);
+                })
                 ->remove_column('id')
                 ->make();
         }

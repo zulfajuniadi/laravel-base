@@ -19,7 +19,16 @@ class RolesController extends \BaseController
                 ->leftJoin('permissions', 'permissions.id', '=', 'permission_role.permission_id')
                 ->groupBy('roles.id');
             return Datatables::of($roles)
-                ->add_column('actions', '{{View::make("roles.actions-row", compact("id"))->render()}}')
+                ->add_column('actions', function($data){
+                    $actions   = [];
+                    $actions[] = $data->canShow() ? link_to_action('roles.show', 'Show', $data->id, ['class' => 'btn btn-primary'] ) : '';
+                    $actions[] = $data->canUpdate() ? link_to_action('roles.update', 'Update', $data->id, ['class' => 'btn btn-default'] ) : '';
+                    $actions[] = $data->canDelete() ? Former::open(action('roles.destroy', $data->id))->class('form-inline') 
+                        . Former::hidden('_method', 'DELETE')
+                        . '<button type="button" class="btn btn-danger confirm-delete">Delete</button>'
+                        . Former::close() : '';
+                    return implode(' ', $actions);
+                })
                 ->remove_column('id')
                 ->make();
         }

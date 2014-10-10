@@ -25,7 +25,16 @@ class $NAME$ extends \BaseController {
 				'$TABLE_NAME$.id',$CONTROLLER_COLUMNS$
 			]);
 			return Datatables::of($$COLLECTION$)
-        		->add_column('actions', '{{View::make("$COLLECTION$.actions-row", compact("id"))->render()}}')
+                ->add_column('actions', function($data){
+                    $actions   = [];
+                    $actions[] = $data->canShow() ? link_to_action('$COLLECTION$.show', 'Show', $data->id, ['class' => 'btn btn-primary'] ) : '';
+                    $actions[] = $data->canUpdate() ? link_to_action('$COLLECTION$.update', 'Update', $data->id, ['class' => 'btn btn-default'] ) : '';
+                    $actions[] = $data->canDelete() ? Former::open(action('$COLLECTION$.destroy', $data->id))->class('form-inline') 
+                        . Former::hidden('_method', 'DELETE')
+                        . '<button type="button" class="btn btn-danger confirm-delete">Delete</button>'
+                        . Former::close() : '';
+                    return implode(' ', $actions);
+                })
 				->remove_column('id')
 				->make();
 			return Datatables::of($$COLLECTION$)->make();

@@ -31,7 +31,16 @@ class UsersController extends \BaseController
                 ->leftJoin('organization_units', 'organization_units.id', '=', 'users.organization_unit_id')
                 ->groupBy('users.id');
             return Datatables::of($users)
-                ->add_column('actions', '{{View::make("users.actions-row", compact("id", "confirmed"))->render()}}')
+                ->add_column('actions', function($data){
+                    $actions   = [];
+                    $actions[] = $data->canShow() ? link_to_action('users.show', 'Show', $data->id, ['class' => 'btn btn-primary'] ) : '';
+                    $actions[] = $data->canUpdate() ? link_to_action('users.update', 'Update', $data->id, ['class' => 'btn btn-default'] ) : '';
+                    $actions[] = $data->canDelete() ? Former::open(action('users.destroy', $data->id))->class('form-inline') 
+                        . Former::hidden('_method', 'DELETE')
+                        . '<button type="button" class="btn btn-danger confirm-delete">Delete</button>'
+                        . Former::close() : '';
+                    return implode(' ', $actions);
+                })
                 ->remove_column('id')
                 ->make();
             return Datatables::of($users)->make();
