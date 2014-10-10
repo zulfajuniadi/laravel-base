@@ -21,9 +21,10 @@
  */
 @__basepath__: '';
 .define(@var) {
-    .foo() when (@var = public) {
+    .foo() when (@var = 'public') {
         @__basepath__: '../';
     }
+    .foo()
 }
 .define(@__basename__);
 @import '@{__basepath__}provider/packages/bootstrap/less/bootstrap.less';
