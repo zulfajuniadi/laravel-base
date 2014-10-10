@@ -15,8 +15,19 @@
 // @bootswatch_theme: 'united';
 // @bootswatch_theme: 'yeti';
 
-@import '../provider/packages/bootstrap/less/bootstrap.less';
-@import '../provider/packages/bootswatch/@{bootswatch_theme}/variables.less';
-@import '../provider/packages/bootswatch/@{bootswatch_theme}/bootswatch.less';
+
+/**
+ * Fix basepath when laravel is running from artisan:serve
+ */
+@__basepath__: '';
+.define(@var) {
+    .foo() when (@var = public) {
+        @__basepath__: '../';
+    }
+}
+.define(@__basename__);
+@import '@{__basepath__}provider/packages/bootstrap/less/bootstrap.less';
+@import '@{__basepath__}provider/packages/bootswatch/@{bootswatch_theme}/variables.less';
+@import '@{__basepath__}provider/packages/bootswatch/@{bootswatch_theme}/bootswatch.less';
 
 // @font-size-h2: 80px;
