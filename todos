@@ -1,17 +1,7 @@
 pending
+Change the way that table actions is shown
+Footer Actions ACL bug
 
 doing
-GraphableTrait
-ReportableTrait
 
 done
-profile page
-user change password
-artisan command to create views
-migrate to ardent models
-datatables role seeder
-assetpipeline
-hasUpload trait
-image manipulation
-migrate 4 controllers and model to new format
-reindent controller so that PSR compatible
