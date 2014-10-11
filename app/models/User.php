@@ -82,6 +82,11 @@ class User extends ConfideUser implements UserInterface, RemindableInterface {
         'changePassword' => [
             'password'              => 'required|min:4|confirmed',
             'password_confirmation' => 'min:4'
+        ],
+        'emailResetPassword' => [
+            'token'                 => 'required',
+            'password'              => 'required|min:4|confirmed',
+            'password_confirmation' => 'min:4'
         ]
     ];
 
