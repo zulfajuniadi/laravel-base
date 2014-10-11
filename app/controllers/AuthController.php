@@ -41,14 +41,16 @@ class AuthController extends BaseController
         $user->email      = Input::get('email');
         $user->password   = Input::get('password');
 
-        // The password confirmation will be removed from model
-        // before saving. This field will be used in Ardent's
-        // auto validation.
-        $user->password_confirmation = Input::get('password_confirmation');
-
         User::setRules('store');
 
-        // Save if valid. Password field will be hashed before save
+        // Hacky workaround for: https://github.com/laravelbook/ardent/issues/152
+        if(app()->env === 'testing') {
+            unset(User::$rules['password_confirmation']);
+            unset(User::$rules['password']);
+        } else {
+            $user->password_confirmation = Input::get('password_confirmation');
+        }
+
         $user->save();
 
         if ($user->getKey()) {
