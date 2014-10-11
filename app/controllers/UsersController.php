@@ -21,19 +21,28 @@ class UsersController extends \BaseController
         if (Request::ajax()) {
             $users_under_me = Auth::user()->getAuthorizedUserids(User::$show_authorize_flag);
             if (empty($users_under_me)) {
-                $users = User::whereNotNull('users.created_at');
+                $users = User::with('organizationunit', 'roles')->whereNotNull('users.created_at');
             } else {
-                $users = User::whereIn('users.user_id', $users_under_me);
+                $users = User::with('organizationunit', 'roles')->whereIn('users.user_id', $users_under_me);
             }
             $users = $users
-                ->select(['users.id', 'users.username', 'organization_units.name', DB::raw('count(assigned_roles.id)'), 'users.confirmed'])
-                ->leftJoin('assigned_roles', 'assigned_roles.user_id', '=', 'users.id')
-                ->leftJoin('organization_units', 'organization_units.id', '=', 'users.organization_unit_id')
-                ->groupBy('users.id');
+                ->select(['users.id', 'users.last_name', 'organization_unit_id', 'users.id as roles_column', 'users.confirmed', 'users.id as actions', 'users.first_name']);
             return Datatables::of($users)
-                ->add_column('actions', function($data){
+                ->edit_column('last_name', function($user){
+                    return ($user->first_name . ' ' . $user->last_name);
+                })
+                ->edit_column('organization_unit_id', function($user){
+                    return $user->organizationunit->name;
+                })
+                ->edit_column('roles_column', function($user){
+                    return '<ul>' . implode('', array_map(function($name){ return '<li>' . $name . '</li>'; }, $user->roles->lists('name'))) . '</ul>';
+                })
+                ->edit_column('confirmed', function($user){
+                    return $user->status();
+                })
+                ->edit_column('actions', function($data){
                     $actions   = [];
-                    $actions[] = $data->canShow() ? link_to_action('users.show', 'Show', $data->id, ['class' => 'btn btn-primary'] ) : '';
+                    $actions[] = $data->canShow()   ? link_to_action('users.show', 'Show', $data->id, ['class' => 'btn btn-primary'] ) : '';
                     $actions[] = $data->canUpdate() ? link_to_action('users.update', 'Update', $data->id, ['class' => 'btn btn-default'] ) : '';
                     $actions[] = $data->canDelete() ? Former::open(action('users.destroy', $data->id))->class('form-inline') 
                         . Former::hidden('_method', 'DELETE')
@@ -43,7 +52,6 @@ class UsersController extends \BaseController
                 })
                 ->remove_column('id')
                 ->make();
-            return Datatables::of($users)->make();
         }
         Asset::push('js', 'datatables');
         return View::make('users.index');

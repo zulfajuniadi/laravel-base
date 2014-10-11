@@ -5,6 +5,10 @@
 
     <table class="table table-striped table-bordered">
         <tr>
+            <th width="200px" class="text-right">First Name :</th>
+            <td>{{$user->first_name}} {{$user->last_name}}</td>
+        </tr>
+        <tr>
             <th width="200px" class="text-right">Username :</th>
             <td>{{$user->username}}</td>
         </tr>
@@ -14,7 +18,7 @@
         </tr>
         <tr>
             <th width="200px" class="text-right">Status :</th>
-            <td>{{$user->confirmed}}</td>
+            <td>{{$user->status()}}</td>
         </tr>
         <tr>
             <th width="200px" class="text-right">Organization Unit :</th>
@@ -22,7 +26,7 @@
         </tr>
         <tr>
             <th width="200px" class="text-right">Immediate Superior :</th>
-            <td>{{$user->organizationunit->user->username}}</td>
+            <td>{{$user->organizationunit->user->first_name}} {{$user->organizationunit->user->last_name}}</td>
         </tr>
         <tr>
             <th width="200px" class="text-right">Roles :</th>

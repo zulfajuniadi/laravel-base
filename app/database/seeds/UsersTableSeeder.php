@@ -10,6 +10,8 @@ class UsersTableSeeder extends Seeder
 
         $datas = [
             [
+                'first_name'            => 'System',
+                'last_name'             => 'Administrator',
                 'username'              => 'admin',
                 'email'                 => 'admin@example.com',
                 'password'              => 'admin',
@@ -18,6 +20,8 @@ class UsersTableSeeder extends Seeder
                 'confirmed'             => 1,
             ],
             [
+                'first_name'            => 'System',
+                'last_name'             => 'User',
                 'username'              => 'user',
                 'email'                 => 'user@example.com',
                 'password'              => 'user',
@@ -34,7 +38,8 @@ class UsersTableSeeder extends Seeder
 
         foreach ($datas as $data) {
             $user = User::create($data);
-            $user->roles()->sync($roles[$user->id]);
+            if(isset($roles[$user->id]))
+                $user->roles()->sync($roles[$user->id]);
         }
     }
 

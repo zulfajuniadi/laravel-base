@@ -14,20 +14,25 @@ class OrganizationUnitsController extends \BaseController
             return $this->_access_denied();
         }
         if (Request::ajax()) {
-            $organization_units = OrganizationUnit::select(['organization_units.id', 'organization_units.name', DB::raw('parent.name as pname'), 'users.username'])
-                ->leftJoin('users', 'organization_units.user_id', '=', 'users.id')
-                ->leftJoin(DB::raw('organization_units as parent'), 'organization_units.parent_id', '=', 'parent.id')
-                ->groupBy('organization_units.id');
+            $organization_units = OrganizationUnit::with('user', 'users')
+                ->select(['organization_units.id', 'organization_units.name', 'parent.name as parent_name', 'organization_units.user_id', 'organization_units.id as user_count', 'organization_units.id as actions'])
+                ->leftJoin('organization_units as parent', 'organization_units.parent_id', '=', 'parent.id');
             return Datatables::of($organization_units)
-                ->add_column('actions', function($data){
+                ->edit_column('actions', function($organization_unit){
                     $actions   = [];
-                    $actions[] = $data->canShow() ? link_to_action('organizationunits.show', 'Show', $data->id, ['class' => 'btn btn-primary'] ) : '';
-                    $actions[] = $data->canUpdate() ? link_to_action('organizationunits.update', 'Update', $data->id, ['class' => 'btn btn-default'] ) : '';
-                    $actions[] = $data->canDelete() ? Former::open(action('organizationunits.destroy', $data->id))->class('form-inline') 
+                    $actions[] = $organization_unit->canShow() ? link_to_action('organizationunits.show', 'Show', $organization_unit->id, ['class' => 'btn btn-primary'] ) : '';
+                    $actions[] = $organization_unit->canUpdate() ? link_to_action('organizationunits.update', 'Update', $organization_unit->id, ['class' => 'btn btn-default'] ) : '';
+                    $actions[] = $organization_unit->canDelete() ? Former::open(action('organizationunits.destroy', $organization_unit->id))->class('form-inline') 
                         . Former::hidden('_method', 'DELETE')
                         . '<button type="button" class="btn btn-danger confirm-delete">Delete</button>'
                         . Former::close() : '';
                     return implode(' ', $actions);
+                })
+                ->edit_column('user_count', function($organization_unit){
+                    return $organization_unit->users->count();
+                })
+                ->edit_column('user_id', function($organization_unit){
+                    return $organization_unit->user->first_name . ' ' . $organization_unit->user->last_name;
                 })
                 ->remove_column('id')
                 ->make();

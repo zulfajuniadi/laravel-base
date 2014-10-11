@@ -35,9 +35,11 @@ class AuthController extends BaseController
     {
         $user = new User;
 
-        $user->username = Input::get('username');
-        $user->email    = Input::get('email');
-        $user->password = Input::get('password');
+        $user->first_name = Input::get('first_name');
+        $user->last_name  = Input::get('last_name');
+        $user->username   = Input::get('username');
+        $user->email      = Input::get('email');
+        $user->password   = Input::get('password');
 
         // The password confirmation will be removed from model
         // before saving. This field will be used in Ardent's

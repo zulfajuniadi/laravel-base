@@ -1,6 +1,6 @@
 @extends('layouts.default')
 @section('content')
-    <h2>Set {{$user->username}}'s Password</h2>
+    <h2>Set {{$user->first_name}} {{$user->last_name}}'s Password</h2>
     <hr>
     {{ Former::open(action('UsersController@putSetPassword', $user->id)) }}
         {{Former::hidden('_method', 'PUT')}}

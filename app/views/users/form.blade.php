@@ -1,4 +1,8 @@
-{{Former::text('username')
+{{Former::text('first_name')
+    ->label('First Name')
+    ->required()}}
+{{Former::text('last_name')
+    ->label('Last Name')
     ->required()}}
 {{Former::email('email')
     ->required()}}

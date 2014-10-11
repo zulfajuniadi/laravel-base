@@ -41,6 +41,8 @@ class User extends ConfideUser implements UserInterface, RemindableInterface {
     protected $table = 'users';
 
     protected $fillable = [
+        'first_name',
+        'last_name',
         'username',
         'email',
         'password',
@@ -55,14 +57,20 @@ class User extends ConfideUser implements UserInterface, RemindableInterface {
      */
     static $_rules = [
         'store' => [
+            'first_name'            => 'required',
+            'last_name'             => 'required',
+            'username'              => 'required|alpha_dash|unique:users,username',
             'username'              => 'required|alpha_dash|unique:users,username',
             'email'                 => 'required|email|unique:users,email',
             'password'              => 'required|min:4|confirmed',
             'password_confirmation' => 'min:4',
         ],
         'update' => [
-            'username' => 'required|alpha_dash|unique:users,username',
-            'email'    => 'required|email|unique:users,email',
+            'first_name' => 'required',
+            'last_name'  => 'required',
+            'username'   => 'required|alpha_dash|unique:users,username',
+            'username'   => 'required|alpha_dash|unique:users,username',
+            'email'      => 'required|email|unique:users,email',
         ],
         'setPassword' => [
             'password'              => 'required|min:4|confirmed',
@@ -157,6 +165,19 @@ class User extends ConfideUser implements UserInterface, RemindableInterface {
 
     public function canSetConfirmation() {
         return (Auth::user() && Auth::user()->ability(['Admin', 'User Admin'], ['User:set_confirmation']));
+    }
+
+    /**
+     * Other Functions
+     */
+    
+    public function status()
+    {
+        $statuses = [
+            0 => 'Unconfirmed',
+            1 => 'Confirmed'
+        ];
+        return $statuses[$this->confirmed];
     }
 
     /**

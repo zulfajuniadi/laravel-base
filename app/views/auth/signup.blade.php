@@ -6,20 +6,28 @@
     <input type="hidden" name="_token" value="{{{ Session::getToken() }}}">
     <fieldset>
         <div class="form-group">
+            <label for="first_name">First Name</label>
+            <input required class="form-control" placeholder="John" type="text" name="first_name" id="first_name" value="{{{ Input::old('first_name') }}}">
+        </div>
+        <div class="form-group">
+            <label for="last_name">Last Name</label>
+            <input required class="form-control" placeholder="Doe" type="text" name="last_name" id="last_name" value="{{{ Input::old('last_name') }}}">
+        </div>
+        <div class="form-group">
             <label for="username">{{{ Lang::get('confide::confide.username') }}}</label>
-            <input class="form-control" placeholder="{{{ Lang::get('confide::confide.username') }}}" type="text" name="username" id="username" value="{{{ Input::old('username') }}}">
+            <input required class="form-control" placeholder="{{{ Lang::get('confide::confide.username') }}}" type="text" name="username" id="username" value="{{{ Input::old('username') }}}">
         </div>
         <div class="form-group">
             <label for="email">{{{ Lang::get('confide::confide.e_mail') }}} <small>{{ Lang::get('confide::confide.signup.confirmation_required') }}</small></label>
-            <input class="form-control" placeholder="{{{ Lang::get('confide::confide.e_mail') }}}" type="text" name="email" id="email" value="{{{ Input::old('email') }}}">
+            <input required class="form-control" placeholder="{{{ Lang::get('confide::confide.e_mail') }}}" type="text" name="email" id="email" value="{{{ Input::old('email') }}}">
         </div>
         <div class="form-group">
             <label for="password">{{{ Lang::get('confide::confide.password') }}}</label>
-            <input class="form-control" placeholder="{{{ Lang::get('confide::confide.password') }}}" type="password" name="password" id="password">
+            <input required class="form-control" placeholder="{{{ Lang::get('confide::confide.password') }}}" type="password" name="password" id="password">
         </div>
         <div class="form-group">
             <label for="password_confirmation">{{{ Lang::get('confide::confide.password_confirmation') }}}</label>
-            <input class="form-control" placeholder="{{{ Lang::get('confide::confide.password_confirmation') }}}" type="password" name="password_confirmation" id="password_confirmation">
+            <input required class="form-control" placeholder="{{{ Lang::get('confide::confide.password_confirmation') }}}" type="password" name="password_confirmation" id="password_confirmation">
         </div>
 
         @if ( Session::get('error') )

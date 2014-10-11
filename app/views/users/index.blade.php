@@ -8,7 +8,7 @@
                 <th>Name</th>
                 <th>Organization Unit</th>
                 <th>Roles</th>
-                <th>Confirmed</th>
+                <th>Status</th>
                 <th width="200px">Actions</th>
             </tr>
         </thead>

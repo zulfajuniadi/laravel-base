@@ -1,12 +1,12 @@
 @extends('layouts.default')
 @section('content')
     <h2>
-        @if($user->confirmed === 'Active')
+        @if($user->confirmed === 1)
             <span class="pull-right label label-lg label-success">
         @else
             <span class="pull-right label label-lg label-warning">
         @endif
-        {{$user->confirmed}}</span>
+        {{$user->status()}}</span>
         Edit User
     </h2>
     <hr>
