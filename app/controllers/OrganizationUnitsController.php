@@ -21,7 +21,7 @@ class OrganizationUnitsController extends \BaseController
                 ->edit_column('actions', function($organization_unit){
                     $actions   = [];
                     $actions[] = $organization_unit->canShow() ? link_to_action('organizationunits.show', 'Show', $organization_unit->id, ['class' => 'btn btn-primary'] ) : '';
-                    $actions[] = $organization_unit->canUpdate() ? link_to_action('organizationunits.update', 'Update', $organization_unit->id, ['class' => 'btn btn-default'] ) : '';
+                    $actions[] = $organization_unit->canUpdate() ? link_to_action('organizationunits.edit', 'Update', $organization_unit->id, ['class' => 'btn btn-default'] ) : '';
                     $actions[] = $organization_unit->canDelete() ? Former::open(action('organizationunits.destroy', $organization_unit->id))->class('form-inline') 
                         . Former::hidden('_method', 'DELETE')
                         . '<button type="button" class="btn btn-danger confirm-delete">Delete</button>'

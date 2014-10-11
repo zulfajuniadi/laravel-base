@@ -19,7 +19,7 @@ class PermissionsController extends \BaseController
                 ->add_column('actions', function($data){
                     $actions   = [];
                     $actions[] = $data->canShow() ? link_to_action('permissions.show', 'Show', $data->id, ['class' => 'btn btn-primary'] ) : '';
-                    $actions[] = $data->canUpdate() ? link_to_action('permissions.update', 'Update', $data->id, ['class' => 'btn btn-default'] ) : '';
+                    $actions[] = $data->canUpdate() ? link_to_action('permissions.edit', 'Update', $data->id, ['class' => 'btn btn-default'] ) : '';
                     $actions[] = $data->canDelete() ? Former::open(action('permissions.destroy', $data->id))->class('form-inline') 
                         . Former::hidden('_method', 'DELETE')
                         . '<button type="button" class="btn btn-danger confirm-delete">Delete</button>'
