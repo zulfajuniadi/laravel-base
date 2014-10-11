@@ -58,10 +58,10 @@ Takes out the boredom of boiler plating code and provides sensible defaults to j
 
 ##Installation
 
-1.  Create an empty directory and clone the repo:
+1.  Create an empty directory and run composer create-project:
 
     ```
-    git clone https://github.com/zulfajuniadi/laravel-base.git . && rm -rf .git && composer update && artisan du && artisan app:reset
+    composer create-project zulfajuniadi/laravel-base .
     ```
 1.  Make sure you add your computer's hostname inside the ``bootstrap/start.php`` file like so: 
 
