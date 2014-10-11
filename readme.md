@@ -1,7 +1,7 @@
 Laravel Jump Start
 ==================
 
-Takes out the boredom of boiler plating code and provides sensible defaults to jump start Laraval development:
+Takes out the boredom of boiler plating code and provides sensible defaults to jump start Laravel development:
 
 - Authentication: [zizaco/confide]()
 - RBAC Authorization: [zizaco/entrust]()
