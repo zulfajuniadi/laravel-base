@@ -170,7 +170,7 @@ class OrganizationUnit extends Node
 
     public function users()
     {
-        return $this->hasMany('User', 'organizationunit_id', 'id');
+        return $this->hasMany('User', 'organization_unit_id', 'id');
     }
 
     public static function boot()

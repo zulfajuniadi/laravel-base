@@ -14,20 +14,24 @@ class RolesController extends \BaseController
             return $this->_access_denied();
         }
         if (Request::ajax()) {
-            $roles = Role::select(['roles.id', 'roles.name', DB::raw('count(permissions.id) as count')])
-                ->leftJoin('permission_role', 'roles.id', '=', 'permission_role.role_id')
-                ->leftJoin('permissions', 'permissions.id', '=', 'permission_role.permission_id')
-                ->groupBy('roles.id');
+            $roles = Role::with('users', 'perms')
+                ->select(['roles.id', 'roles.name', 'roles.id as permissions', 'roles.id as user_count', 'roles.id as actions']);
             return Datatables::of($roles)
-                ->add_column('actions', function($data){
+                ->edit_column('actions', function($role){
                     $actions   = [];
-                    $actions[] = $data->canShow() ? link_to_action('roles.show', 'Show', $data->id, ['class' => 'btn btn-primary'] ) : '';
-                    $actions[] = $data->canUpdate() ? link_to_action('roles.update', 'Update', $data->id, ['class' => 'btn btn-default'] ) : '';
-                    $actions[] = $data->canDelete() ? Former::open(action('roles.destroy', $data->id))->class('form-inline') 
+                    $actions[] = $role->canShow() ? link_to_action('roles.show', 'Show', $role->id, ['class' => 'btn btn-primary'] ) : '';
+                    $actions[] = $role->canUpdate() ? link_to_action('roles.update', 'Update', $role->id, ['class' => 'btn btn-default'] ) : '';
+                    $actions[] = $role->canDelete() ? Former::open(action('roles.destroy', $role->id))->class('form-inline') 
                         . Former::hidden('_method', 'DELETE')
                         . '<button type="button" class="btn btn-danger confirm-delete">Delete</button>'
                         . Former::close() : '';
                     return implode(' ', $actions);
+                })
+                ->edit_column('user_count', function($role){
+                    return $role->users->count();
+                })
+                ->edit_column('permissions', function($role){
+                    return '<ul>' . implode('', array_map(function($name){ return '<li>' . $name . '</li>'; }, $role->perms->lists('name'))) . '</ul>';
                 })
                 ->remove_column('id')
                 ->make();

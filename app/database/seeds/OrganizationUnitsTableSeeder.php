@@ -10,7 +10,7 @@ class OrganizationUnitsTableSeeder extends Seeder
 
         $datas = [
             [
-                'name'    => 'root',
+                'name'    => 'Root',
                 'user_id' => 1
             ]
         ];

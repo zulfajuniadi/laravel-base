@@ -8,6 +8,7 @@
                 <th>Name</th>
                 <th>Parent</th>
                 <th>Head</th>
+                <th>Head Count</th>
                 <th width="200px">Actions</th>
             </tr>
         </thead>

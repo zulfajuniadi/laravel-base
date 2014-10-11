@@ -6,7 +6,8 @@
         <thead>
             <tr>
                 <th>Name</th>
-                <th>Permissions</th>
+                <th>Assigned Permissions</th>
+                <th>User Count</th>
                 <th width="200px">Actions</th>
             </tr>
         </thead>
