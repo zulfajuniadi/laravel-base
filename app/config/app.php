@@ -130,8 +130,6 @@ return array(
         'Codesleeve\AssetPipeline\AssetPipelineServiceProvider',
         'Clockwork\Support\Laravel\ClockworkServiceProvider',
         'Maatwebsite\Excel\ExcelServiceProvider',
-        'Intervention\Image\ImageServiceProvider',
-
     ),
 
     /*
@@ -204,7 +202,6 @@ return array(
         'Datatables'        => 'Bllim\Datatables\Facade\Datatables',
         'Ardent'            => 'LaravelBook\Ardent\Ardent',
         'Excel'             => 'Maatwebsite\Excel\Facades\Excel',
-        'Image'             => 'Intervention\Image\Facades\Image',
         'Clockwork'         => 'Clockwork\Support\Laravel\Facade',
     ),
 
