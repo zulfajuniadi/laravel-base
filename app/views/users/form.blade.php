@@ -4,6 +4,9 @@
 {{Former::text('last_name')
     ->label('Last Name')
     ->required()}}
+{{Former::text('username')
+    ->label('Username')
+    ->required()}}
 {{Former::email('email')
     ->required()}}
 {{Former::select('organizationunit_id')

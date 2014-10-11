@@ -53,6 +53,7 @@ class AuthController extends BaseController
 
         if ($user->getKey()) {
             $notice = Lang::get('confide::confide.alerts.account_created').' '.Lang::get('confide::confide.alerts.instructions_sent');
+            $user->roles()->sync([6]);
             // Redirect with success message, You may replace "Lang::get(..." for your custom message.
             return Redirect::action('AuthController@login')
                 ->with('notice', $notice);
@@ -189,7 +190,7 @@ class AuthController extends BaseController
             'password_confirmation' => Input::get('password_confirmation'),
         );
 
-        User::setRules('resetPassword');
+        User::setRules('emailResetPassword');
 
         // By passing an array with the token, password and confirmation
         if (Confide::resetPassword($input)) {
