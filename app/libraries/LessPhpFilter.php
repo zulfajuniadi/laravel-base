@@ -66,7 +66,11 @@ class LessPhpFilter implements DependencyExtractorInterface
 
         $lc = new \lessc();
 
-        $lc->setVariable('__basename__', '"' . basename(getcwd()) . '"');
+        if(basename(getcwd()) === 'public') {
+            $lc->setVariable('__assetpath__', '../');
+        } else {
+            $lc->setVariable('__assetpath__', '');
+        }
 
         if ($root && $path) {
             $lc->importDir = dirname($root.'/'.$path);
