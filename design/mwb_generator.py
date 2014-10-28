@@ -21,7 +21,7 @@ for table in schema.tables:
     columns = []
     for column in table.columns:
         if column.name not in ('id', 'created_at', 'updated_at'):
-            columns.append("%s:%s:%s" % (makeName(column.name), column.name, (column.simpleType or {name: ''}).name.lower()))
+            columns.append("%s:%s:%s" % (makeName(column.name), column.name, (column.simpleType or column.userType).name.lower()))
     str += ', '.join(columns) + '" ' + table.name + " true\n"
 
 print str
