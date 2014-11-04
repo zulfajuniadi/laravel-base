@@ -85,7 +85,7 @@
     public function canUpdate() 
     {
         $user = Auth::user();
-        if(Auth::user() && Auth::user()->ability(['Admin', '$NAME$ Admin'], ['$NAME$:update']))
+        if(Auth::user() && Auth::user()->ability(['Admin', '$NAME$ Admin'], ['$NAME$:edit']))
             return true;
         return false;
     }
