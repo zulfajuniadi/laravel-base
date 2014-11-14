@@ -27,11 +27,11 @@ class $NAME$ extends \BaseController {
 			return Datatables::of($$COLLECTION$)
                 ->edit_column('actions', function($$RESOURCE$){
                     $actions   = [];
-                    $actions[] = $$RESOURCE$->canShow() ? link_to_action('$COLLECTION$.show', 'Show', $$RESOURCE$->id, ['class' => 'btn btn-primary'] ) : '';
-                    $actions[] = $$RESOURCE$->canUpdate() ? link_to_action('$COLLECTION$.edit', 'Update', $$RESOURCE$->id, ['class' => 'btn btn-default'] ) : '';
+                    $actions[] = $$RESOURCE$->canShow() ? link_to_action('$COLLECTION$.show', 'Show', $$RESOURCE$->id, ['class' => 'btn btn-xs btn-primary'] ) : '';
+                    $actions[] = $$RESOURCE$->canUpdate() ? link_to_action('$COLLECTION$.edit', 'Update', $$RESOURCE$->id, ['class' => 'btn btn-xs btn-default'] ) : '';
                     $actions[] = $$RESOURCE$->canDelete() ? Former::open(action('$COLLECTION$.destroy', $$RESOURCE$->id))->class('form-inline') 
                         . Former::hidden('_method', 'DELETE')
-                        . '<button type="button" class="btn btn-danger confirm-delete">Delete</button>'
+                        . '<button type="button" class="btn btn-xs btn-danger confirm-delete">Delete</button>'
                         . Former::close() : '';
                     return implode(' ', $actions);
                 })
