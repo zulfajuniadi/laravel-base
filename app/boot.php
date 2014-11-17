@@ -8,3 +8,12 @@ if(Session::has('errors'))
         Log::error($message);
     }
 }
+
+/* Clean Clockwork Temporary Files */
+$files = glob(storage_path() . '/clockwork/*.json');
+$time  = time();
+
+foreach ($files as $file)
+if (is_file($file))
+  if ($time - filemtime($file) >= 300) // 5 Minutes
+    unlink($file);
