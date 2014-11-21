@@ -12,16 +12,16 @@ def makeName(name):
     name = name.replace(' id', '', 99)
     return name.title()
 
+skip_tables = ['users', 'roles', 'permission_role', 'permissions', 'assigned_roles', 'uploads', 'organization_units', 'password_reminders']
+str = ''
 
 schema = grt.root.wb.doc.physicalModels[0].catalog.schemata[0]
-str = "git clone https://github.com/zulfajuniadi/laravel-base.git . && rm -rf .git && composer update && artisan du && artisan app:reset\n"
-str += 'artisan app:reset' + "\n";
 for table in schema.tables:
-    str = str + '[' + table.name + '] => artisan generate:datatable -n --fields="'
-    columns = []
-    for column in table.columns:
-        if column.name not in ('id', 'created_at', 'updated_at'):
-            columns.append("%s:%s:%s" % (makeName(column.name), column.name, (column.simpleType or column.userType).name.lower()))
-    str += ', '.join(columns) + '" ' + table.name + " true\n"
-
+    if ((table.name not in skip_tables) == True):
+        str = str + '[' + table.name + '] ' + "\n" + 'artisan generate:datatable -n --fields="'
+        columns = []
+        for column in table.columns:
+            if column.name not in ('id', 'created_at', 'updated_at'):
+                columns.append("%s:%s:%s" % (makeName(column.name), column.name, (column.simpleType or column.userType).name.lower()))
+        str += ', '.join(columns) + '" ' + table.name + " true\n\n"
 print str
