@@ -9,18 +9,18 @@
         @yield('styles')
     </head>
     <body>
+        @include('partials.navbar')
+        <div class="row">
         <div class="container">
             <br>
             <div class="row">
-                <div class="col-sm-2">
-                    @include('partials.menu')
-                </div>
-                <div class="col-sm-10">
+                <div class="col-sm-12">
                     @include('partials.notification')
                     @yield('content')
                     @yield('scripts')
                 </div>
             </div>
+        </div>
         </div>
         {{Asset::tags('js')}}
         @yield('scripts')
