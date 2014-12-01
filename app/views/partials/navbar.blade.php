@@ -11,11 +11,11 @@
         </div>
         <div class="collapse navbar-collapse navbar-ex1-collapse">
             <ul class="nav navbar-nav navbar-right">
-                @if($user)
+                @if($currentuser)
                     @if($controller === 'Profile')<li class="active">@else<li>@endif
                         <a href="{{action('UsersController@profile')}}">Profile</a>
                     </li>
-                    @if($user->hasRole('Admin'))
+                    @if($currentuser->hasRole('Admin'))
                         <li class="dropdown">
                             <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">Administration <span class="caret"></span></a>
                             <ul class="dropdown-menu" role="menu">

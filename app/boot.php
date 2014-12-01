@@ -1,6 +1,6 @@
 <?php
 
-View::share('user', Auth::user());
+View::share('currentuser', Auth::user());
 
 Asset::push('js', 'application');
 Asset::push('css', 'application');
