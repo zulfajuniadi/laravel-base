@@ -19,11 +19,11 @@ class RolesController extends \BaseController
             return Datatables::of($roles)
                 ->edit_column('actions', function($role){
                     $actions   = [];
-                    $actions[] = $role->canShow() ? link_to_action('roles.show', 'Show', $role->id, ['class' => 'btn btn-primary'] ) : '';
-                    $actions[] = $role->canUpdate() ? link_to_action('roles.edit', 'Update', $role->id, ['class' => 'btn btn-default'] ) : '';
+                    $actions[] = $role->canShow() ? link_to_action('roles.show', 'Show', $role->id, ['class' => 'btn btn-xs btn-primary'] ) : '';
+                    $actions[] = $role->canUpdate() ? link_to_action('roles.edit', 'Update', $role->id, ['class' => 'btn btn-xs btn-default'] ) : '';
                     $actions[] = $role->canDelete() ? Former::open(action('roles.destroy', $role->id))->class('form-inline') 
                         . Former::hidden('_method', 'DELETE')
-                        . '<button type="button" class="btn btn-danger confirm-delete">Delete</button>'
+                        . '<button type="button" class="btn btn-danger btn-xs confirm-delete">Delete</button>'
                         . Former::close() : '';
                     return implode(' ', $actions);
                 })
