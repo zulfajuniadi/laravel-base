@@ -17,7 +17,7 @@
             <a href="{{ action('users.edit', $user->id) }}" class="btn btn-default">Edit</a>
         @endif
         @if($user->canSetConfirmation())
-            @if($user->confirmed !== 'Active')
+            @if($user->confirmed !== 1)
                 {{Former::open(action('UsersController@putSetConfirmation', $user->id))->class('form-inline')}}
                     {{Former::hidden('_method', 'PUT')}}
                     {{Former::hidden('confirmed', '1')}}
