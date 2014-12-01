@@ -2,7 +2,7 @@
 @section('content')
     <h2>$TITLES$</h2>
     <hr>
-    <table data-path="/$VIEWPATH$" class="DT table table-striped table-hover table-bordered">
+    <table data-path="{{action('$CONTROLLER$@index')}}" class="DT table table-striped table-hover table-bordered">
         <thead>
             <tr>
                 $THEADS$

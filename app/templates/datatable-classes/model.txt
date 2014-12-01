@@ -1,6 +1,6 @@
 <?php
 
-    class $NAME$ extends Ardent {
+class $NAME$ extends Ardent {
 
     /**
     * $show_authorize_flag
