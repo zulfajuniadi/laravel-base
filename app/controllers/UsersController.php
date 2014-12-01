@@ -226,7 +226,7 @@ class UsersController extends \BaseController
             return Response::json($this->set_password_message);
         }
         return Redirect::action('users.show', $user->id)
-                                                   ->with('notification:success', $this->set_password_message);
+            ->with('notification:success', $this->set_password_message);
     }
 
     public function putSetConfirmation($id = null)
@@ -244,7 +244,7 @@ class UsersController extends \BaseController
             return Response::json($this->set_confirmation_message);
         }
         return Redirect::action('users.show', $user->id)
-                                                   ->with('notification:success', $this->set_confirmation_message);
+           ->with('notification:success', $this->set_confirmation_message);
     }
 
     public function getChangePassword()
@@ -280,7 +280,7 @@ class UsersController extends \BaseController
             return Response::json($this->set_password_message);
         }
         return Redirect::action('UsersController@profile', $user->id)
-                                                                ->with('notification:success', $this->set_password_message);
+            ->with('notification:success', $this->set_password_message);
     }
 
     public function __construct()
