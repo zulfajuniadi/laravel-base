@@ -9,7 +9,7 @@
     ->required()}}
 {{Former::email('email')
     ->required()}}
-{{Former::select('organizationunit_id')
+{{Former::select('organization_unit_id')
     ->label('Organization Unit')
     ->options(OrganizationUnit::all()->lists('name', 'id'))
     ->required()}}

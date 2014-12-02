@@ -75,9 +75,11 @@ class OrganizationUnitsController extends \BaseController
         if (!isset($organizationunit->id)) {
             return $this->_create_error();
         }
-        $parent = OrganizationUnit::findOrFail($data['parent_id']);
-        $organizationunit->makeChildOf($parent);
-        $parent->touch();
+        if(isset($data['parent_id'])) {
+            $parent = OrganizationUnit::findOrFail($data['parent_id']);
+            $organizationunit->makeChildOf($parent);
+            $parent->touch();
+        }
         if (Request::ajax()) {
             return Response::json($organizationunit->toJson(), 201);
         }
@@ -141,9 +143,9 @@ class OrganizationUnitsController extends \BaseController
         if (!$organizationunit->update($data)) {
             return $this->_update_error();
         }
-        if ((int) $organizationunit->parent_id !== (int) $data['parent_id']) {
+        if (isset($data['parent_id']) && (int) $organizationunit->parent_id !== (int) $data['parent_id']) {
             $organizationunit->makeChildOf($data['parent_id']);
-            self::find($data['parent_id'])->touch();
+            OrganizationUnit::find($data['parent_id'])->touch();
         }
         if (Request::ajax()) {
             return $organizationunit;
