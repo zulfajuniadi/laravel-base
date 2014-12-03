@@ -45,6 +45,21 @@
                             </ul>
                         </li>
                     @endif
+                    @if($currentuser->hasRole('Admin'))
+                        <li class="dropdown">
+                            <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">Reports <span class="caret"></span></a>
+                            <ul class="dropdown-menu" role="menu">
+                                @foreach (Report::where('is_json', 0)->get() as $report)
+                                    <li><a href="{{action('ReportController@getShow', $report->path)}}">{{$report->name}}</a></li>
+                                @endforeach
+                            </ul>
+                        </li>
+                    @endif
+                    @if(isset($localroute))
+                        <li>
+                            <a href="{{action('ReportsController@index')}}">Report Builder</a>
+                        </li>
+                    @endif
                     <li>
                          <a href="{{action('AuthController@logout')}}">Logout</a>
                     </li>

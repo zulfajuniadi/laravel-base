@@ -6,6 +6,8 @@
  * before moving it to the production environment
  */
 
+View::share('localroute', true);
+
 Route::get('/reset', function(){
     Artisan::call('db:seed');
     File::cleanDirectory(public_path() . '/uploads');
@@ -13,3 +15,17 @@ Route::get('/reset', function(){
     touch(public_path() . '/uploads/index.html');
     return Redirect::action('AuthController@login');
 });
+
+
+Route::get('/report-builder', function(){
+
+    $roles = Auth::user()->roles();
+    return json_encode($roles->getQuery());
+
+});
+
+Route::resource('report-builder', 'ReportsController');
+Route::resource('report-builder.fields', 'ReportFieldsController');
+Route::resource('report-builder.eagers', 'ReportEagersController');
+Route::resource('report-builder.groupings', 'ReportGroupingsController');
+Route::resource('report-builder.columns', 'ReportColumnsController');

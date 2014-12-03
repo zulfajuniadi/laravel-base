@@ -17,7 +17,6 @@
                 <div class="col-sm-12">
                     @include('partials.notification')
                     @yield('content')
-                    @yield('scripts')
                 </div>
             </div>
         </div>

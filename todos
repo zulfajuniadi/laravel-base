@@ -1,7 +1,14 @@
 pending
-Change the way that table actions is shown
-Footer Actions ACL bug
+
+- generator generates relationship methods
+- generator generates default reporting seeds
+- generator able to generate nested routes
+
 
 doing
 
 done
+
+wishlist
+
+- workflow?

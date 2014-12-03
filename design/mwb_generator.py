@@ -12,7 +12,7 @@ def makeName(name):
     name = name.replace(' id', '', 99)
     return name.title()
 
-skip_tables = ['users', 'roles', 'permission_role', 'permissions', 'assigned_roles', 'uploads', 'organization_units', 'password_reminders']
+skip_tables = ['users', 'roles', 'permission_role', 'permissions', 'assigned_roles', 'uploads', 'organization_units', 'password_reminders', 'reports', 'report_fields', 'report_columns', 'report_groupings']
 str = ''
 
 schema = grt.root.wb.doc.physicalModels[0].catalog.schemata[0]

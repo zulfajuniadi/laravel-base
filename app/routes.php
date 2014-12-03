@@ -39,6 +39,8 @@ Route::group(['before' => 'auth'], function () {
     Route::get('auth/logout', 'AuthController@logout');
 
     Route::resource('uploader', 'UploadsController');
+
+    Route::controller('reports', 'ReportController');
 });
 
 // Confide routes
