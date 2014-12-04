@@ -125,15 +125,19 @@ class ReportController extends \BaseController {
         }
         if(Request::ajax())
             return $response;
+
         if($form_input['operation'] === 'Download') {
-            return Excel::create($report->name . '__' . date('Ymd-his'), function($excel) use ($response) {
+            return Excel::create($report->name . '__' . date('Ymd-his'), function($excel) use ($response, $report) {
                 foreach ($response as $index => $table) {
                     $sheet_name = 'default';
                     if(is_string($index)) {
                         $sheet_name = $index;
                     }
-                    $excel->sheet($sheet_name, function($sheet) use ($table) {
-                        $sheet->fromArray($table);
+                    $excel->sheet($sheet_name, function($sheet) use ($table, $report, $response) {
+                        $sheet->loadView('reports.table', [
+                            'table_columns' => $report->columns,
+                            'table_data'    => $table
+                        ]);
                     });
                 }
             })->download();	
