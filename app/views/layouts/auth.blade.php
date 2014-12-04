@@ -8,6 +8,7 @@
     @yield('styles')
 </head>
 <body>
+    @include('partials.navbar')
     <div class="container">
         <br>
         @include('partials.notification')

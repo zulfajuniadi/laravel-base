@@ -20,11 +20,11 @@ class OrganizationUnitsController extends \BaseController
             return Datatables::of($organization_units)
                 ->edit_column('actions', function($organization_unit){
                     $actions   = [];
-                    $actions[] = $organization_unit->canShow() ? link_to_action('organizationunits.show', 'Show', $organization_unit->id, ['class' => 'btn btn-primary'] ) : '';
-                    $actions[] = $organization_unit->canUpdate() ? link_to_action('organizationunits.edit', 'Update', $organization_unit->id, ['class' => 'btn btn-default'] ) : '';
+                    $actions[] = $organization_unit->canShow() ? link_to_action('organizationunits.show', 'Show', $organization_unit->id, ['class' => 'btn btn-xs btn-primary'] ) : '';
+                    $actions[] = $organization_unit->canUpdate() ? link_to_action('organizationunits.edit', 'Update', $organization_unit->id, ['class' => 'btn btn-xs btn-default'] ) : '';
                     $actions[] = $organization_unit->canDelete() ? Former::open(action('organizationunits.destroy', $organization_unit->id))->class('form-inline') 
                         . Former::hidden('_method', 'DELETE')
-                        . '<button type="button" class="btn btn-danger confirm-delete">Delete</button>'
+                        . '<button type="button" class="btn btn-danger btn-xs confirm-delete">Delete</button>'
                         . Former::close() : '';
                     return implode(' ', $actions);
                 })
@@ -75,9 +75,11 @@ class OrganizationUnitsController extends \BaseController
         if (!isset($organizationunit->id)) {
             return $this->_create_error();
         }
-        $parent = OrganizationUnit::findOrFail($data['parent_id']);
-        $organizationunit->makeChildOf($parent);
-        $parent->touch();
+        if(isset($data['parent_id'])) {
+            $parent = OrganizationUnit::findOrFail($data['parent_id']);
+            $organizationunit->makeChildOf($parent);
+            $parent->touch();
+        }
         if (Request::ajax()) {
             return Response::json($organizationunit->toJson(), 201);
         }
@@ -141,9 +143,9 @@ class OrganizationUnitsController extends \BaseController
         if (!$organizationunit->update($data)) {
             return $this->_update_error();
         }
-        if ((int) $organizationunit->parent_id !== (int) $data['parent_id']) {
+        if (isset($data['parent_id']) && (int) $organizationunit->parent_id !== (int) $data['parent_id']) {
             $organizationunit->makeChildOf($data['parent_id']);
-            self::find($data['parent_id'])->touch();
+            OrganizationUnit::find($data['parent_id'])->touch();
         }
         if (Request::ajax()) {
             return $organizationunit;

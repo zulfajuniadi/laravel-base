@@ -3,21 +3,21 @@
         <button class="btn btn-primary">Submit</button>
     @endif
     @if(!isset($is_list) && $MODEL$::canList())
-        <a href="{{route('$VIEWPATH$.index')}}" class="btn btn-default">List</a>  
+        <a href="{{action('$CONTROLLER$@index')}}" class="btn btn-default">List</a>  
     @endif
     @if($MODEL$::canCreate())
-        <a href="{{route('$VIEWPATH$.create')}}" class="btn btn-default">Create</a>
+        <a href="{{action('$CONTROLLER$@create')}}" class="btn btn-default">Create</a>
     @endif
     {{Former::close()}}
     @if(isset($$RESOURCE$))
         @if($$RESOURCE$->canShow())
-          <a href="{{ action('$VIEWPATH$.show', $$RESOURCE$->id) }}" class="btn btn-default">Details</a>
+          <a href="{{ action('$CONTROLLER$@show', $$RESOURCE$->id) }}" class="btn btn-default">Details</a>
         @endif
         @if($$RESOURCE$->canUpdate())
-          <a href="{{ action('$VIEWPATH$.edit', $$RESOURCE$->id) }}" class="btn btn-default">Edit</a>
+          <a href="{{ action('$CONTROLLER$@edit', $$RESOURCE$->id) }}" class="btn btn-default">Edit</a>
         @endif
         @if($$RESOURCE$->canDelete())
-          {{Former::open(action('$VIEWPATH$.destroy', $$RESOURCE$->id))->class('form-inline')}}
+          {{Former::open(action('$CONTROLLER$@destroy', $$RESOURCE$->id))->class('form-inline')}}
             {{Former::hidden('_method', 'DELETE')}}
             <button type="button" class="btn btn-default confirm-delete">Delete</button>
           {{Former::close()}}

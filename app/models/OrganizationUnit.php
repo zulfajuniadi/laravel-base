@@ -9,12 +9,10 @@ class OrganizationUnit extends Node
     static $rules = [
         'store' => [
             'name'      => 'required',
-            'parent_id' => 'numeric|required',
             'user_id'   => 'numeric|required'
         ],
         'update' => [
             'name'      => 'required',
-            'parent_id' => 'numeric|required',
             'user_id'   => 'numeric|required'
         ]
     ];

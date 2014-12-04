@@ -2,7 +2,7 @@
 @section('content')
     <h2>Edit $TITLE$</h2>
     <hr>
-    {{ Former::open(action('$VIEWPATH$.update', $$RESOURCE$->id)) }}
+    {{ Former::open(action('$CONTROLLER$@update', $$RESOURCE$->id)) }}
         {{Former::populate($$RESOURCE$)}}
         {{Former::hidden('_method', 'PUT')}}
         @include('$VIEWPATH$.form')

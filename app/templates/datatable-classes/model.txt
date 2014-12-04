@@ -1,6 +1,6 @@
 <?php
 
-    class $NAME$ extends Ardent {
+class $NAME$ extends Ardent {
 
     /**
     * $show_authorize_flag
@@ -77,52 +77,25 @@
     public function canShow()
     {
         $user = Auth::user();
-        if($user->hasRole('Admin', '$NAME$ Admin'))
+        if(Auth::user() && Auth::user()->ability(['Admin', '$NAME$ Admin'], ['$NAME$:show']))
             return true;
-        if(isset($this->user_id) && $user->can('$NAME$:show')) {
-            if($this->user_id === $user->id) {
-                return true;
-            }
-            if($user->is_authorized(static::$show_authorize_flag, $this->user_id)) {
-                return true;
-            }
-            return false;
-        }
-        return true;
+        return false;
     }
 
     public function canUpdate() 
     {
         $user = Auth::user();
-        if($user->hasRole('Admin', '$NAME$ Admin'))
-          return true;
-        if(isset($this->user_id) && $user->can('$NAME$:edit')) {
-          if($this->user_id === $user->id) {
+        if(Auth::user() && Auth::user()->ability(['Admin', '$NAME$ Admin'], ['$NAME$:edit']))
             return true;
-            }
-            if($user->is_authorized(static::$update_authorize_flag, $this->user_id)) {
-                return true;
-            }
-            return false;
-        }
-        return true;
+        return false;
     }
 
     public function canDelete() 
     {
         $user = Auth::user();
-        if($user->hasRole('Admin', '$NAME$ Admin'))
+        if(Auth::user() && Auth::user()->ability(['Admin', '$NAME$ Admin'], ['$NAME$:delete']))
             return true;
-        if(isset($this->user_id) && $user->can('$NAME$:update')) {
-            if($this->user_id === $user->id) {
-                return true;
-            }
-            if($user->is_authorized(static::$delete_authorize_flag, $this->user_id)) {
-                return true;
-            }
-            return false;
-        }
-        return true;
+        return false;
     }
 
     /**
