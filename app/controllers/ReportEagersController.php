@@ -61,7 +61,8 @@ class ReportEagersController extends \BaseController {
 		{
 			return $this->_access_denied();
 		}
-		return View::make('reporteagers.create', compact('report_id'));
+		$report = Report::findOrFail($report_id);
+		return View::make('reporteagers.create', compact('report_id', 'report'));
 	}
 
 	/**
@@ -109,8 +110,9 @@ class ReportEagersController extends \BaseController {
 		{
 			return Response::json($reporteager);
 		}
+		$report = Report::findOrFail($report_id);
 		Asset::push('js', 'show');
-		return View::make('reporteagers.show', compact('report_id', 'reporteager'));
+		return View::make('reporteagers.show', compact('report_id', 'reporteager', 'report'));
 	}
 
 	/**
@@ -130,7 +132,8 @@ class ReportEagersController extends \BaseController {
 		{
 			return _access_denied();
 		}
-		return View::make('reporteagers.edit', compact('reporteager', 'report_id'));
+		$report = Report::findOrFail($report_id);
+		return View::make('reporteagers.edit', compact('reporteager', 'report_id', 'report'));
 	}
 
 	/**
