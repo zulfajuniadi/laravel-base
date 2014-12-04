@@ -1,4 +1,4 @@
-<table class="table tbl-bordered tbl-striped tbl-hover">
+<table class="table table-bordered table-striped table-hover">
     <thead>
         <tr>
         @foreach ($table_columns as $column)
