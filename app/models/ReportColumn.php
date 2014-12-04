@@ -132,15 +132,20 @@ class ReportColumn extends Ardent {
                     } else { 
                         try {
                             $table_row = $table_row->' . $table . ';
+                            return $result = $table_row->' . $columns[1] . ';
                         } catch (Exception $e) {}
                         ' . $str . '
                     }';
             }
             eval($str);
-            array_unique($result);
-            $value = array_reduce($result, function($then, $now) use ($columns) {
-                return $then . '<li>' . $now . '</li>';
-            }, '<ul>') . '</ul>';
+            if(is_array($result)) {
+                array_unique($result);
+                $value = array_reduce($result, function($then, $now) use ($columns) {
+                    return $then . '<li>' . $now . '</li>';
+                }, '<ul>') . '</ul>';
+            } else {
+                $value = $result;
+            }
         }
         if($this->options) {
             $array = eval('return ' . $this->options . ';');
