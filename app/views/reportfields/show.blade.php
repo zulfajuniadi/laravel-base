@@ -1,6 +1,6 @@
 @extends('layouts.default')
 @section('content')
-    <h2>View Report Field</h2>
+    <h2>View Report Filter</h2>
     <hr>
     {{ Former::open() }}
         {{Former::populate($reportfield)}}

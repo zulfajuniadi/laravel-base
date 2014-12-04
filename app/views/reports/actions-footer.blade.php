@@ -11,7 +11,7 @@
     {{Former::close()}}
     @if(isset($report))
         <a href="{{ action('ReportEagersController@show', $report->id) }}" class="btn btn-default">Show Eager Loads</a>
-        <a href="{{ action('ReportFieldsController@show', $report->id) }}" class="btn btn-default">Show Fields</a>
+        <a href="{{ action('ReportFieldsController@show', $report->id) }}" class="btn btn-default">Show Filters</a>
         <a href="{{ action('ReportColumnsController@show', $report->id) }}" class="btn btn-default">Show Columns</a>
         <a href="{{ action('ReportGroupingsController@show', $report->id) }}" class="btn btn-default">Show Groupings</a>
         @if($report->canShow())

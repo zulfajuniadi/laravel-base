@@ -1,6 +1,6 @@
 @extends('layouts.default')
 @section('content')
-    <h2>Report Fields</h2>
+    <h2>Report Filters</h2>
     <hr>
     <table data-path="{{action('ReportFieldsController@index', $report_id)}}" class="DT table table-striped table-hover table-bordered">
         <thead>
