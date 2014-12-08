@@ -1,0 +1,8 @@
+@extends('layouts.default')
+@section('content')
+    <h2>New $TITLE$</h2>
+    <hr>
+    {{ Former::open(action('$CONTROLLER$@store', $parent_id)) }}
+    @include('$VIEWPATH$.form')
+    @include('$VIEWPATH$.actions-footer', ['has_submit' => true])
+@stop

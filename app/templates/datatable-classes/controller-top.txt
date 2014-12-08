@@ -23,7 +23,7 @@ class $NAME$ extends \BaseController {
 			}
 			$$COLLECTION$ = $$COLLECTION$->select([
 				'$TABLE_NAME$.id',$CONTROLLER_COLUMNS$'$TABLE_NAME$.id as actions'
-             ]);
+            ]);
 			return Datatables::of($$COLLECTION$)
                 ->edit_column('actions', function($$RESOURCE$){
                     $actions   = [];
