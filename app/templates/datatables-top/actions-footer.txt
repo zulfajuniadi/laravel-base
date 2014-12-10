@@ -2,25 +2,16 @@
     @if(isset($has_submit))
         <button class="btn btn-primary">Submit</button>
     @endif
-    @if(!isset($is_list) && $MODEL$::canList())
-        <a href="{{action('$CONTROLLER$@index')}}" class="btn btn-default">List</a>  
-    @endif
-    @if($MODEL$::canCreate())
+    @if(stristr(Route::currentRouteAction(), '$CONTROLLER$@index') === '$CONTROLLER$@index')
         <a href="{{action('$CONTROLLER$@create')}}" class="btn btn-default">Create</a>
+    @else
+        <a href="{{action('$CONTROLLER$@index')}}" class="btn btn-default">Back To List</a>
     @endif
-    {{Former::close()}}
-    @if(isset($$RESOURCE$))
-        @if($$RESOURCE$->canShow())
-          <a href="{{ action('$CONTROLLER$@show', $$RESOURCE$->id) }}" class="btn btn-default">Details</a>
-        @endif
-        @if($$RESOURCE$->canUpdate())
-          <a href="{{ action('$CONTROLLER$@edit', $$RESOURCE$->id) }}" class="btn btn-default">Edit</a>
-        @endif
-        @if($$RESOURCE$->canDelete())
-          {{Former::open(action('$CONTROLLER$@destroy', $$RESOURCE$->id))->class('form-inline')}}
+    @if(isset($$RESOURCE$) && stristr(Route::currentRouteAction(), '$CONTROLLER$@show') === '$CONTROLLER$@show')
+        <a href="{{action('$CONTROLLER$@edit', $$RESOURCE$->id)}}" class="btn btn-default">Edit</a>
+        {{Former::open(action('$CONTROLLER$@destroy', $$RESOURCE$->id))->class('form-inline')}}
             {{Former::hidden('_method', 'DELETE')}}
-            <button type="button" class="btn btn-default confirm-delete">Delete</button>
-          {{Former::close()}}
-        @endif
+            <button type="button" class="btn btn-danger confirm-delete">Delete</button>
+        {{Former::close()}}
     @endif
 </div>

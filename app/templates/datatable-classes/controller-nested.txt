@@ -39,7 +39,6 @@ class $NAME$ extends \BaseController {
                 })
                 ->remove_column('id')
                 ->make();
-            return Datatables::of($$COLLECTION$)->make();
         }
         $parent = $NESTINGMODEL$::findOrFail($parent_id);
         Asset::push('js', 'datatables');
@@ -78,7 +77,7 @@ class $NAME$ extends \BaseController {
 		{
 			return $this->_access_denied();
 		}
-		$$RESOURCE$ = new $MODEL$;
+		$$RESOURCE$ = new $MODEL2$;
 		$$RESOURCE$->$NESTINGCOL$ = $parent_id;
 		$$RESOURCE$->fill($data);
 		if(!$$RESOURCE$->save())

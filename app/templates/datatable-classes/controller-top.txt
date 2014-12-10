@@ -37,7 +37,6 @@ class $NAME$ extends \BaseController {
                 })
                 ->remove_column('id')
                 ->make();
-            return Datatables::of($$COLLECTION$)->make();
         }
         Asset::push('js', 'datatables');
         return View::make('$COLLECTION$.index');
@@ -74,7 +73,7 @@ class $NAME$ extends \BaseController {
 		{
 			return $this->_access_denied();
 		}
-		$$RESOURCE$ = new $MODEL$;
+		$$RESOURCE$ = new $MODEL2$;
 		$$RESOURCE$->fill($data);
 		if(!$$RESOURCE$->save())
 		{
