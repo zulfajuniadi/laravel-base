@@ -14,7 +14,12 @@
                 <td>{{$upload->name}}</td>
                 <td>{{$upload->type}}</td>
                 <td>{{$upload->size}}</td>
-                <td><a href="{{$upload->url}}/{{$upload->name}}" class="btn btn-primary" download>Download</a></td>
+                <td>
+                    <a href="{{$upload->url}}/{{$upload->name}}" class="btn btn-primary btn-xs" download>Download</a>
+                    @if($upload->canDelete())
+                        <a href="{{action('UploadsController@remove')}}" class="btn btn-danger btn-xs confirm-delete">Delete</a>
+                    @endif
+                </td>
             </tr>
         @endforeach
     @else
