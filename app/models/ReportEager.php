@@ -134,16 +134,16 @@ class ReportEager extends Ardent {
     {
         parent::boot();
 
-        self::created(function(){
-            Cache::tags('ReportEager')->flush();
-        });
+        // self::created(function(){
+        //     Cache::tags('ReportEager')->flush();
+        // });
 
-        self::updated(function(){
-            Cache::tags('ReportEager')->flush();
-        });
+        // self::updated(function(){
+        //     Cache::tags('ReportEager')->flush();
+        // });
 
-        self::deleted(function(){
-            Cache::tags('ReportEager')->flush();
-        });
+        // self::deleted(function(){
+        //     Cache::tags('ReportEager')->flush();
+        // });
     }
 }

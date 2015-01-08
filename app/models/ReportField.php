@@ -147,16 +147,16 @@ class ReportField extends Ardent {
     {
         parent::boot();
 
-        self::created(function(){
-            Cache::tags('ReportField')->flush();
-        });
+        // self::created(function(){
+        //     Cache::tags('ReportField')->flush();
+        // });
 
-        self::updated(function(){
-            Cache::tags('ReportField')->flush();
-        });
+        // self::updated(function(){
+        //     Cache::tags('ReportField')->flush();
+        // });
 
-        self::deleted(function(){
-            Cache::tags('ReportField')->flush();
-        });
+        // self::deleted(function(){
+        //     Cache::tags('ReportField')->flush();
+        // });
     }
 }

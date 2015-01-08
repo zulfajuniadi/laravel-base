@@ -220,16 +220,16 @@ class Report extends Ardent {
     {
         parent::boot();
 
-        self::created(function(){
-            Cache::tags('Report')->flush();
-        });
+        // self::created(function(){
+        //     Cache::tags('Report')->flush();
+        // });
 
-        self::updated(function(){
-            Cache::tags('Report')->flush();
-        });
+        // self::updated(function(){
+        //     Cache::tags('Report')->flush();
+        // });
 
-        self::deleted(function(){
-            Cache::tags('Report')->flush();
-        });
+        // self::deleted(function(){
+        //     Cache::tags('Report')->flush();
+        // });
     }
 }

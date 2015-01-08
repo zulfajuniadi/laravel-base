@@ -175,17 +175,17 @@ class OrganizationUnit extends Node
     {
         parent::boot();
 
-        self::created(function () {
-            Cache::tags('OrganizationUnit')->flush();
-        });
+        // self::created(function () {
+        //     Cache::tags('OrganizationUnit')->flush();
+        // });
 
-        self::updated(function () {
-            Cache::tags('OrganizationUnit')->flush();
-        });
+        // self::updated(function () {
+        //     Cache::tags('OrganizationUnit')->flush();
+        // });
 
-        self::deleted(function () {
-            Cache::tags('OrganizationUnit')->flush();
-        });
+        // self::deleted(function () {
+        //     Cache::tags('OrganizationUnit')->flush();
+        // });
     }
 
 }

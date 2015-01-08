@@ -143,16 +143,16 @@ class ReportGrouping extends Ardent {
     {
         parent::boot();
 
-        self::created(function(){
-            Cache::tags('ReportGrouping')->flush();
-        });
+        // self::created(function(){
+        //     Cache::tags('ReportGrouping')->flush();
+        // });
 
-        self::updated(function(){
-            Cache::tags('ReportGrouping')->flush();
-        });
+        // self::updated(function(){
+        //     Cache::tags('ReportGrouping')->flush();
+        // });
 
-        self::deleted(function(){
-            Cache::tags('ReportGrouping')->flush();
-        });
+        // self::deleted(function(){
+        //     Cache::tags('ReportGrouping')->flush();
+        // });
     }
 }

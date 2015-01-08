@@ -125,16 +125,16 @@ class $NAME$ extends Ardent {
     {
         parent::boot();
 
-        self::created(function(){
-            Cache::tags('$NAME$')->flush();
-        });
+        // self::created(function(){
+        //     Cache::tags('$NAME$')->flush();
+        // });
 
-        self::updated(function(){
-            Cache::tags('$NAME$')->flush();
-        });
+        // self::updated(function(){
+        //     Cache::tags('$NAME$')->flush();
+        // });
 
-        self::deleted(function(){
-            Cache::tags('$NAME$')->flush();
-        });
+        // self::deleted(function(){
+        //     Cache::tags('$NAME$')->flush();
+        // });
     }
 }

@@ -184,16 +184,16 @@ class ReportColumn extends Ardent {
     {
         parent::boot();
 
-        self::created(function(){
-            Cache::tags('ReportColumn')->flush();
-        });
+        // self::created(function(){
+        //     Cache::tags('ReportColumn')->flush();
+        // });
 
-        self::updated(function(){
-            Cache::tags('ReportColumn')->flush();
-        });
+        // self::updated(function(){
+        //     Cache::tags('ReportColumn')->flush();
+        // });
 
-        self::deleted(function(){
-            Cache::tags('ReportColumn')->flush();
-        });
+        // self::deleted(function(){
+        //     Cache::tags('ReportColumn')->flush();
+        // });
     }
 }

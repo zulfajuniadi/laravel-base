@@ -196,17 +196,17 @@ class User extends ConfideUser implements UserInterface, RemindableInterface {
     public static function boot() {
         parent::boot();
 
-        self::created(function () {
-            Cache::tags('User')->flush();
-        });
+        // self::created(function () {
+        //     Cache::tags('User')->flush();
+        // });
 
-        self::updated(function () {
-            Cache::tags('User')->flush();
-        });
+        // self::updated(function () {
+        //     Cache::tags('User')->flush();
+        // });
 
-        self::deleted(function () {
-            Cache::tags('User')->flush();
-        });
+        // self::deleted(function () {
+        //     Cache::tags('User')->flush();
+        // });
     }
 
 }

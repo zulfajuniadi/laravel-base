@@ -62,17 +62,17 @@ class Permission extends Zizaco\Entrust\EntrustPermission
     {
         parent::boot();
 
-        self::created(function () {
-            Cache::tags('Permission')->flush();
-        });
+        // self::created(function () {
+        //     Cache::tags('Permission')->flush();
+        // });
 
-        self::updated(function () {
-            Cache::tags('Permission')->flush();
-        });
+        // self::updated(function () {
+        //     Cache::tags('Permission')->flush();
+        // });
 
-        self::deleted(function () {
-            Cache::tags('Permission')->flush();
-        });
+        // self::deleted(function () {
+        //     Cache::tags('Permission')->flush();
+        // });
     }
 
 }

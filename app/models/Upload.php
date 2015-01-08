@@ -89,35 +89,6 @@ class Upload extends Ardent {
     }
 
     /**
-     * Boot Method
-     */
-
-    public static function boot() {
-        parent::boot();
-
-        self::creating(function ($data) {
-            $data->user_id = Auth::user()->id;
-        });
-
-        self::created(function () {
-            Cache::tags('Upload')->flush();
-        });
-
-        self::updated(function () {
-            Cache::tags('Upload')->flush();
-        });
-
-        self::deleted(function () {
-            Cache::tags('Upload')->flush();
-        });
-
-        self::deleting(function ($data) {
-            File::deleteDirectory($data->path);
-            return true;
-        });
-    }
-
-    /**
      * Decorators
      */
 
@@ -147,6 +118,35 @@ class Upload extends Ardent {
     public function fileUrl()
     {
 
+    }
+
+    /**
+     * Boot Method
+     */
+
+    public static function boot() {
+        parent::boot();
+
+        self::creating(function ($data) {
+            $data->user_id = Auth::user()->id;
+        });
+
+        // self::created(function () {
+        //     Cache::tags('Upload')->flush();
+        // });
+
+        // self::updated(function () {
+        //     Cache::tags('Upload')->flush();
+        // });
+
+        // self::deleted(function () {
+        //     Cache::tags('Upload')->flush();
+        // });
+
+        self::deleting(function ($data) {
+            File::deleteDirectory($data->path);
+            return true;
+        });
     }
 
 }
