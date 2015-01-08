@@ -10,7 +10,7 @@
     "**/.*",
     "node_modules",
     "bower_components",
-    "provider/packages",
+    "frontend/packages",
     "test",
     "tests"
   ],
