@@ -127,7 +127,6 @@ return array(
         'Zizaco\Entrust\EntrustServiceProvider',
         'Baum\BaumServiceProvider',
         'Bllim\Datatables\DatatablesServiceProvider',
-        'Codesleeve\AssetPipeline\AssetPipelineServiceProvider',
         'Clockwork\Support\Laravel\ClockworkServiceProvider',
         'Maatwebsite\Excel\ExcelServiceProvider',
     ),

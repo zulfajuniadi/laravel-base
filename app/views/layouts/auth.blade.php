@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     @yield('meta')
     <title>App Name</title>
-    <link rel="stylesheet" href="/assets/login.less">
+    <link rel="stylesheet" href="/stylesheets/login.css">
     @yield('styles')
 </head>
 <body>
