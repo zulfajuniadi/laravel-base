@@ -1,14 +1,27 @@
 <?php
 
-class PermissionsTableSeeder extends Seeder
+class LaravelBaseSeeder extends Seeder
 {
 
     public function run()
     {
-
+        /**
+         * Truncate Tables
+         */
+        
         Permission::truncate();
+        Role::truncate();
+        User::truncate();
+        DB::table('assigned_roles')->truncate();
+        DB::table('permission_role')->truncate();
+        OrganizationUnit::truncate();
 
-        $datas = [
+
+        /**
+         * Seed Datas
+         */
+        
+        $permissions = [
             [
                 'name'         => 'Role:list',
                 'display_name' => 'List Roles',
@@ -121,9 +134,99 @@ class PermissionsTableSeeder extends Seeder
             ]
         ];
 
-        foreach ($datas as $data) {
+        $roles = [
+            [
+                'name' => 'Admin'
+            ],
+            [
+                'name' => 'Role Admin'
+            ],
+            [
+                'name' => 'Permission Admin'
+            ],
+            [
+                'name' => 'OrganizationUnit Admin'
+            ],
+            [
+                'name' => 'User Admin'
+            ],
+            [
+                'name' => 'User'
+            ],
+            [
+                'name' => 'Upload Admin'
+            ]
+        ];
+
+        $role_permissions = [
+            1 => [],
+            2 => [1, 2, 3, 4, 5],
+            3 => [6, 7, 8, 9, 10],
+            4 => [11, 12, 13, 14, 15],
+            5 => [16, 17, 18, 19, 20, 21, 22]
+        ];
+
+        $users = [
+            [
+                'first_name'            => 'System',
+                'last_name'             => 'Administrator',
+                'username'              => 'admin',
+                'email'                 => 'admin@example.com',
+                'password'              => 'admin',
+                'password_confirmation' => 'admin',
+                'organization_unit_id'  => 1,
+                'confirmed'             => 1,
+            ],
+            [
+                'first_name'            => 'System',
+                'last_name'             => 'User',
+                'username'              => 'user',
+                'email'                 => 'user@example.com',
+                'password'              => 'user',
+                'password_confirmation' => 'user',
+                'organization_unit_id'  => 1,
+                'confirmed'             => 1,
+            ]
+        ];
+
+        $user_roles = [
+            1 => [1],
+            2 => [6]
+        ];
+
+        $organization_units = [
+            [
+                'name'    => 'Base Group',
+                'user_id' => 1
+            ]
+        ];
+
+        foreach ($organization_units as $data) {
+            OrganizationUnit::create($data);
+        }
+
+
+        /**
+         * Insert Into DB
+         */
+        
+        foreach ($permissions as $data) {
             Permission::create($data);
         }
+
+        foreach ($roles as $data) {
+            $role       = Role::create($data);
+            $permission = isset($role_permissions[$role->id])?$role_permissions[$role->id]:null;
+            if ($permission)
+                $role->perms()->sync($permission);
+        }
+
+        foreach ($users as $data) {
+            $user = User::create($data);
+            if(isset($user_roles[$user->id]))
+                $user->roles()->sync($user_roles[$user->id]);
+        }
+
     }
 
 }

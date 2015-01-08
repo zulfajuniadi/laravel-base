@@ -23,7 +23,7 @@ class $NAME$ extends \BaseController {
 			}
 			$$COLLECTION$ = $$COLLECTION$->select([
 				'$TABLE_NAME$.id',$CONTROLLER_COLUMNS$'$TABLE_NAME$.id as actions'
-             ]);
+            ]);
 			return Datatables::of($$COLLECTION$)
                 ->edit_column('actions', function($$RESOURCE$){
                     $actions   = [];
@@ -37,7 +37,6 @@ class $NAME$ extends \BaseController {
                 })
                 ->remove_column('id')
                 ->make();
-            return Datatables::of($$COLLECTION$)->make();
         }
         Asset::push('js', 'datatables');
         return View::make('$COLLECTION$.index');
@@ -74,7 +73,7 @@ class $NAME$ extends \BaseController {
 		{
 			return $this->_access_denied();
 		}
-		$$RESOURCE$ = new $MODEL$;
+		$$RESOURCE$ = new $MODEL2$;
 		$$RESOURCE$->fill($data);
 		if(!$$RESOURCE$->save())
 		{

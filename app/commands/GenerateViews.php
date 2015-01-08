@@ -39,12 +39,16 @@ class GenerateViews extends Command {
     private $argfields;
     private $argparams   = [];
     private $no_migration = false;
+    private $nesting;
 
     public function fire() {
         if ($this->argument('no_migration')) {
             $this->no_migration = true;
         } else {
             $this->call('migrate:reset');
+        }
+        if($this->argument('nesting')) {
+            $this->nesting = $this->argument('nesting');
         }
         $this->call('dump-autoload');
         $this->getArgumentFields();
@@ -107,6 +111,18 @@ class GenerateViews extends Command {
         return $this->argname = $name;
     }
 
+    private function getNestingModel()
+    {
+        // trim off _id;
+        if($this->nesting){
+            $model = substr($this->nesting, 0, (strlen($this->nesting) - 3));
+            $model = str_replace('_', ' ', $model);
+            $model = ucwords($model);
+            return str_replace(' ', '', $model);
+        }
+        return false;
+    }
+
     private function makeViewParams() {
 
         /*
@@ -140,22 +156,25 @@ class GenerateViews extends Command {
         $this->argparams['$MODEL$']              = str_replace(' ', '', $title_string);
         $this->argparams['$MODEL2$']              = $this->argparams['$MODEL$']; // used for controller generation, clashing with way\generators
         $this->argparams['$MODEL_FILE$']         = str_replace(' ', '', $this->argparams['$MODEL$']).'.php';
+        $this->argparams['$NESTINGCOL$']         = $this->nesting;
+        $this->argparams['$NESTINGMODEL$']       = $this->getNestingModel();
         $this->argparams['$FORM$']               = "\n";
         $this->argparams['$CONTROLLER_COLUMNS$'] = "\n";
         $this->argparams['$MODEL_FILLEABLE$']    = "\n";
         $this->argparams['$MODEL_VALIDATION$']   = "\n";
-        foreach ($this->argfields as $key => $value) {
-            $this->argparams['$FORM$'] .= "{{ Former::text('$key')\n";
-            $this->argparams['$FORM$'] .= "    ->label('$value')\n";
-            $this->argparams['$FORM$'] .= "    ->required() }}\n";
-
-            $this->argparams['$CONTROLLER_COLUMNS$'] .= "                '$table_name.$key',\n";
-            $this->argparams['$MODEL_FILLEABLE$'] .= "        '$key',\n";
-            $this->argparams['$MODEL_VALIDATION$'] .= "            '$key' => 'required',\n";
-        }
         $this->argparams['$THEADS$'] = "\n";
         foreach ($this->argfields as $key => $value) {
-            $this->argparams['$THEADS$'] .= "                <th>$value</th>\n";
+            if($key !== $this->nesting) {
+                $this->argparams['$FORM$'] .= "{{ Former::text('$key')\n";
+                $this->argparams['$FORM$'] .= "    ->label('$value')\n";
+                $this->argparams['$FORM$'] .= "    ->required() }}\n";
+                $this->argparams['$CONTROLLER_COLUMNS$'] .= "                '$table_name.$key',\n";
+                $this->argparams['$MODEL_VALIDATION$'] .= "            '$key' => 'required',\n";
+                $this->argparams['$THEADS$'] .= "                <th>$value</th>\n";
+            }
+            $this->argparams['$MODEL_FILLEABLE$'] .= "        '$key',\n";
+        }
+        foreach ($this->argfields as $key => $value) {
         }
     }
 
@@ -199,7 +218,11 @@ class GenerateViews extends Command {
     private function callWayGenerators() {
         $this->call('generate:seed', ['tableName' => $this->argparams['$TABLE_NAME$']]);
         $this->call('generate:model', ['modelName' => $this->argparams['$MODEL$'], '--templatePath' => app_path('/templates/datatable-classes/model.txt')]);
-        $this->call('generate:controller', ['controllerName' => $this->argparams['$CONTROLLER$'], '--templatePath' => app_path('/templates/datatable-classes/controller.txt')]);
+        if($this->nesting) {
+            $this->call('generate:controller', ['controllerName' => $this->argparams['$CONTROLLER$'], '--templatePath' => app_path('/templates/datatable-classes/controller-nested.txt')]);
+        } else {
+            $this->call('generate:controller', ['controllerName' => $this->argparams['$CONTROLLER$'], '--templatePath' => app_path('/templates/datatable-classes/controller-top.txt')]);
+        }
         if (!$this->no_migration) {
             $this->call('generate:migration', ['migrationName' => 'create_'.$this->argparams['$VIEWPATH$'].'_table', '--fields' => $this->genfields]);
         }
@@ -218,7 +241,11 @@ class GenerateViews extends Command {
     }
 
     private function makeViews() {
-        $this->templatepath = app_path().'/templates/datatables';
+        if($this->nesting) {
+            $this->templatepath = app_path().'/templates/datatables-nested';
+        } else {
+            $this->templatepath = app_path().'/templates/datatables-top';
+        }
         $templates          = scandir($this->templatepath);
         foreach ($templates as $template_filename) {
             if (stristr($template_filename, '.txt')) {
@@ -265,6 +292,7 @@ class GenerateViews extends Command {
         return array(
             array('name', InputArgument::REQUIRED, 'the name of the views in this format: leave_holidays (plural, lower case, uderscore separated)'),
             array('no_migration', InputArgument::OPTIONAL, 'If true, will not generate migrations'),
+            array('nesting', InputArgument::OPTIONAL, 'Foreign Key column for nestng in this format: leave_holiday_id'),
         );
     }
 

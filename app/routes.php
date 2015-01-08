@@ -39,6 +39,7 @@ Route::group(['before' => 'auth'], function () {
     Route::get('auth/logout', 'AuthController@logout');
 
     Route::resource('uploader', 'UploadsController');
+    Route::get('uploader/{id}/remove', 'UploadsController@remove');
 
     Route::controller('reports', 'ReportController');
 });

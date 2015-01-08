@@ -1,0 +1,16 @@
+@extends('layouts.default')
+@section('content')
+    <h2>$TITLES$</h2>
+    <hr>
+    <table data-path="{{action('$CONTROLLER$@index', $parent_id)}}" class="DT table table-striped table-hover table-bordered">
+        <thead>
+            <tr>
+                $THEADS$
+                <th width="200px">Actions</th>
+            </tr>
+        </thead>
+        <tbody></tbody>
+    </table>
+    <br>
+    @include('$VIEWPATH$.actions-footer', ['is_list' => true])
+@stop

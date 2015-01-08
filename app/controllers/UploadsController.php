@@ -61,6 +61,17 @@ class UploadsController extends \BaseController {
             ->with('notification:success', $this->deleted_message);
     }
 
+    public function remove($id) {
+        $upload = Upload::findOrFail($id);
+        if (!$upload->canDelete()) {
+            return $this->_access_denied();
+        }
+        File::deleteDirectory($upload->path);
+        $upload->delete();
+        return Redirect::back()
+            ->with('notification:success', $this->deleted_message);
+    }
+
     /**
      * Custom Methods. Dont forget to add these to routes: Route::get('example/name', 'ExampleController@getName');
      */

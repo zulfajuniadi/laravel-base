@@ -1,0 +1,17 @@
+<div class="well">
+    @if(isset($has_submit))
+        <button class="btn btn-primary">Submit</button>
+    @endif
+    @if(stristr(Route::currentRouteAction(), '$CONTROLLER$@index') === '$CONTROLLER$@index')
+        <a href="{{action('$CONTROLLER$@create')}}" class="btn btn-default">Create</a>
+    @else
+        <a href="{{action('$CONTROLLER$@index')}}" class="btn btn-default">Back To List</a>
+    @endif
+    @if(isset($$RESOURCE$) && stristr(Route::currentRouteAction(), '$CONTROLLER$@show') === '$CONTROLLER$@show')
+        <a href="{{action('$CONTROLLER$@edit', $$RESOURCE$->id)}}" class="btn btn-default">Edit</a>
+        {{Former::open(action('$CONTROLLER$@destroy', $$RESOURCE$->id))->class('form-inline')}}
+            {{Former::hidden('_method', 'DELETE')}}
+            <button type="button" class="btn btn-danger confirm-delete">Delete</button>
+        {{Former::close()}}
+    @endif
+</div>
