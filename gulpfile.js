@@ -55,7 +55,7 @@ gulp.task("coffee", function(){
         .pipe(rename({suffix: '.min'}))
         .pipe(gulp.dest("public/assets/javascripts"))
         .pipe(notify('Coffeescripts Processed.'))
-        .pipe(livereload());;
+        .pipe(livereload());
 });
 
 gulp.task('watch', function() {
