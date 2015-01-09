@@ -127,7 +127,6 @@ return array(
         'Zizaco\Entrust\EntrustServiceProvider',
         'Baum\BaumServiceProvider',
         'Bllim\Datatables\DatatablesServiceProvider',
-        'Clockwork\Support\Laravel\ClockworkServiceProvider',
         'Maatwebsite\Excel\ExcelServiceProvider',
     ),
 
@@ -201,7 +200,6 @@ return array(
         'Datatables'        => 'Bllim\Datatables\Facade\Datatables',
         'Ardent'            => 'LaravelBook\Ardent\Ardent',
         'Excel'             => 'Maatwebsite\Excel\Facades\Excel',
-        'Clockwork'         => 'Clockwork\Support\Laravel\Facade',
     ),
 
 );
