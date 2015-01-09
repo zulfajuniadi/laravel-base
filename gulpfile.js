@@ -58,10 +58,6 @@ gulp.task("coffee", function(){
         .pipe(livereload());;
 });
 
-gulp.task("notifyJs", function(){
-    // gulp.src('public/assets/javascripts/**/*.js')
-});
-
 gulp.task('watch', function() {
   livereload.listen();
   gulp.watch('app/assets/javascripts/**/*.js', ['javascripts']);

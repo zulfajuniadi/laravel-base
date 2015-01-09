@@ -14,8 +14,7 @@
 		"baum/baum": "1.*",
 		"itsgoingd/clockwork": "1.*",
 		"maatwebsite/excel": "1.*",
-		"videlalvaro/php-amqplib": "2.2.*",
-		"oyejorge/less.php": "1.*"
+		"videlalvaro/php-amqplib": "2.2.*"
 	},
 	"autoload": {
 		"classmap": [
