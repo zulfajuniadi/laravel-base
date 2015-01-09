@@ -1,5 +1,5 @@
-//= require ../../packages/datatables/media/js/jquery.dataTables.js
-//= require ../../packages/bootstrap3-datepicker/js/bootstrap-datepicker.js
+//= require ../packages/datatables/media/js/jquery.dataTables.js
+//= require ../packages/bootstrap3-datepicker/js/bootstrap-datepicker.js
 
 $('select').prepend('<option value="" disabled readonly>Select One</option>');
 $('select').each(function(){

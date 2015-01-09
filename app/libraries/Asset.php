@@ -20,14 +20,19 @@ class Asset
     public static function tags($type)
     {
         $returnString = '';
+        $min = '.min';
+        if (App::environment('local'))
+        {
+            $min = '';
+        }
         foreach (self::$queued[$type] as $path) {
             if($type === 'js')
             {
-                $returnString =  $returnString . '      <script src="/javascripts/' . $path . '.js"></script>'."\n";
+                $returnString =  $returnString . '      <script src="/assets/javascripts/' . $path . $min . '.js"></script>'."\n";
             }
             else
             {
-                $returnString = $returnString . '      <link rel="stylesheet" href="/stylesheets/' . $path . '.css"/>'."\n";
+                $returnString = $returnString . '      <link rel="stylesheet" href="/assets/stylesheets/' . $path . $min . '.css"/>'."\n";
             }
         }
         return $returnString;

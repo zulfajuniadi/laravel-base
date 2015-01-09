@@ -1,5 +1,5 @@
-//= require ../../packages/datatables/media/js/jquery.dataTables.js
-//= require ../../packages/datatables-bootstrap/dist/dataTables.bootstrap.js
+//= require ../packages/datatables/media/js/jquery.dataTables.js
+//= require ../packages/datatables-bootstrap/dist/dataTables.bootstrap.js
 
 $('.DT').each(function(){
   var target = $(this);

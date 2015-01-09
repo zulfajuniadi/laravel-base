@@ -2,6 +2,7 @@
 <html lang="en">
     <head>
         <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
         <meta name="_token" content="{{csrf_token()}}">
         @yield('meta')
         <title>App Name</title>
@@ -23,5 +24,8 @@
         </div>
         {{Asset::tags('js')}}
         @yield('scripts')
+        @if(App::environment('local'))
+        <script type="text/javascript">document.write('<script src="' + (location.protocol || 'http:') + '//' + (location.hostname || 'localhost') + ':35729/livereload.js?snipver=1" type="text/javascript"><\/script>')</script>
+        @endif
     </body>
 </html>

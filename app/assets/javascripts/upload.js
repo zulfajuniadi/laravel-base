@@ -1,4 +1,4 @@
-//= require ../../packages/dropzone/downloads/dropzone.js
+//= require ../packages/dropzone/downloads/dropzone.js
 
 Dropzone.autoDiscover = false;
 window.onload = function(){
