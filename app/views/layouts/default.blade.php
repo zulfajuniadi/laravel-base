@@ -5,7 +5,7 @@
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <meta name="_token" content="{{csrf_token()}}">
         @yield('meta')
-        <title>App Name</title>
+        <title>{{Config::get('app.name')}}</title>
         {{Asset::tags('css')}}
         @yield('styles')
     </head>

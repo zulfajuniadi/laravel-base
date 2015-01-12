@@ -2,6 +2,9 @@
 
 return array(
 
+
+    'name' => 'Laravel Base',
+
     /*
     |--------------------------------------------------------------------------
     | Application Debug Mode
@@ -78,7 +81,7 @@ return array(
     |
      */
 
-    'key' => 'RTFOwv3c5E6IgamiD7FiugJ7SVIjF5ZQ',
+    'key' => 'MR35vNPcUS1KnWsfdT55wJuOYlpwZILT',
 
     'cipher' => MCRYPT_RIJNDAEL_128,
 
