@@ -52,5 +52,5 @@ Route::post('auth/login', 'AuthController@doLogin');
 Route::get('auth/confirm/{code}', 'AuthController@confirm');
 Route::get('auth/forgot_password', 'AuthController@forgotPassword');
 Route::post('auth/forgot_password', 'AuthController@doForgotPassword');
-Route::get('auth/reset_password/{token}', 'AuthController@resetPassword');
-Route::post('auth/reset_password', 'AuthController@doResetPassword');
+Route::get('auth/reset/{token}', 'AuthController@resetPassword');
+Route::post('auth/reset', 'AuthController@doResetPassword');

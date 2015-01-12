@@ -1,30 +1,27 @@
 @extends('layouts.auth')
 @section('content')
-<h1>Reset Password</h1>
-<hr>
-<form method="POST" action="{{{ (Confide::checkAction('AuthController@doResetPassword'))    ?: URL::to('/user/reset') }}}" accept-charset="UTF-8">
-    <input type="hidden" name="token" value="{{{ $token }}}">
-    <input type="hidden" name="_token" value="{{{ Session::getToken() }}}">
-
-    <div class="form-group">
-        <label for="password">{{{ Lang::get('confide::confide.password') }}}</label>
-        <input class="form-control" placeholder="{{{ Lang::get('confide::confide.password') }}}" type="password" name="password" id="password">
+<div class="row">
+    <div class="col-sm-6 col-sm-offset-3">
+        <h1 class="text-center">{{trans('auth.reset_password.title')}}</h1>
+        <hr>
+        @if ( Session::get('error') )
+            <div class="alert alert-danger">{{{ Session::get('error') }}}</div>
+        @endif
+        @if ( Session::get('notice') )
+            <div class="alert alert-info">{{{ Session::get('notice') }}}</div>
+        @endif
+        {{Former::open_vertical(action('AuthController@doResetPassword'))}}
+            {{Former::hidden('token')->value($token)}}
+            {{Former::password('password')
+                ->label('auth.register.password')
+                ->required()}}
+            {{Former::password('confirm_password')
+                ->label('auth.register.confirm_password')
+                ->required()}}
+            <div class="form-actions form-group">
+                <button type="submit" class="btn btn-primary">{{trans('auth.reset_password.continue')}}</button>
+            </div>
+        {{Former::close()}}
     </div>
-    <div class="form-group">
-        <label for="password_confirmation">{{{ Lang::get('confide::confide.password_confirmation') }}}</label>
-        <input class="form-control" placeholder="{{{ Lang::get('confide::confide.password_confirmation') }}}" type="password" name="password_confirmation" id="password_confirmation">
-    </div>
-
-    @if ( Session::get('error') )
-        <div class="alert alert-danger">{{{ Session::get('error') }}}</div>
-    @endif
-
-    @if ( Session::get('notice') )
-        <div class="alert alert-info">{{{ Session::get('notice') }}}</div>
-    @endif
-
-    <div class="form-actions form-group">
-        <button type="submit" class="btn btn-primary">{{{ Lang::get('confide::confide.forgot.submit') }}}</button>
-    </div>
-</form>
+</div>
 @stop

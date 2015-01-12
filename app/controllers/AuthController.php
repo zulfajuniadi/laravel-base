@@ -189,7 +189,7 @@ class AuthController extends BaseController
         $input = array(
             'token'                 => Input::get('token'),
             'password'              => Input::get('password'),
-            'password_confirmation' => Input::get('password_confirmation'),
+            'password_confirmation' => Input::get('confirm_password'),
         );
 
         User::setRules('emailResetPassword');

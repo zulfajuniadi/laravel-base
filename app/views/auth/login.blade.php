@@ -1,41 +1,35 @@
 @extends('layouts.auth')
 @section('content')
-<h1>Login</h1>
-<hr>
-<form method="POST" action="{{{ Confide::checkAction('AuthController@doLogin') ?: URL::to('/user/login') }}}" accept-charset="UTF-8">
-    <input type="hidden" name="_token" value="{{{ Session::getToken() }}}">
-    <fieldset>
-        <div class="form-group">
-            <label for="email">{{{ Lang::get('confide::confide.username_e_mail') }}}</label>
-            <input class="form-control" tabindex="1" placeholder="{{{ Lang::get('confide::confide.username_e_mail') }}}" type="text" name="email" id="email" value="{{{ Input::old('email') }}}">
-        </div>
-        <div class="form-group">
-        <label for="password">
-            {{{ Lang::get('confide::confide.password') }}}
-        </label>
-        <input class="form-control" tabindex="2" placeholder="{{{ Lang::get('confide::confide.password') }}}" type="password" name="password" id="password">
-        </div>
-        <div class="form-group">
-            <label for="remember" class="checkbox">
-                <input type="hidden" name="remember" value="0">
-                <input tabindex="4" type="checkbox" name="remember" id="remember" value="1">
-                {{{ Lang::get('confide::confide.login.remember') }}}
-            </label>
-        </div>
+<div class="row">
+    <div class="col-sm-6 col-sm-offset-3">
+        <h1>{{trans('auth.login.title')}}</h1>
+        <hr>
         @if ( Session::get('error') )
-            <div class="alert alert-danger">{{{ Session::get('error') }}}</div>
+            <div class="alert alert-danger">{{ Session::get('error') }}</div>
         @endif
-
         @if ( Session::get('notice') )
-            <div class="alert alert-info">{{{ Session::get('notice') }}}</div>
+            <div class="alert alert-info">{{ Session::get('notice') }}</div>
         @endif
-        <div class="form-group">
-            <button tabindex="3" type="submit" class="btn btn-default">{{{ Lang::get('confide::confide.login.submit') }}}</button>
-        </div>
-    </fieldset>
-</form>
-<p class="text-center">
-    {{link_to_action('AuthController@forgotPassword', 'Forgot Password')}} |
-    {{link_to_action('AuthController@create', 'Register')}}
-</p>
+        {{Former::open_vertical(action('AuthController@doLogin'))}}
+                {{Former::text('email')
+                    ->label('auth.login.username_or_email')
+                    ->required()}}
+                {{Former::text('password')
+                    ->label('auth.login.password')
+                    ->required()}}
+                {{Former::hidden('remember')
+                    ->value(0)}}
+                {{Former::checkbox('remember')
+                    ->label('')
+                    ->text('auth.login.remember_me')}}
+                <div class="form-group">
+                    <button type="submit" class="btn btn-primary">{{trans('auth.login.title')}}</button>
+                    <a class="btn btn-success" href="{{action('AuthController@create')}}">{{trans('auth.register.title')}}</a>
+                </div>
+        {{Former::close()}}
+        <p class="text-center">
+            {{link_to_action('AuthController@forgotPassword', trans('auth.forgot_password.title'))}}
+        </p>
+    </div>
+</div>
 @stop
