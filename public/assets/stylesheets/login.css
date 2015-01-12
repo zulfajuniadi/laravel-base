@@ -6477,3 +6477,6 @@ body {
 label.checkbox {
   padding-left: 24px;
 }
+.better-validity-tooltip {
+  right: 15px;
+}
