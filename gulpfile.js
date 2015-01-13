@@ -8,9 +8,11 @@ var rename     = require('gulp-rename');
 var notify     = require("gulp-notify");
 var livereload = require("gulp-livereload");
 var changed    = require("gulp-changed");
+var plumber    = require("gulp-plumber");
 
 gulp.task("stylesheets", function(){
     gulp.src('app/assets/stylesheets/**/*.css')
+        .pipe(plumber())
         .pipe(changed('public/assets/stylesheets'))
         .pipe(include())
         .pipe(gulp.dest("public/assets/stylesheets"))
@@ -23,6 +25,7 @@ gulp.task("stylesheets", function(){
 
 gulp.task("less", function(){
     gulp.src('app/assets/stylesheets/**/*.less')
+        .pipe(plumber())
         .pipe(changed('public/assets/stylesheets'))
         .pipe(include())
         .pipe(less())
@@ -36,6 +39,7 @@ gulp.task("less", function(){
 
 gulp.task("javascripts", function(){
     gulp.src('app/assets/javascripts/**/*.js')
+        .pipe(plumber())
         .pipe(changed('public/assets/javascripts'))
         .pipe(include())
         .pipe(gulp.dest("public/assets/javascripts"))
@@ -48,6 +52,7 @@ gulp.task("javascripts", function(){
 
 gulp.task("coffee", function(){
     gulp.src('app/assets/javascripts/**/*.coffee')
+        .pipe(plumber())
         .pipe(changed('public/assets/javascripts'))
         .pipe(include())
         .pipe(gulp.dest("public/assets/javascripts"))
