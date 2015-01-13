@@ -11,9 +11,7 @@
 		"laravelbook/ardent": "2.*",
 		"bllim/datatables": "1.*",
 		"anahkiasen/former": "3.*",
-		"baum/baum": "1.*",
-		"maatwebsite/excel": "1.*",
-		"videlalvaro/php-amqplib": "2.2.*"
+		"maatwebsite/excel": "1.*"
 	},
 	"autoload": {
 		"classmap": [
@@ -23,7 +21,10 @@
 			"app/models",
 			"app/database/migrations",
 			"app/database/seeds",
-			"app/tests/TestCase.php"
+			"app/tests/TestCase.php",
+			"app/base/controllers",
+			"app/base/models",
+			"app/base/database/seeds"
 		]
 	},
 	"scripts": {

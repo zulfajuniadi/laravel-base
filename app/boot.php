@@ -11,3 +11,5 @@ if(Session::has('errors'))
         Log::error($message);
     }
 }
+
+View::addLocation(app_path() . '/base/views');
