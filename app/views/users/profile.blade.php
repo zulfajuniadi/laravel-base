@@ -21,14 +21,6 @@
             <td>{{$user->status()}}</td>
         </tr>
         <tr>
-            <th width="200px" class="text-right">Organization Unit :</th>
-            <td>{{$user->organizationunit->name}}</td>
-        </tr>
-        <tr>
-            <th width="200px" class="text-right">Immediate Superior :</th>
-            <td>{{$user->organizationunit->user->first_name}} {{$user->organizationunit->user->last_name}}</td>
-        </tr>
-        <tr>
             <th width="200px" class="text-right">Roles :</th>
             <td>
                 <ul class="list-unstyled">

@@ -24,21 +24,6 @@ class LaravelBaseMigrations extends Migration {
 			$table->index('token');
 		});
 
-		Schema::create('organization_units', function($table)
-		{
-			$table->increments('id');
-			$table->string('name');
-			$table->integer('parent_id')->unsigned()->nullable();
-			$table->integer('lft')->unsigned()->nullable();
-			$table->integer('rgt')->unsigned()->nullable();
-			$table->integer('depth')->unsigned()->nullable();
-			$table->integer('user_id')->unsigned();
-			$table->timestamps();
-
-			// Indexes
-			$table->index('user_id');
-		});
-
 		Schema::create('users', function($table)
 		{
 			$table->increments('id');
@@ -50,22 +35,11 @@ class LaravelBaseMigrations extends Migration {
 			$table->string('confirmation_code')->nullable();
 			$table->boolean('confirmed')->default(false);
 			$table->string('remember_token')->nullable();
-			$table->integer('organization_unit_id')->unsigned()->default(1);
 			$table->timestamps();
 
 			// Indexes
 			$table->unique('username');
 			$table->unique('email');
-			$table->index('organization_unit_id');
-
-			// Foreign Key
-			$table->foreign('organization_unit_id')->references('id')->on('organization_units')->onDelete('cascade');
-		});
-
-		// Circular Reference
-		Schema::table('organization_units', function($table)
-		{
-			$table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
 		});
 
 		Schema::create('roles', function($table)
@@ -223,19 +197,12 @@ class LaravelBaseMigrations extends Migration {
 	public function down()
 	{
 		Schema::dropIfExists('password_reminders');
-		try {
-			Schema::table('organization_units', function($table)
-			{
-				$table->dropForeign('organization_units_user_id_foreign');
-			});
-		} catch (Exception $e) {}
 		Schema::dropIfExists('uploads');
 		Schema::dropIfExists('assigned_roles');
 		Schema::dropIfExists('permission_role');
 		Schema::dropIfExists('roles');
 		Schema::dropIfExists('permissions');
 		Schema::dropIfExists('users');
-		Schema::dropIfExists('organization_units');
 		Schema::dropIfExists('report_columns');
 		Schema::dropIfExists('report_groupings');
 		Schema::dropIfExists('report_fields');

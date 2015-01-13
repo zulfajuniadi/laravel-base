@@ -14,8 +14,6 @@ class LaravelBaseSeeder extends Seeder
         User::truncate();
         DB::table('assigned_roles')->truncate();
         DB::table('permission_role')->truncate();
-        OrganizationUnit::truncate();
-
 
         /**
          * Seed Datas
@@ -73,31 +71,6 @@ class LaravelBaseSeeder extends Seeder
                 'group_name'   => 'Permission'
             ],
             [
-                'name'         => 'OrganizationUnit:list',
-                'display_name' => 'List Organization Units',
-                'group_name'   => 'Organization Units'
-            ],
-            [
-                'name'         => 'OrganizationUnit:show',
-                'display_name' => 'Show Organization Unit',
-                'group_name'   => 'Organization Units'
-            ],
-            [
-                'name'         => 'OrganizationUnit:create',
-                'display_name' => 'Create New Organization Unit',
-                'group_name'   => 'Organization Units'
-            ],
-            [
-                'name'         => 'OrganizationUnit:edit',
-                'display_name' => 'Edit Existing Organization Unit',
-                'group_name'   => 'Organization Units'
-            ],
-            [
-                'name'         => 'OrganizationUnit:delete',
-                'display_name' => 'Delete Existing Organization Unit',
-                'group_name'   => 'Organization Units'
-            ],
-            [
                 'name'         => 'User:list',
                 'display_name' => 'List Users',
                 'group_name'   => 'Users'
@@ -145,9 +118,6 @@ class LaravelBaseSeeder extends Seeder
                 'name' => 'Permission Admin'
             ],
             [
-                'name' => 'OrganizationUnit Admin'
-            ],
-            [
                 'name' => 'User Admin'
             ],
             [
@@ -158,14 +128,6 @@ class LaravelBaseSeeder extends Seeder
             ]
         ];
 
-        $role_permissions = [
-            1 => [],
-            2 => [1, 2, 3, 4, 5],
-            3 => [6, 7, 8, 9, 10],
-            4 => [11, 12, 13, 14, 15],
-            5 => [16, 17, 18, 19, 20, 21, 22]
-        ];
-
         $users = [
             [
                 'first_name'            => 'System',
@@ -174,7 +136,6 @@ class LaravelBaseSeeder extends Seeder
                 'email'                 => 'admin@example.com',
                 'password'              => 'admin',
                 'password_confirmation' => 'admin',
-                'organization_unit_id'  => 1,
                 'confirmed'             => 1,
             ],
             [
@@ -184,7 +145,6 @@ class LaravelBaseSeeder extends Seeder
                 'email'                 => 'user@example.com',
                 'password'              => 'user',
                 'password_confirmation' => 'user',
-                'organization_unit_id'  => 1,
                 'confirmed'             => 1,
             ]
         ];
@@ -193,18 +153,6 @@ class LaravelBaseSeeder extends Seeder
             1 => [1],
             2 => [6]
         ];
-
-        $organization_units = [
-            [
-                'name'    => 'Base Group',
-                'user_id' => 1
-            ]
-        ];
-
-        foreach ($organization_units as $data) {
-            OrganizationUnit::create($data);
-        }
-
 
         /**
          * Insert Into DB
@@ -215,10 +163,7 @@ class LaravelBaseSeeder extends Seeder
         }
 
         foreach ($roles as $data) {
-            $role       = Role::create($data);
-            $permission = isset($role_permissions[$role->id])?$role_permissions[$role->id]:null;
-            if ($permission)
-                $role->perms()->sync($permission);
+            Role::create($data);
         }
 
         foreach ($users as $data) {

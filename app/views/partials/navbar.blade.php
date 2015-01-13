@@ -25,11 +25,6 @@
                                         <a href="{{action('UsersController@index')}}">Users</a>
                                     </li>
                                 @endif
-                                @if(OrganizationUnit::canList())
-                                    @if($controller === 'OrganizationUnitsController')<li class="active">@else<li>@endif
-                                        <a href="{{action('OrganizationUnitsController@index')}}">Organizations</a>
-                                    </li>
-                                @endif
                                 <li class="divider"></li>
                                 <li class="dropdown-header">ACL Management</li>
                                 @if(Role::canList())

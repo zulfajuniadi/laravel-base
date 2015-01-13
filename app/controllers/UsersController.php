@@ -21,18 +21,15 @@ class UsersController extends \BaseController
         if (Request::ajax()) {
             $users_under_me = Auth::user()->getAuthorizedUserids(User::$show_authorize_flag);
             if (empty($users_under_me)) {
-                $users = User::with('organizationunit', 'roles')->whereNotNull('users.created_at');
+                $users = User::with('roles')->whereNotNull('users.created_at');
             } else {
-                $users = User::with('organizationunit', 'roles')->whereIn('users.user_id', $users_under_me);
+                $users = User::with('roles')->whereIn('users.user_id', $users_under_me);
             }
             $users = $users
-                ->select(['users.id', 'users.last_name', 'organization_unit_id', 'users.id as roles_column', 'users.confirmed', 'users.id as actions', 'users.first_name']);
+                ->select(['users.id', 'users.last_name', 'users.id as roles_column', 'users.confirmed', 'users.id as actions', 'users.first_name']);
             return Datatables::of($users)
                 ->edit_column('last_name', function($user){
                     return ($user->first_name . ' ' . $user->last_name);
-                })
-                ->edit_column('organization_unit_id', function($user){
-                    return $user->organizationunit->name;
                 })
                 ->edit_column('roles_column', function($user){
                     return '<ul>' . implode('', array_map(function($name){ return '<li>' . $name . '</li>'; }, $user->roles->lists('name'))) . '</ul>';

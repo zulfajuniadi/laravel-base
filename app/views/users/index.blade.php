@@ -6,7 +6,6 @@
         <thead>
             <tr>
                 <th>Name</th>
-                <th>Organization Unit</th>
                 <th>Roles</th>
                 <th>Status</th>
                 <th width="200px">Actions</th>

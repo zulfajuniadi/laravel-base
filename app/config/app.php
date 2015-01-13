@@ -128,7 +128,6 @@ return array(
         'Former\FormerServiceProvider',
         'Zizaco\Confide\ConfideServiceProvider',
         'Zizaco\Entrust\EntrustServiceProvider',
-        'Baum\BaumServiceProvider',
         'Bllim\Datatables\DatatablesServiceProvider',
         'Maatwebsite\Excel\ExcelServiceProvider',
     ),

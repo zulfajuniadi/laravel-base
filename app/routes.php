@@ -14,22 +14,10 @@
 Route::group(['before' => 'auth'], function () {
     Route::get('/', 'HomeController@index');
 
-    Route::group(['before' => ['can:User:list']], function () {
-        Route::resource('users', 'UsersController');
-    });
-
-    Route::group(['before' => ['can:OrganizationUnit:list']], function () {
-        Route::resource('organizationunits', 'OrganizationUnitsController');
-    });
-
-    Route::group(['before' => ['can:Role:list']], function () {
-        Route::resource('roles', 'RolesController');
-    });
-
-    Route::group(['before' => ['can:Permission:list']], function () {
-        Route::resource('permissions', 'PermissionsController');
-    });
-
+    Route::resource('users', 'UsersController');
+    Route::resource('roles', 'RolesController');
+    Route::resource('permissions', 'PermissionsController');
+    
     Route::get('profile', 'UsersController@profile');
     Route::get('users/{user_id}/set_password', 'UsersController@getSetPassword');
     Route::put('users/{user_id}/set_password', 'UsersController@putSetPassword');
@@ -40,7 +28,6 @@ Route::group(['before' => 'auth'], function () {
 
     Route::resource('uploader', 'UploadsController');
     Route::get('uploader/{id}/remove', 'UploadsController@remove');
-
     Route::controller('reports', 'ReportController');
 });
 
