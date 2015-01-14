@@ -129,7 +129,7 @@ class $NAME$ extends \BaseController {
 		}
 		if(!$$RESOURCE$->canUpdate())
 		{
-			return _access_denied();
+			return $this->_access_denied();
 		}
         $parent = $NESTINGMODEL$::findOrFail($parent_id);
 		return View::make('$COLLECTION$.edit', compact('$RESOURCE$', 'parent_id', 'parent'));
