@@ -15,8 +15,8 @@
                 <td>{{$upload->type}}</td>
                 <td>{{$upload->size}}</td>
                 <td>
-                    <a href="{{$upload->url}}/{{$upload->name}}" class="btn btn-primary btn-xs" download>Download</a>
-                    @if($upload->canDelete())
+                    <a href="{{$upload->url}}/{{$upload->name}}" class="btn btn-primary btn-xs" target="blank" download>Download</a>
+                    @if($upload->canDelete() && !strstr(Route::currentRouteAction(), 'show'))
                         <a href="{{action('UploadsController@remove')}}" class="btn btn-danger btn-xs confirm-delete">Delete</a>
                     @endif
                 </td>
