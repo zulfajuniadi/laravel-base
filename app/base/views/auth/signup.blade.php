@@ -34,7 +34,7 @@
                     {{Former::password('password')
                         ->label('auth.register.password')
                         ->required()}}
-                    {{Former::password('confirm_password')
+                    {{Former::password('password_confirmation')
                         ->label('auth.register.confirm_password')
                         ->required()}}
                 </div>
