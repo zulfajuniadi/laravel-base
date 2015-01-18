@@ -23,6 +23,6 @@ return [
         'title' => 'Login',
         'remember_me' => 'Remember Me',
         'password' => 'Password',
-        'username_or_email' => 'Username or Password',
+        'username_or_email' => 'Username or Email',
     ]
 ];
