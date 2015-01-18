@@ -121,10 +121,10 @@ class LaravelBaseSeeder extends Seeder
                 'name' => 'User Admin'
             ],
             [
-                'name' => 'User'
+                'name' => 'Upload Admin'
             ],
             [
-                'name' => 'Upload Admin'
+                'name' => 'User'
             ]
         ];
 
