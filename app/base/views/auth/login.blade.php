@@ -14,7 +14,7 @@
                 {{Former::text('email')
                     ->label('auth.login.username_or_email')
                     ->required()}}
-                {{Former::text('password')
+                {{Former::password('password')
                     ->label('auth.login.password')
                     ->required()}}
                 {{Former::hidden('remember')
