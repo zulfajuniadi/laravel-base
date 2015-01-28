@@ -49,55 +49,6 @@ Route::filter('auth', function()
 	}
 });
 
-Route::filter('hasRole', function($route, $request, $role)
-{
-	$user = Auth::user();
-	if($user) 
-	{
-		if($user->hasRole($role) || $user->hasRole('Admin')) 
-		{
-			return;	
-		}
-	}
-	if (Request::ajax())
-	{
-		return Response::make('Unauthorized', 401);
-	}
-	return Redirect::to('/')
-		->with('notification:danger', 'Access denied.');
-});
-
-Route::filter('can', function($route, $request, $ability)
-{
-	$abilityParts = explode(':', $ability);
-	$role = array_shift($abilityParts) . ' Admin';
-	$user = Auth::user();
-	if($user) 
-	{
-		if($user->ability([$role, 'Admin'], [$ability]))
-		{
-			return;	
-		}
-	}
-	if (Request::ajax())
-	{
-		return Response::make('Unauthorized', 401);
-	}
-	return Redirect::to('/')
-		->with('notification:danger', 'Access denied.');
-});
-
-Route::filter('canList', function($route, $request, $model){
-	if(call_user_func([$model,'canList']))
-		return;
-	if (Request::ajax())
-	{
-		return Response::make('Unauthorized', 401);
-	}
-	return Redirect::to('/')
-		->with('notification:danger', 'Access denied.');
-});
-
 Route::filter('admin', function()
 {
 	$user = Auth::user();
