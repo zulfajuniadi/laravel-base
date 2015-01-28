@@ -77,16 +77,18 @@
             </div><br>
         @endif
         <div class="clearfix"></div>
-        <div class="row">
-            <div class="col-md-4">
-                <div>
-                    <h4>Query Grouping</h4>
+        @if($report->groupings()->count() > 0)
+            <div class="row">
+                <div class="col-md-4">
+                    <div>
+                        <h4>Query Grouping</h4>
+                    </div>
+                    <br>
+                    <?php $value = (isset($form_input['grouping'])) ? $form_input['grouping'] : null ?>
+                    {{Form::select('grouping', $report->groupings()->lists('label', 'id'), $value, ['class' => 'form-control', 'id' => 'grouping', 'placeholder' => 'Choose One', 'data-value' => $value])}}
                 </div>
-                <br>
-                <?php $value = (isset($form_input['grouping'])) ? $form_input['grouping'] : null ?>
-                {{Form::select('grouping', $report->groupings()->lists('label', 'id'), $value, ['class' => 'form-control', 'id' => 'grouping', 'placeholder' => 'Choose One', 'data-value' => $value])}}
             </div>
-        </div>
+        @endif
     </div>
     <input type="submit" name="operation" value="Generate" class="btn btn-primary">
     <input type="submit" name="operation" value="Download" class="btn btn-info">
