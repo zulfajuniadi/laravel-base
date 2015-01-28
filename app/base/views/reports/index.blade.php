@@ -5,7 +5,7 @@
     <table data-path="{{action('ReportsController@index')}}" class="DT table table-striped table-hover table-bordered">
         <thead>
             <tr>
-                
+                <th>Category</th>
                 <th>Name</th>
                 <th>Model</th>
                 <th>Path</th>

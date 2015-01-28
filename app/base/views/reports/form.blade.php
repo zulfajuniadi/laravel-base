@@ -1,4 +1,10 @@
 
+{{ Former::select('report_category_id')
+    ->help('Report will be grouped under this category')
+    ->placeholder('Choose One')
+    ->options(ReportCategory::lists('name', 'id'))
+    ->label('Category')
+    ->required() }}
 {{ Former::text('name')
     ->help('Report name will appear under "report" dropdown')
     ->label('Name')

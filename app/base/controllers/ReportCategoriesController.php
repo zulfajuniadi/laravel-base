@@ -1,6 +1,6 @@
 <?php
 
-class ReportsController extends \BaseController {
+class ReportCategoriesController extends \BaseController {
 
 	/**
 	 * Display a listing of reports
@@ -9,36 +9,23 @@ class ReportsController extends \BaseController {
 	 */
 	public function index()
 	{
-		if(!Report::canList())
+		if(!ReportCategory::canList())
 		{
 			return $this->_access_denied();
 		}
 		if(Request::ajax())
 		{
-			$users_under_me = Auth::user()->getAuthorizedUserids(Report::$show_authorize_flag);
-			if(empty($users_under_me)) {
-				$reports = Report::whereNotNull('reports.created_at');	
-			} else {
-				$reports = Report::whereIn('reports.user_id', $users_under_me);	
-			}
-			$reports = $reports->select([
-				'reports.id',
-                'reports.report_category_id',
-                'reports.name',
-                'reports.model',
-                'reports.path',
-                'reports.is_json',
-				'reports.id as actions'
+			$reports = ReportCategory::select([
+				'report_categories.id',
+                'report_categories.name',
+				'report_categories.id as actions'
              ]);
 			return Datatables::of($reports)
-                ->edit_column('report_category_id', function($report){
-                	return $report->category->name;
-                })
                 ->edit_column('actions', function($report){
                     $actions   = [];
-                    $actions[] = $report->canShow() ? link_to_action('ReportsController@show', 'Show', $report->id, ['class' => 'btn btn-xs btn-primary'] ) : '';
-                    $actions[] = $report->canUpdate() ? link_to_action('ReportsController@edit', 'Update', $report->id, ['class' => 'btn btn-xs btn-default'] ) : '';
-                    $actions[] = $report->canDelete() ? Former::open(action('ReportsController@destroy', $report->id))->class('form-inline') 
+                    $actions[] = $report->canShow() ? link_to_action('ReportCategoriesController@show', 'Show', $report->id, ['class' => 'btn btn-xs btn-primary'] ) : '';
+                    $actions[] = $report->canUpdate() ? link_to_action('ReportCategoriesController@edit', 'Update', $report->id, ['class' => 'btn btn-xs btn-default'] ) : '';
+                    $actions[] = $report->canDelete() ? Former::open(action('ReportCategoriesController@destroy', $report->id))->class('form-inline') 
                     . Former::hidden('_method', 'DELETE')
                     . '<button type="button" class="btn btn-xs btn-danger confirm-delete">Delete</button>'
                     . Former::close() : '';
@@ -49,7 +36,7 @@ class ReportsController extends \BaseController {
             return Datatables::of($reports)->make();
         }
         Asset::push('js', 'datatables');
-        return View::make('reports.index');
+        return View::make('reportcategories.index');
     }
 
 	/**
@@ -63,11 +50,11 @@ class ReportsController extends \BaseController {
 		{
 			return $this->_ajax_denied();
 		}
-		if(!Report::canCreate())
+		if(!ReportCategory::canCreate())
 		{
 			return $this->_access_denied();
 		}
-		return View::make('reports.create');
+		return View::make('reportcategories.create');
 	}
 
 	/**
@@ -78,12 +65,12 @@ class ReportsController extends \BaseController {
 	public function store()
 	{
 		$data = Input::all();
-		Report::setRules('store');
-		if(!Report::canCreate())
+		ReportCategory::setRules('store');
+		if(!ReportCategory::canCreate())
 		{
 			return $this->_access_denied();
 		}
-		$report = new Report;
+		$report = new ReportCategory;
 		$report->fill($data);
 		if(!$report->save())
 		{
@@ -93,7 +80,7 @@ class ReportsController extends \BaseController {
 		{
 			return Response::json($report, 201);
 		}
-		return Redirect::action('ReportsController@index')
+		return Redirect::action('ReportCategoriesController@index')
          ->with('notification:success', $this->created_message);
      }
 
@@ -105,17 +92,17 @@ class ReportsController extends \BaseController {
 	 */
 	public function show($id)
 	{
-		$report = Report::findOrFail($id);
-		if(!$report->canShow())
+		$reportcategory = ReportCategory::findOrFail($id);
+		if(!$reportcategory->canShow())
 		{
 			return $this->_access_denied();
 		}
 		if(Request::ajax())
 		{
-			return Response::json($report);
+			return Response::json($reportcategory);
 		}
 		Asset::push('js', 'show');
-		return View::make('reports.show', compact('report'));
+		return View::make('reportcategories.show', compact('reportcategory'));
 	}
 
 	/**
@@ -126,16 +113,16 @@ class ReportsController extends \BaseController {
 	 */
 	public function edit($id)
 	{
-		$report = Report::findOrFail($id);
+		$reportcategory = ReportCategory::findOrFail($id);
 		if(Request::ajax())
 		{
 			return $this->_ajax_denied();
 		}
-		if(!$report->canUpdate())
+		if(!$reportcategory->canUpdate())
 		{
 			return _access_denied();
 		}
-		return View::make('reports.edit', compact('report'));
+		return View::make('reportcategories.edit', compact('reportcategory'));
 	}
 
 	/**
@@ -146,22 +133,22 @@ class ReportsController extends \BaseController {
 	 */
 	public function update($id)
 	{
-		$report = Report::findOrFail($id);
-		Report::setRules('update');
+		$reportcategory = ReportCategory::findOrFail($id);
+		ReportCategory::setRules('update');
 		$data = Input::all();
-		if(!$report->canUpdate())
+		if(!$reportcategory->canUpdate())
 		{
 			return $this->_access_denied();
 		}
-		if(!$report->update($data)) {
-			return $this->_validation_error($report);
+		if(!$reportcategory->update($data)) {
+			return $this->_validation_error($reportcategory);
 		}
 		if(Request::ajax())
 		{
-			return $report;
+			return $reportcategory;
 		}
 		Session::remove('_old_input');
-		return Redirect::action('ReportsController@edit', $id)
+		return Redirect::action('ReportCategoriesController@edit', $id)
             ->with('notification:success', $this->updated_message);
     }
 
@@ -173,17 +160,17 @@ class ReportsController extends \BaseController {
 	 */
 	public function destroy($id)
 	{
-		$report = Report::findOrFail($id);
-		if(!$report->canDelete())
+		$reportcategory = ReportCategory::findOrFail($id);
+		if(!$reportcategory->canDelete())
 		{
 			return $this->_access_denied();
 		}
-		$report->delete();
+		$reportcategory->delete();
 		if(Request::ajax())
 		{
 			return Response::json($this->deleted_message);
 		}
-		return Redirect::action('ReportsController@index')
+		return Redirect::action('ReportCategoriesController@index')
             ->with('notification:success', $this->deleted_message);
     }
 

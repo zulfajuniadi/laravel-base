@@ -25,6 +25,7 @@ Route::get('/report-builder', function(){
 });
 
 Route::resource('report-builder', 'ReportsController');
+Route::resource('report-categories', 'ReportCategoriesController');
 Route::resource('report-builder.fields', 'ReportFieldsController');
 Route::resource('report-builder.eagers', 'ReportEagersController');
 Route::resource('report-builder.groupings', 'ReportGroupingsController');
