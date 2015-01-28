@@ -16036,5 +16036,3 @@ $('#reset-form').click(function(e){
     var loc = window.location;
     window.location = loc.protocol + '//' + loc.host + loc.pathname + loc.search;
 });
-
-$('table').DataTable();

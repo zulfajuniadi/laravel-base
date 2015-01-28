@@ -148,8 +148,8 @@ class ReportController extends \BaseController {
     public function __construct()
     {
         parent::__construct();
-        Asset::push('js', 'reports.js');
-        Asset::push('css', 'reports.less');
+        Asset::push('js', 'reports');
+        Asset::push('css', 'reports');
     }
 
 }
