@@ -44,15 +44,20 @@
                         <li class="dropdown">
                             <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">Reports <span class="caret"></span></a>
                             <ul class="dropdown-menu" role="menu">
-                                @foreach (Report::where('is_json', 0)->get() as $report)
+                                @foreach (Report::with('category')->where('is_json', 0)->get() as $report)
                                     <li><a href="{{action('ReportController@getShow', $report->path)}}">{{$report->name}}</a></li>
                                 @endforeach
+                                @if(isset($localroute))
+                                    <li class="divider"></li>
+                                    <li class="dropdown-header">Admin</li>
+                                    <li>
+                                        <a href="{{action('ReportCategoriesController@index')}}">Report Categories</a>
+                                    </li>
+                                    <li>
+                                        <a href="{{action('ReportsController@index')}}">Report Builder</a>
+                                    </li>
+                                @endif
                             </ul>
-                        </li>
-                    @endif
-                    @if(isset($localroute))
-                        <li>
-                            <a href="{{action('ReportsController@index')}}">Report Builder</a>
                         </li>
                     @endif
                     <li>
