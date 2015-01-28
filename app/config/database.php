@@ -52,6 +52,12 @@ return array(
             'prefix'   => '',
         ),
 
+        'reports' => array(
+            'driver'   => 'sqlite',
+            'database' => __DIR__ .'/../database/reports.sqlite',
+            'prefix'   => '',
+        ),
+
         'mysql' => array(
             'driver'    => 'mysql',
             'host'      => 'localhost',

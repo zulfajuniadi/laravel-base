@@ -28,6 +28,12 @@ return array(
 			'prefix'   => '',
 		),
 
+        'reports' => array(
+            'driver'   => 'sqlite',
+			'database' => app_path() . '/database/reports.sqlite',
+            'prefix'   => '',
+        ),
+
 		'mysql' => array(
 			'driver'    => 'mysql',
 			'host'      => 'localhost',
