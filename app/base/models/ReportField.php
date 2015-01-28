@@ -2,6 +2,8 @@
 
 class ReportField extends Ardent {
 
+    protected $connection = 'reports';
+
     /**
     * $show_authorize_flag
     * 0 => all
