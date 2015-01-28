@@ -9,6 +9,7 @@ var notify     = require("gulp-notify");
 var livereload = require("gulp-livereload");
 var changed    = require("gulp-changed");
 var plumber    = require("gulp-plumber");
+var sass       = require("gulp-sass");
 
 gulp.task("stylesheets", function(){
     gulp.src('app/assets/stylesheets/**/*.css')
@@ -34,6 +35,20 @@ gulp.task("less", function(){
         .pipe(rename({suffix: '.min'}))
         .pipe(gulp.dest("public/assets/stylesheets"))
         .pipe(notify('LESS Processed.'))
+        .pipe(livereload());
+});
+
+gulp.task("scss", function(){
+    gulp.src('app/assets/stylesheets/**/*.scss')
+        .pipe(plumber())
+        .pipe(changed('public/assets/stylesheets'))
+        .pipe(include())
+        .pipe(sass())
+        .pipe(gulp.dest("public/assets/stylesheets"))
+        .pipe(cssmin())
+        .pipe(rename({suffix: '.min'}))
+        .pipe(gulp.dest("public/assets/stylesheets"))
+        .pipe(notify('SCSS Processed.'))
         .pipe(livereload());
 });
 
@@ -69,6 +84,7 @@ gulp.task('watch', function() {
   gulp.watch('app/assets/stylesheets/**/*.css', ['stylesheets']);
   gulp.watch('app/assets/javascripts/**/*.coffee', ['coffee']);
   gulp.watch('app/assets/stylesheets/**/*.less', ['less']);
+  gulp.watch('app/assets/stylesheets/**/*.scss', ['scss']);
 });
 
 gulp.task("default", ["watch"]);
