@@ -53,6 +53,7 @@ class BaseController extends Controller
         Session::remove('_old_input');
         return Redirect::back()
             ->withErrors($validationErrors)
+            ->withInput()
             ->with('notification:danger', $this->validation_error_message);
     }
 
