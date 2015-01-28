@@ -5,33 +5,6 @@ class Report extends Ardent {
     protected $connection = 'reports';
 
     /**
-    * $show_authorize_flag
-    * 0 => all
-    * 1 => show mine only
-    * 2 => if i'm a head of ou, show all under my ou
-    * 3 => if i'm a head of ou, show all under my ou and other entries under his ou's children
-    */
-    static $show_authorize_flag = 0;
-
-    /**
-    * $update_authorize_flag
-    * 0 => all
-    * 1 => show mine only
-    * 2 => if i'm a head of ou, show all under my ou
-    * 3 => if i'm a head of ou, show all under my ou and other entries under his ou's children
-    */
-    static $update_authorize_flag = 0;
-
-    /**
-    * $delete_authorize_flag
-    * 0 => all
-    * 1 => show mine only
-    * 2 => if i'm a head of ou, show all under my ou
-    * 3 => if i'm a head of ou, show all under my ou and other entries under his ou's children
-    */
-    static $delete_authorize_flag = 0;
-
-    /**
     * Fillable columns
     */
     protected $fillable = [

@@ -5,33 +5,6 @@ class ReportGrouping extends Ardent {
     protected $connection = 'reports';
 
     /**
-    * $show_authorize_flag
-    * 0 => all
-    * 1 => show mine only
-    * 2 => if i'm a head of ou, show all under my ou
-    * 3 => if i'm a head of ou, show all under my ou and other entries under his ou's children
-    */
-    static $show_authorize_flag = 0;
-
-    /**
-    * $update_authorize_flag
-    * 0 => all
-    * 1 => show mine only
-    * 2 => if i'm a head of ou, show all under my ou
-    * 3 => if i'm a head of ou, show all under my ou and other entries under his ou's children
-    */
-    static $update_authorize_flag = 0;
-
-    /**
-    * $delete_authorize_flag
-    * 0 => all
-    * 1 => show mine only
-    * 2 => if i'm a head of ou, show all under my ou
-    * 3 => if i'm a head of ou, show all under my ou and other entries under his ou's children
-    */
-    static $delete_authorize_flag = 0;
-
-    /**
     * Fillable columns
     */
     protected $fillable = [
@@ -86,18 +59,18 @@ class ReportGrouping extends Ardent {
 
     public static function canList() 
     {
-        return (Auth::user() && Auth::user()->ability(['Admin', 'ReportGrouping Admin'], ['ReportGrouping:list']));
+        return (Auth::user() && Auth::user()->ability(['Admin', 'Report Admin'], ['ReportGrouping:list']));
     }
 
     public static function canCreate() 
     {
-        return (Auth::user() && Auth::user()->ability(['Admin', 'ReportGrouping Admin'], ['ReportGrouping:create']));
+        return (Auth::user() && Auth::user()->ability(['Admin', 'Report Admin'], ['ReportGrouping:create']));
     }
 
     public function canShow()
     {
         $user = Auth::user();
-        if(Auth::user() && Auth::user()->ability(['Admin', 'ReportGrouping Admin'], ['ReportGrouping:show']))
+        if(Auth::user() && Auth::user()->ability(['Admin', 'Report Admin'], ['ReportGrouping:show']))
             return true;
         return false;
     }
@@ -105,7 +78,7 @@ class ReportGrouping extends Ardent {
     public function canUpdate() 
     {
         $user = Auth::user();
-        if(Auth::user() && Auth::user()->ability(['Admin', 'ReportGrouping Admin'], ['ReportGrouping:edit']))
+        if(Auth::user() && Auth::user()->ability(['Admin', 'Report Admin'], ['ReportGrouping:edit']))
             return true;
         return false;
     }
@@ -113,7 +86,7 @@ class ReportGrouping extends Ardent {
     public function canDelete() 
     {
         $user = Auth::user();
-        if(Auth::user() && Auth::user()->ability(['Admin', 'ReportGrouping Admin'], ['ReportGrouping:delete']))
+        if(Auth::user() && Auth::user()->ability(['Admin', 'Report Admin'], ['ReportGrouping:delete']))
             return true;
         return false;
     }

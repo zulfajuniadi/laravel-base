@@ -35,27 +35,27 @@ class Permission extends Zizaco\Entrust\EntrustPermission
 
     public static function canList()
     {
-        return (Auth::user() && Auth::user()->ability(['Admin', 'Permission Admin'], ['Permission:list']));
+        return (Auth::user() && Auth::user()->ability(['Admin', 'ACL Admin'], ['Permission:list']));
     }
 
     public static function canCreate()
     {
-        return (Auth::user() && Auth::user()->ability(['Admin', 'Permission Admin'], ['Permission:create']));
+        return false;
     }
 
     public function canShow()
     {
-        return (Auth::user() && Auth::user()->ability(['Admin', 'Permission Admin'], ['Permission:show']));
+        return (Auth::user() && Auth::user()->ability(['Admin', 'ACL Admin'], ['Permission:show']));
     }
 
     public function canUpdate()
     {
-        return (Auth::user() && Auth::user()->ability(['Admin', 'Permission Admin'], ['Permission:edit']));
+        return false;
     }
 
     public function canDelete()
     {
-        return (Auth::user() && Auth::user()->ability(['Admin', 'Permission Admin'], ['Permission:delete']));
+        return false;
     }
 
     public static function boot()

@@ -112,19 +112,13 @@ class LaravelBaseSeeder extends Seeder
                 'name' => 'Admin'
             ],
             [
-                'name' => 'Role Admin'
-            ],
-            [
-                'name' => 'Permission Admin'
-            ],
-            [
-                'name' => 'User Admin'
-            ],
-            [
-                'name' => 'Upload Admin'
-            ],
-            [
                 'name' => 'User'
+            ],
+            [
+                'name' => 'Report Admin'
+            ],
+            [
+                'name' => 'ACL Admin'
             ]
         ];
 
@@ -151,7 +145,7 @@ class LaravelBaseSeeder extends Seeder
 
         $user_roles = [
             1 => [1],
-            2 => [6]
+            2 => [2]
         ];
 
         /**

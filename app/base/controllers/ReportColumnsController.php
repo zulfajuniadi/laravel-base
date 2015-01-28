@@ -15,12 +15,7 @@ class ReportColumnsController extends \BaseController {
 		}
 		if(Request::ajax())
 		{
-			$users_under_me = Auth::user()->getAuthorizedUserids(ReportColumn::$show_authorize_flag);
-			if(empty($users_under_me)) {
-				$reportcolumns = ReportColumn::whereNotNull('report_columns.created_at');	
-			} else {
-				$reportcolumns = ReportColumn::whereIn('report_columns.user_id', $users_under_me);	
-			}
+			$reportcolumns = ReportColumn::whereNotNull('report_columns.created_at');
 			$reportcolumns->where('report_id', $report_id);
 			$reportcolumns = $reportcolumns->select([
 				'report_columns.id',

@@ -29,27 +29,27 @@ class Role extends Zizaco\Entrust\EntrustRole
 
     public static function canList()
     {
-        return (Auth::user() && Auth::user()->ability(['Admin', 'Role Admin'], ['Role:list']));
+        return (Auth::user() && Auth::user()->ability(['Admin', 'ACL Admin'], ['Role:list']));
     }
 
     public static function canCreate()
     {
-        return (Auth::user() && Auth::user()->ability(['Admin', 'Role Admin'], ['Role:create']));
+        return (Auth::user() && Auth::user()->ability(['Admin', 'ACL Admin'], ['Role:create']));
     }
 
     public function canShow()
     {
-        return (Auth::user() && Auth::user()->ability(['Admin', 'Role Admin'], ['Role:show']));
+        return (Auth::user() && Auth::user()->ability(['Admin', 'ACL Admin'], ['Role:show']));
     }
 
     public function canUpdate()
     {
-        return (Auth::user() && Auth::user()->ability(['Admin', 'Role Admin'], ['Role:edit']));
+        return (Auth::user() && Auth::user()->ability(['Admin', 'ACL Admin'], ['Role:edit']));
     }
 
     public function canDelete()
     {
-        return (Auth::user() && Auth::user()->ability(['Admin', 'Role Admin'], ['Role:delete']));
+        return (Auth::user() && Auth::user()->ability(['Admin', 'ACL Admin'], ['Role:delete']));
     }
 
     public static function boot()

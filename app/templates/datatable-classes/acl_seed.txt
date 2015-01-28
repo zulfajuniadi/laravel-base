@@ -7,7 +7,7 @@ class Role$CLASS$ extends Seeder {
 
         $roles = [
             [
-            'name' => '$MODEL$ Admin'
+                'name' => '$MODEL$ Admin'
             ]
         ];
 

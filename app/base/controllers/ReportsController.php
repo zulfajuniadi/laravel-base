@@ -15,12 +15,7 @@ class ReportsController extends \BaseController {
 		}
 		if(Request::ajax())
 		{
-			$users_under_me = Auth::user()->getAuthorizedUserids(Report::$show_authorize_flag);
-			if(empty($users_under_me)) {
-				$reports = Report::whereNotNull('reports.created_at');	
-			} else {
-				$reports = Report::whereIn('reports.user_id', $users_under_me);	
-			}
+			$reports = Report::whereNotNull('reports.created_at');	
 			$reports = $reports->select([
 				'reports.id',
                 'reports.report_category_id',

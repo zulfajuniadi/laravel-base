@@ -15,12 +15,7 @@ class ReportEagersController extends \BaseController {
 		}
 		if(Request::ajax())
 		{
-			$users_under_me = Auth::user()->getAuthorizedUserids(ReportEager::$show_authorize_flag);
-			if(empty($users_under_me)) {
-				$reporteagers = ReportEager::whereNotNull('report_eagers.created_at');	
-			} else {
-				$reporteagers = ReportEager::whereIn('report_eagers.user_id', $users_under_me);	
-			}
+			$reporteagers = ReportEager::whereNotNull('report_eagers.created_at');	
 			$reporteagers->where('report_id', $report_id);
 			$reporteagers = $reporteagers->select([
 				'report_eagers.id',

@@ -15,12 +15,7 @@ class ReportFieldsController extends \BaseController {
 		}
 		if(Request::ajax())
 		{
-			$users_under_me = Auth::user()->getAuthorizedUserids(ReportField::$show_authorize_flag);
-			if(empty($users_under_me)) {
-				$reportfields = ReportField::whereNotNull('report_fields.created_at');	
-			} else {
-				$reportfields = ReportField::whereIn('report_fields.user_id', $users_under_me);	
-			}
+			$reportfields = ReportField::whereNotNull('report_fields.created_at');	
 			$reportfields->where('report_id', $report_id);
 			$reportfields = $reportfields->select([
 				'report_fields.id',

@@ -5,33 +5,6 @@ class ReportColumn extends Ardent {
     protected $connection = 'reports';
 
     /**
-    * $show_authorize_flag
-    * 0 => all
-    * 1 => show mine only
-    * 2 => if i'm a head of ou, show all under my ou
-    * 3 => if i'm a head of ou, show all under my ou and other entries under his ou's children
-    */
-    static $show_authorize_flag = 0;
-
-    /**
-    * $update_authorize_flag
-    * 0 => all
-    * 1 => show mine only
-    * 2 => if i'm a head of ou, show all under my ou
-    * 3 => if i'm a head of ou, show all under my ou and other entries under his ou's children
-    */
-    static $update_authorize_flag = 0;
-
-    /**
-    * $delete_authorize_flag
-    * 0 => all
-    * 1 => show mine only
-    * 2 => if i'm a head of ou, show all under my ou
-    * 3 => if i'm a head of ou, show all under my ou and other entries under his ou's children
-    */
-    static $delete_authorize_flag = 0;
-
-    /**
     * Fillable columns
     */
     protected $fillable = [
@@ -83,18 +56,18 @@ class ReportColumn extends Ardent {
 
     public static function canList() 
     {
-        return (Auth::user() && Auth::user()->ability(['Admin', 'ReportColumn Admin'], ['ReportColumn:list']));
+        return (Auth::user() && Auth::user()->ability(['Admin', 'Report Admin'], ['ReportColumn:list']));
     }
 
     public static function canCreate() 
     {
-        return (Auth::user() && Auth::user()->ability(['Admin', 'ReportColumn Admin'], ['ReportColumn:create']));
+        return (Auth::user() && Auth::user()->ability(['Admin', 'Report Admin'], ['ReportColumn:create']));
     }
 
     public function canShow()
     {
         $user = Auth::user();
-        if(Auth::user() && Auth::user()->ability(['Admin', 'ReportColumn Admin'], ['ReportColumn:show']))
+        if(Auth::user() && Auth::user()->ability(['Admin', 'Report Admin'], ['ReportColumn:show']))
             return true;
         return false;
     }
@@ -102,7 +75,7 @@ class ReportColumn extends Ardent {
     public function canUpdate() 
     {
         $user = Auth::user();
-        if(Auth::user() && Auth::user()->ability(['Admin', 'ReportColumn Admin'], ['ReportColumn:edit']))
+        if(Auth::user() && Auth::user()->ability(['Admin', 'Report Admin'], ['ReportColumn:edit']))
             return true;
         return false;
     }
@@ -110,7 +83,7 @@ class ReportColumn extends Ardent {
     public function canDelete() 
     {
         $user = Auth::user();
-        if(Auth::user() && Auth::user()->ability(['Admin', 'ReportColumn Admin'], ['ReportColumn:delete']))
+        if(Auth::user() && Auth::user()->ability(['Admin', 'Report Admin'], ['ReportColumn:delete']))
             return true;
         return false;
     }

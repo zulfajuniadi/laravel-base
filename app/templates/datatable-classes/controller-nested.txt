@@ -15,12 +15,7 @@ class $NAME$ extends \BaseController {
 		}
 		if(Request::ajax())
 		{
-			$users_under_me = Auth::user()->getAuthorizedUserids($MODEL2$::$show_authorize_flag);
-			if(empty($users_under_me)) {
-				$$COLLECTION$ = $MODEL2$::whereNotNull('$TABLE_NAME$.created_at');	
-			} else {
-				$$COLLECTION$ = $MODEL2$::whereIn('$TABLE_NAME$.user_id', $users_under_me);	
-			}
+			$$COLLECTION$ = $MODEL2$::whereNotNull('$TABLE_NAME$.created_at');	
 			$$COLLECTION$ = $$COLLECTION$->where('$NESTINGCOL$', $parent_id);
 			$$COLLECTION$ = $$COLLECTION$->select([
 				'$TABLE_NAME$.id',

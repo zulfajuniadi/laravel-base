@@ -11,33 +11,6 @@ class User extends ConfideUser implements UserInterface, RemindableInterface {
 
     use UserTrait, RemindableTrait, HasRole;
 
-    /**
-     * $show_authorize_flag
-     * 0 => all
-     * 1 => show mine only
-     * 2 => if i'm a head of ou, show all under my ou
-     * 3 => if i'm a head of ou, show all under my ou and other entries under his ou's children
-     */
-    static $show_authorize_flag = 0;
-
-    /**
-     * $update_authorize_flag
-     * 0 => all
-     * 1 => show mine only
-     * 2 => if i'm a head of ou, show all under my ou
-     * 3 => if i'm a head of ou, show all under my ou and other entries under his ou's children
-     */
-    static $update_authorize_flag = 0;
-
-    /**
-     * $delete_authorize_flag
-     * 0 => all
-     * 1 => show mine only
-     * 2 => if i'm a head of ou, show all under my ou
-     * 3 => if i'm a head of ou, show all under my ou and other entries under his ou's children
-     */
-    static $delete_authorize_flag = 0;
-
     protected $table = 'users';
 
     protected $fillable = [
@@ -175,6 +148,11 @@ class User extends ConfideUser implements UserInterface, RemindableInterface {
     /**
      * Other Functions
      */
+    
+    public function getFullName()
+    {
+        return $this->first_name . ' ' . $this->last_name;
+    }
     
     public function status()
     {

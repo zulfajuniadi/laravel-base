@@ -19,17 +19,12 @@ class UsersController extends \BaseController
             return $this->_access_denied();
         }
         if (Request::ajax()) {
-            $users_under_me = Auth::user()->getAuthorizedUserids(User::$show_authorize_flag);
-            if (empty($users_under_me)) {
-                $users = User::with('roles')->whereNotNull('users.created_at');
-            } else {
-                $users = User::with('roles')->whereIn('users.user_id', $users_under_me);
-            }
+            $users = User::with('roles')->whereNotNull('users.created_at');
             $users = $users
                 ->select(['users.id', 'users.last_name', 'users.id as roles_column', 'users.confirmed', 'users.id as actions', 'users.first_name']);
             return Datatables::of($users)
                 ->edit_column('last_name', function($user){
-                    return ($user->first_name . ' ' . $user->last_name);
+                    return $user->getFullName();
                 })
                 ->edit_column('roles_column', function($user){
                     return '<ul>' . implode('', array_map(function($name){ return '<li>' . $name . '</li>'; }, $user->roles->lists('name'))) . '</ul>';
@@ -247,9 +242,6 @@ class UsersController extends \BaseController
     public function getChangePassword()
     {
         $user = Auth::user();
-        if (!$user->canSetPassword()) {
-            return $this->_access_denied();
-        }
         return View::make('users.change-password', compact('user'));
     }
 
@@ -257,9 +249,6 @@ class UsersController extends \BaseController
     {
         $user = Auth::user();
         $data = Input::all();
-        if (!$user->canSetPassword()) {
-            return $this->_access_denied();
-        }
         User::setRules('changePassword');
         if (!Hash::check($data['old_password'], $user->password)) {
             if (Request::ajax()) {

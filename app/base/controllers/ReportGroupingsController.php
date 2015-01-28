@@ -15,12 +15,7 @@ class ReportGroupingsController extends \BaseController {
 		}
 		if(Request::ajax())
 		{
-			$users_under_me = Auth::user()->getAuthorizedUserids(ReportGrouping::$show_authorize_flag);
-			if(empty($users_under_me)) {
-				$reportgroupings = ReportGrouping::whereNotNull('report_groupings.created_at');	
-			} else {
-				$reportgroupings = ReportGrouping::whereIn('report_groupings.user_id', $users_under_me);	
-			}
+			$reportgroupings = ReportGrouping::whereNotNull('report_groupings.created_at');	
 			$reportgroupings->where('report_id', $report_id);
 			$reportgroupings = $reportgroupings->select([
 				'report_groupings.id',
