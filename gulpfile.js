@@ -10,6 +10,7 @@ var livereload = require("gulp-livereload");
 var changed    = require("gulp-changed");
 var plumber    = require("gulp-plumber");
 var sass       = require("gulp-sass");
+var coffee     = require('gulp-coffee');
 
 gulp.task("stylesheets", function(){
     gulp.src('app/assets/stylesheets/**/*.css')
@@ -70,6 +71,7 @@ gulp.task("coffee", function(){
         .pipe(plumber())
         .pipe(changed('public/assets/javascripts'))
         .pipe(include())
+        .pipe(coffee({bare: true}))
         .pipe(gulp.dest("public/assets/javascripts"))
         .pipe(uglify())
         .pipe(rename({suffix: '.min'}))
