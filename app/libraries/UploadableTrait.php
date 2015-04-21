@@ -70,9 +70,9 @@ trait UploadableTrait
     public function associateAdvancedUploads()
     {
         $class = get_class($this);
-        Upload::where('uploadable_type', $class)
+        $uploads = Upload::where('uploadable_type', $class)
             ->where('uploadable_id', 0)
             ->where('token', csrf_token())
-            ->update(['id' => $this->id]);
+            ->update(['uploadable_id' => $this->id]);
     }
 } 

@@ -8,7 +8,7 @@ window.onload = function(){
     headers: {
       'X-CSRF-Token': $('meta[name="_token"]').attr('content'),
       'X-Uploader-Class' : options.class,
-      'X-Uploader-Id' : options.id,
+      'X-Uploader-Id' : (options.id || ''),
     },
     url: '/uploader',
     addRemoveLinks: true,
