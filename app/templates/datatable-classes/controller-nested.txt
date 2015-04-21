@@ -15,8 +15,7 @@ class $NAME$ extends \BaseController {
 		}
 		if(Request::ajax())
 		{
-			$$COLLECTION$ = $MODEL2$::whereNotNull('$TABLE_NAME$.created_at');	
-			$$COLLECTION$ = $$COLLECTION$->where('$NESTINGCOL$', $parent_id);
+			$$COLLECTION$ = $MODEL2$::where('$NESTINGCOL$', $parent_id);
 			$$COLLECTION$ = $$COLLECTION$->select([
 				'$TABLE_NAME$.id',
 				$CONTROLLER_COLUMNS$'$TABLE_NAME$.id as actions'
