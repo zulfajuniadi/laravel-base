@@ -11,7 +11,8 @@
 		"laravelbook/ardent": "2.*",
 		"bllim/datatables": "1.*",
 		"anahkiasen/former": "3.*",
-		"maatwebsite/excel": "1.*"
+		"maatwebsite/excel": "1.*",
+		"symfony/yaml": "^2.6"
 	},
 	"autoload": {
 		"classmap": [
