@@ -56,21 +56,6 @@ class LaravelBaseSeeder extends Seeder
                 'group_name'   => 'Permission'
             ],
             [
-                'name'         => 'Permission:create',
-                'display_name' => 'Create New Permission',
-                'group_name'   => 'Permission'
-            ],
-            [
-                'name'         => 'Permission:edit',
-                'display_name' => 'Edit Existing Permission',
-                'group_name'   => 'Permission'
-            ],
-            [
-                'name'         => 'Permission:delete',
-                'display_name' => 'Delete Existing Permission',
-                'group_name'   => 'Permission'
-            ],
-            [
                 'name'         => 'User:list',
                 'display_name' => 'List Users',
                 'group_name'   => 'Users'
