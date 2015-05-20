@@ -12,9 +12,6 @@
         <div class="collapse navbar-collapse navbar-ex1-collapse">
             <ul class="nav navbar-nav navbar-right">
                 @if($currentuser)
-                    @if($controller === 'Profile')<li class="active">@else<li>@endif
-                        <a href="{{action('UsersController@profile')}}">Profile</a>
-                    </li>
                     @if($currentuser->hasRole('Admin'))
                         <li class="dropdown">
                             <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">Administration <span class="caret"></span></a>
@@ -65,8 +62,17 @@
                             </ul>
                         </li>
                     @endif
-                    <li>
-                         <a href="{{action('AuthController@logout')}}">Logout</a>
+
+                    <li class="dropdown">
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">{{$currentuser->getFullName()}} <span class="caret"></span></a>
+                        <ul class="dropdown-menu" role="menu">
+                            @if($controller === 'Profile')<li class="active">@else<li>@endif
+                                <a href="{{action('UsersController@profile')}}">Profile</a>
+                            </li>
+                            <li>
+                                 <a href="{{action('AuthController@logout')}}">Logout</a>
+                            </li>
+                        </ul>
                     </li>
                 @else
                     @if(Route::currentRouteUses('AuthController@login'))<li class="active">@else<li>@endif
