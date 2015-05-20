@@ -15,8 +15,10 @@ class ConfigsController extends \BaseController {
 
     public function getShow($type)
     {
+        $meta = $this->loadYaml($type);
+        Breadcrumbs::push(action('ConfigsController@getShow', $type), $meta['config_title']);
         return View::make('configs.show', [
-            'meta'    => $this->loadYaml($type),
+            'meta'    => $meta,
             'configs' => Config::get($type),
             'type'    => $type
         ]);
@@ -24,6 +26,9 @@ class ConfigsController extends \BaseController {
 
     public function getEdit($type)
     {
+        $meta = $this->loadYaml($type);
+        Breadcrumbs::push(action('ConfigsController@getShow', $type), $meta['config_title']);
+        Breadcrumbs::push(action('ConfigsController@getEdit', $type), 'Edit');
         return View::make('configs.edit', [
             'meta'    => $this->loadYaml($type),
             'configs' => Config::get($type),

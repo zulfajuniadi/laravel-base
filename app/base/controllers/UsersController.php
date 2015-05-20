@@ -62,6 +62,7 @@ class UsersController extends \BaseController
         if (!User::canCreate()) {
             return $this->_access_denied();
         }
+        Breadcrumbs::push(action('UsersController@create'), 'Create');
         return View::make('users.create');
     }
 
@@ -108,6 +109,7 @@ class UsersController extends \BaseController
             return $user;
         }
         Asset::push('js', 'show');
+        Breadcrumbs::push(action('UsersController@show', $id), $user->getFullName());
         return View::make('users.show', compact('user'));
     }
 
@@ -126,6 +128,7 @@ class UsersController extends \BaseController
         if (!$user->canUpdate()) {
             return $this->_access_denied();
         }
+        Breadcrumbs::push(action('UsersController@edit', $id), $user->getFullName());
         return View::make('users.edit', compact('user'));
     }
 
@@ -188,6 +191,8 @@ class UsersController extends \BaseController
 
     public function profile()
     {
+        Breadcrumbs::pull('Users');
+        Breadcrumbs::push(action('UsersController@profile'), 'My Profile');
         return View::make('users.profile', ['controller' => 'Profile', 'user' => Auth::user()]);
     }
 
@@ -200,6 +205,7 @@ class UsersController extends \BaseController
         if (!$user->canSetPassword()) {
             return $this->_access_denied();
         }
+        Breadcrumbs::push(action('UsersController@edit', $id), 'Set ' . $user->getFullName() . "'s Password");
         return View::make('users.set-password', compact('user'));
     }
 
@@ -242,6 +248,8 @@ class UsersController extends \BaseController
     public function getChangePassword()
     {
         $user = Auth::user();
+        Breadcrumbs::pull('Users');
+        Breadcrumbs::push(action('UsersController@getChangePassword'), 'Change My Password');
         return View::make('users.change-password', compact('user'));
     }
 
@@ -273,6 +281,8 @@ class UsersController extends \BaseController
     {
         parent::__construct();
         View::share('controller', 'UsersController');
+        Breadcrumbs::push(action('UsersController@index'), 'Users');
+
     }
 
 }

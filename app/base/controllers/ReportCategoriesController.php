@@ -54,6 +54,7 @@ class ReportCategoriesController extends \BaseController {
 		{
 			return $this->_access_denied();
 		}
+        Breadcrumbs::push(action('ReportCategoriesController@create'), 'Create');
 		return View::make('reportcategories.create');
 	}
 
@@ -102,6 +103,7 @@ class ReportCategoriesController extends \BaseController {
 			return Response::json($reportcategory);
 		}
 		Asset::push('js', 'show');
+        Breadcrumbs::push(action('ReportCategoriesController@edit', $id), 'View ' . $reportcategory->name);
 		return View::make('reportcategories.show', compact('reportcategory'));
 	}
 
@@ -122,6 +124,7 @@ class ReportCategoriesController extends \BaseController {
 		{
 			return _access_denied();
 		}
+        Breadcrumbs::push(action('ReportCategoriesController@edit', $id), 'Edit ' . $reportcategory->name);
 		return View::make('reportcategories.edit', compact('reportcategory'));
 	}
 
@@ -189,6 +192,7 @@ class ReportCategoriesController extends \BaseController {
 	public function __construct()
 	{
 		parent::__construct();
+        Breadcrumbs::push(action('ReportCategoriesController@index'), 'Report Categories');
 		View::share('controller', 'Report');
 	}
 

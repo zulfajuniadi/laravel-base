@@ -6,6 +6,7 @@ class ReportController extends \BaseController {
     {
         $report = Report::where('path', $path)->first();
         $form_input = [];
+        Breadcrumbs::push(action('ReportController@getShow', $report->path), $report->name);
         return View::make('reports.report', compact('report', 'form_input'));
     }
 

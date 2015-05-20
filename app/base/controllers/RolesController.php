@@ -53,6 +53,7 @@ class RolesController extends \BaseController
         if (!Role::canCreate()) {
             return $this->_access_denied();
         }
+        Breadcrumbs::push(action('RolesController@create'), 'Create');
         return View::make('roles.create');
     }
 
@@ -98,6 +99,7 @@ class RolesController extends \BaseController
             return $role;
         }
         Asset::push('js', 'show');
+        Breadcrumbs::push(action('RolesController@show', $id), $role->name);
         return View::make('roles.show', compact('role'));
     }
 
@@ -116,6 +118,7 @@ class RolesController extends \BaseController
         if (!$role->canUpdate()) {
             return $this->_access_denied();
         }
+        Breadcrumbs::push(action('RolesController@edit', $id), 'Edit ' . $role->name);
         return View::make('roles.edit', compact('role'));
     }
 
@@ -173,6 +176,7 @@ class RolesController extends \BaseController
     public function __construct()
     {
         parent::__construct();
+        Breadcrumbs::push(action('RolesController@index'), 'Roles');
         View::share('controller', 'RolesController');
     }
 
