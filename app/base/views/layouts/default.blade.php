@@ -16,6 +16,7 @@
             <br>
             <div class="row">
                 <div class="col-sm-12">
+                    {{Breadcrumbs::render()}}
                     @include('partials.notification')
                     @yield('content')
                 </div>
