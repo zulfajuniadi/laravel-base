@@ -37,6 +37,11 @@
                                         <a href="{{action('PermissionsController@index')}}">Permissions</a>
                                     </li>
                                 @endif
+                                <li class="divider"></li>
+                                <li class="dropdown-header">App Config</li>
+                                @if($controller === 'Config')<li class="active">@else<li>@endif
+                                    <a href="{{action('ConfigsController@getShow', 'sample')}}">Sample App Config</a>
+                                </li>
                             </ul>
                         </li>
                     @endif

@@ -29,6 +29,8 @@ Route::group(['before' => 'auth'], function () {
     Route::resource('uploader', 'UploadsController');
     Route::get('uploader/{id}/remove', 'UploadsController@remove');
     Route::controller('reports', 'ReportController');
+
+    Route::controller('config', 'ConfigsController');
 });
 
 // Confide routes

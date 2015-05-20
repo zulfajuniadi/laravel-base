@@ -1,0 +1,11 @@
+config_title: Sample
+sections:
+    courier:
+        rm_per_km:
+            label: RM Per KM
+            default: "1.50"
+            required: true
+        base_rate:
+            label: Base Rate (RM)
+            default: "1.00"
+            required: true
