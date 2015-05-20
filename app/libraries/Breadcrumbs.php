@@ -13,6 +13,14 @@ class Breadcrumbs
         self::$items[$url] = $text;
     }
 
+    public static function pull($text)
+    {
+        $key = array_search($text, self::$items);
+        if($key) {
+            unset(self::$items[$key]);
+        }
+    }
+
     public static function render()
     {
         if(count(self::$items) === 0)
