@@ -12,17 +12,20 @@
  */
 
 Route::group(['before' => 'auth'], function () {
+
     Route::get('/', 'HomeController@index');
+    Breadcrumbs::push(action('HomeController@index'), 'Home');
+
 
     Route::resource('users', 'UsersController');
     Route::resource('roles', 'RolesController');
     Route::resource('permissions', 'PermissionsController');
     
     Route::get('profile', 'UsersController@profile');
-    Route::get('users/{user_id}/set_password', 'UsersController@getSetPassword');
-    Route::put('users/{user_id}/set_password', 'UsersController@putSetPassword');
-    Route::get('profile/change_password', 'UsersController@getChangePassword');
-    Route::put('profile/change_password', 'UsersController@putChangePassword');
+    Route::get('users/{user_id}/set-password', 'UsersController@getSetPassword');
+    Route::put('users/{user_id}/set-password', 'UsersController@putSetPassword');
+    Route::get('profile/change-password', 'UsersController@getChangePassword');
+    Route::put('profile/change-password', 'UsersController@putChangePassword');
     Route::put('users/{user_id}/set_confirmation', 'UsersController@putSetConfirmation');
     Route::get('auth/logout', 'AuthController@logout');
 
