@@ -180,39 +180,12 @@ class GenerateViews extends Command {
 
     private function cleanupFiles() {
         $this->model_file = app_path('models').'/'.$this->argparams['$MODEL_FILE$'];
-        if (file_exists($this->model_file) && $this->confirm('Model file '.$this->argparams['$MODEL_FILE$'].' exists. Delete? [yes|no]')) {
-            unlink($this->model_file);
-        }
         $this->controller_file = app_path('controllers').'/'.$this->argparams['$CONTROLLER_FILE$'];
-        if (file_exists($this->controller_file) && $this->confirm('Controller file '.$this->argparams['$CONTROLLER_FILE$'].' exists. Delete? [yes|no]')) {
-            unlink($this->controller_file);
-        }
         $this->view_dir = app_path('views').'/'.$this->argparams['$VIEWPATH$'];
-        if (is_dir($this->view_dir) && $this->confirm('View directory '.$this->argparams['$VIEWPATH$'].' exists. Delete? [yes|no]')) {
-            $dir   = $this->view_dir;
-            $files = array_diff(scandir($dir), array('.', '..'));
-            foreach ($files as $file) {
-                (is_dir("$dir/$file"))?delTree("$dir/$file"):unlink("$dir/$file");
-            }
-            rmdir($dir);
-        }
         $this->seed_file = app_path('database/seeds').'/'.$this->argparams['$SEED_FILE$'];
-        if (file_exists($this->seed_file) && $this->confirm('Seed file '.$this->argparams['$SEED_FILE$'].' exists. Delete? [yes|no]')) {
-            unlink($this->seed_file);
-        }
         $this->role_seed_file = app_path('database/seeds').'/roles/Role'.$this->argparams['$SEED_FILE$'];
-        if (file_exists($this->role_seed_file) && $this->confirm('Role seed file Role'.$this->argparams['$SEED_FILE$'].' exists. Delete? [yes|no]')) {
-            unlink($this->role_seed_file);
-        }
-        if (!$this->no_migration) {
-            $this->migration_dir = app_path('database/migrations');
-            $migration_files     = scandir($this->migration_dir);
-            foreach ($migration_files as $name) {
-                if (stristr($name, $this->argname) && $this->confirm('Migration file '.$name.' exists. Delete? [yes|no]')) {
-                    unlink($this->migration_dir.'/'.$name);
-                }
-            }
-        }
+        
+        Artisan::call('destroy:datatable', ['name' => $this->argname]);
     }
 
     private function callWayGenerators() {

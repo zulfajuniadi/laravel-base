@@ -13,4 +13,5 @@
 
 
 Artisan::add(new AppReset);
+Artisan::add(new DestroyViews);
 Artisan::add(new GenerateViews);
