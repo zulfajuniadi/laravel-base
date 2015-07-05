@@ -38,6 +38,9 @@ class BaseController extends Controller
         if (Request::ajax()) {
             return Response::json($this->access_denied_message, 403);
         }
+        if (!Auth::user()) {
+            return Redirect::action('AuthController@login');
+        }
         return Redirect::back()
             ->with('notification:danger', $this->access_denied_message);
     }
