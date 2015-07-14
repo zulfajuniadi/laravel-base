@@ -1,0 +1,1 @@
+<h1>{{ trans('auth.registration.user_registration') }}</h1>
