@@ -27,6 +27,17 @@
                             <li><a href="{{ url('/auth/logout') }}">{{trans('auth.logout')}}</a></li>
                         </ul>
                     </li>
+                    <li class="dropdown">
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">Language <span class="caret"></span></a>
+                        <ul class="dropdown-menu" role="menu">
+                            <li>
+                                <a href="{{route('setlocale', 'en')}}">English</a>
+                            </li>
+                            <li>
+                                <a href="{{route('setlocale', 'ms')}}">Bahasa Melayu</a>
+                            </li>
+                        </ul>
+                    </li>
                 @endif
             </ul>
         </div>
