@@ -1,12 +1,12 @@
 <?php
 
-namespace App\Console\Commands;
+namespace App\Libraries\Installer;
 
 use Illuminate\Console\Command;
 use Illuminate\Filesystem\Filesystem;
 use Illuminate\Contracts\Console\Kernel;
 
-class LaravelBaseInstaller extends Command
+class InstallerCommand extends Command
 {
     /**
      * The name and signature of the console command.

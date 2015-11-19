@@ -13,8 +13,8 @@ class Kernel extends ConsoleKernel
      * @var array
      */
     protected $commands = [
-        \App\Console\Commands\Inspire::class,
-        \App\Console\Commands\LaravelBaseInstaller::class,
+        \App\Libraries\Installer\InstallerCommand::class,
+        \App\Libraries\Generator\GeneratorCommand::class,
     ];
 
     /**
@@ -25,7 +25,5 @@ class Kernel extends ConsoleKernel
      */
     protected function schedule(Schedule $schedule)
     {
-        $schedule->command('inspire')
-                 ->hourly();
     }
 }
