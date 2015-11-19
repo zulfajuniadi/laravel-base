@@ -4,7 +4,13 @@
     "gulp": "^3.8.8"
   },
   "dependencies": {
-    "laravel-elixir": "^2.0.0",
-    "bootstrap-sass": "^3.0.0"
+    "bootbox": "^4.4.0",
+    "bootstrap": "^3.3.5",
+    "bootstrap-sass": "^3.0.0",
+    "datatables": "^1.10.9",
+    "datatables-bootstrap3-plugin": "^0.4.0",
+    "font-awesome": "^4.4.0",
+    "jquery": "^2.1.4",
+    "laravel-elixir": "^3.0.0"
   }
 }

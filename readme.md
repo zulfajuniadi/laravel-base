@@ -1,27 +1,26 @@
-## Laravel PHP Framework
+#Laravel Base
 
-[![Build Status](https://travis-ci.org/laravel/framework.svg)](https://travis-ci.org/laravel/framework)
-[![Total Downloads](https://poser.pugx.org/laravel/framework/d/total.svg)](https://packagist.org/packages/laravel/framework)
-[![Latest Stable Version](https://poser.pugx.org/laravel/framework/v/stable.svg)](https://packagist.org/packages/laravel/framework)
-[![Latest Unstable Version](https://poser.pugx.org/laravel/framework/v/unstable.svg)](https://packagist.org/packages/laravel/framework)
-[![License](https://poser.pugx.org/laravel/framework/license.svg)](https://packagist.org/packages/laravel/framework)
+Quickly scaffold out a fully functional app within seconds. Come on, be lazy.
 
-Laravel is a web application framework with expressive, elegant syntax. We believe development must be an enjoyable, creative experience to be truly fulfilling. Laravel attempts to take the pain out of development by easing common tasks used in the majority of web projects, such as authentication, routing, sessions, queueing, and caching.
 
-Laravel is accessible, yet powerful, providing powerful tools needed for large, robust applications. A superb inversion of control container, expressive migration system, and tightly integrated unit testing support give you the tools you need to build any application with which you are tasked.
+## Features
 
-## Official Documentation
 
-Documentation for the framework can be found on the [Laravel website](http://laravel.com/docs).
+- Role Based Access Control (RBAC) :- Fully functioning role based access control with permission level granularity.
+- Policy & Validation Enforcement :- Set policies and validation rules per each controller route
+- Audit Logs :- Changes to models are stored into the database for audit purposes
+- Auth Logs :- Login / Logout / Register actions are logged for audit purposes
+- Menu Manager :- Fully integrated with RBAC to ensure only privileged users can see and access the links.
+- Datatables :- Fully-ajaxified datatables that ensures the best user experience.
+- User management :- Full control of you application's users including changing passwords, deactivating, blacklisting and login as user
+- Authentication :- Login, Logout, Registration, Forgot Password - your usual stuff for authentication
+- Translation :- Easy support for multiple language
+- Module based loading :- All routes and resources are loaded via the ServiceProvider. Don't want a module? Remove the service provider.
+- Scaffold Generator :- Pure joy from all of the above with just one command
 
-## Contributing
 
-Thank you for considering contributing to the Laravel framework! The contribution guide can be found in the [Laravel documentation](http://laravel.com/docs/contributions).
+## Getting Started
 
-## Security Vulnerabilities
-
-If you discover a security vulnerability within Laravel, please send an e-mail to Taylor Otwell at taylor@laravel.com. All security vulnerabilities will be promptly addressed.
-
-### License
-
-The Laravel framework is open-sourced software licensed under the [MIT license](http://opensource.org/licenses/MIT)
+1. `composer create-project zulfajuniadi/laravel-base-5.1`
+2. Create your database
+3. `php artisan app:install`

@@ -10,11 +10,8 @@
          stopOnFailure="false"
          syntaxCheck="false">
     <testsuites>
-        <testsuite name="Base Test Suite">
-            <directory>./tests/base</directory>
-        </testsuite>
-        <testsuite name="Users Test Suite">
-            <directory>./tests/users</directory>
+        <testsuite name="Application Test Suite">
+            <directory>./tests/</directory>
         </testsuite>
     </testsuites>
     <filter>
