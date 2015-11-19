@@ -11,7 +11,7 @@
         </div>
 
         <div class="collapse navbar-collapse" id="navbar">
-            {!! app('menu')->handler('admin')->setTitle('Site Admin')->render() !!}
+            {!! app('menu')->handler('admin')->setTitle(trans('menu.site_admin'))->render() !!}
             <ul class="nav navbar-nav navbar-right">
                 @if(auth()->guest())
                     @if(!Request::is('auth/login'))
