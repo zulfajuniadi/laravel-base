@@ -7,6 +7,9 @@ div.dataTables_wrapper {
     z-index: 1;
     top: 40px; }
 
+.panel-heading .btn {
+  margin-top: 3px; }
+
 .breadcrumb .active a {
   text-decoration: underline; }
 
