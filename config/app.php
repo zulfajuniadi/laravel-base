@@ -1,6 +1,11 @@
 <?php
 
 return [
+    
+    /**
+     * Application Name - usually shown on the title bar
+     */
+    'name' => 'Laravel Base',
 
     /*
     |--------------------------------------------------------------------------
