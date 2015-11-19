@@ -1,0 +1,37 @@
+ul.list-inline.list-unstyled {
+  display: inline-block; }
+
+div.dataTables_wrapper {
+  position: relative; }
+  div.dataTables_wrapper div.dataTables_processing {
+    z-index: 1;
+    top: 40px; }
+
+.breadcrumb .active a {
+  text-decoration: underline; }
+
+.timeline {
+  padding-left: 25px;
+  margin-left: 25px;
+  border-left: 1px solid #ccc; }
+  .timeline .text-muted {
+    font-size: 10px;
+    margin-bottom: 4px; }
+  .timeline dd {
+    margin-bottom: 12px; }
+  .timeline dd, .timeline dt {
+    position: relative; }
+  .timeline dt.create:before {
+    background-color: green; }
+  .timeline dt:before {
+    position: absolute;
+    content: ' ';
+    display: block;
+    width: 10px;
+    height: 10px;
+    background-color: #ccc;
+    border-radius: 50%;
+    left: -30px;
+    top: 6px; }
+
+/*# sourceMappingURL=zapp.css.map */
