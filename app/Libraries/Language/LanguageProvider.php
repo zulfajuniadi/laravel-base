@@ -40,12 +40,6 @@ class LanguageProvider extends ServiceProvider
 
     public function booted()
     {
-        $locale = request()->cookie('locale');
-        if($locale) {
-            app()->setLocale($locale);
-        } else {
-            app()->setLocale('en');
-            cookie()->queue('locale', 'en', 5 * 365 * 24 * 60 * 60);
-        }
+        app()->setLocale(request()->cookie('locale') ?: 'en');
     }
 }
