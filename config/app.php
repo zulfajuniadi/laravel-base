@@ -151,11 +151,11 @@ return [
         /*
          * Application Libraries 
          */
-        App\Libraries\Language\LanguageProvider::class,
         App\Libraries\Validate\ValidateProvider::class,
         App\Libraries\Policy\PolicyProvider::class,
-        App\Libraries\Booted\BootedProvider::class,
         App\Libraries\Menu\MenuProvider::class,
+        App\Libraries\Language\LanguageProvider::class,
+        App\Libraries\Booted\BootedProvider::class,
         
         /*
          * 3rd Party Service Providers
