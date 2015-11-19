@@ -7,4 +7,5 @@
     ->required() !!}
 
 {!! Former::textarea('description')
-    ->label('roles.description') !!}
+    ->label('roles.description')
+    ->required() !!}
