@@ -38,17 +38,17 @@ class RolesProvider extends ServiceProvider
         app('validation')->register($this->controller, 'App\Validators\RolesValidators');
 
         // module routing
-        app('router')->group(['namespace' => 'App\Http\Controllers', 'prefix' => 'admin'], function(){
-            app('router')->bind('roles', function($slug) {
+        app('router')->group(['namespace' => 'App\Http\Controllers', 'prefix' => 'admin'], function($router){
+            $router->bind('roles', function($slug) {
                 if(!$role = (Role::whereSlug($slug)->first() ?: Role::find($slug)))
                     app()->abort(404);
                 return $role;
             });
-            app('router')->get('roles/data', 'RolesController@data');
-            app('router')->get('roles/{roles}/duplicate', 'RolesController@duplicate');
-            app('router')->get('roles/{roles}/delete', 'RolesController@delete');
-            app('router')->get('roles/{roles}/revisions', 'RolesController@revisions');
-            app('router')->resource('roles', 'RolesController');
+            $router->get('roles/data', 'RolesController@data');
+            $router->get('roles/{roles}/duplicate', 'RolesController@duplicate');
+            $router->get('roles/{roles}/delete', 'RolesController@delete');
+            $router->get('roles/{roles}/revisions', 'RolesController@revisions');
+            $router->resource('roles', 'RolesController');
         });
     }
 
