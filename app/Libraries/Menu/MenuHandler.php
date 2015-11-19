@@ -10,6 +10,7 @@ class MenuHandler extends Collection
 
     protected $title = 'Menu';
     protected $class = '';
+    protected $type = 'navbar';
 
     public function findItem($name)
     {
@@ -42,6 +43,15 @@ class MenuHandler extends Collection
         return $this;
     }
 
+    public function addItemIfNot()
+    {
+        $arguments = func_get_args();
+        if(!array_shift($arguments)) {
+            return call_user_func_array([$this, 'addItem'], $arguments);
+        }
+        return $this;
+    }
+
     public function setTitle($title)
     {
         $this->title = $title;
@@ -60,11 +70,19 @@ class MenuHandler extends Collection
         return $this;
     }
 
-    public function render($type = 'navbar')
+    public function setType($type)
     {
+        $this->type = $type;
+        return $this;
+    }
+
+    public function render($type = null)
+    {
+        if($type)
+            $this->type = $type;
         if($this->count() == 0)
             return '';
-        switch ($type) {
+        switch ($this->type) {
             case 'navbar':
                 $this->class .= ' nav navbar-nav';
                 return '<ul class="' . $this->class . '"><li class="dropdown">
@@ -76,6 +94,14 @@ class MenuHandler extends Collection
     }, '') . '
     </ul>
 </li></ul>';
+                break;
+            case 'navbar-inline':
+                $this->class .= ' nav navbar-nav';
+                return '<ul class="' . $this->class . '">' . $this->reduce(function($carry, $current){
+        $active = (app('request')->url() == $current->link) ? 'active' : '';
+        return $carry . '<li class="' . $active . '">' . $current->render() . '</li>';
+    }, '') . '
+    </ul>';
                 break;
             case 'dropdown':
                 $this->class .= ' dropdown-toggle';
