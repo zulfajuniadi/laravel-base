@@ -1,0 +1,27 @@
+<?php
+
+return [
+    'roles' => 'Peranan',
+    'create_new_role' => 'Cipta Peranan Baru',
+    'create' => 'Cipta',
+    'edit' => 'Sunting',
+    'show' => 'Papar',
+    'revisions' => 'Pindaan',
+    'duplicate' => 'Gandakan',
+    'delete' => 'Padam',
+    'submit' => 'Hantar',
+    'list_all' => 'Senarai Semua',
+    'update_role' => 'Sunting Peranan: :name',
+    'name' => 'Nama Sistem',
+    'display_name' => 'Nama Paparan',
+    'description' => 'Penerangan',
+    'view_revisions' => 'Lihat Pindaan Peranan: :name',
+    'created_this' => 'Peranan ini dicipta',
+    'changed_from_to' => 'Tukar ":field" dari ":from" ke ":to"',
+    'view_role' => 'Lihat Peranan: :name',
+    'created_at' => 'Dicipta Pada',
+    'updated_at' => 'Diubah Pada',
+    'created' => 'Peranan :name dicipta',
+    'updated' => 'Peranan :name diubah',
+    'deleted' => 'Peranan :name dipadam',
+];
