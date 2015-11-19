@@ -2,6 +2,8 @@
 
 namespace App\Menus;
 
+use App\Libraries\Menu\BaseMenu;
+
 class RolesMenu extends BaseMenu
 {
 
