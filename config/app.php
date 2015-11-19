@@ -138,21 +138,23 @@ return [
         Illuminate\View\ViewServiceProvider::class,
 
         /*
-         * Application Service Providers...
+         * Application Service Providers
          */
-        App\Providers\AppServiceProvider::class,
-        App\Providers\AuthServiceProvider::class,
         App\Providers\EventServiceProvider::class,
         App\Providers\RouteServiceProvider::class,
-        App\Providers\ValidateProvider::class,
-        App\Providers\PolicyProvider::class,
-        App\Providers\BootedProvider::class,
-        App\Providers\MenuProvider::class,
-        Former\FormerServiceProvider::class,
+
+        /*
+         * Application Libraries 
+         */
+        App\Libraries\Validate\ValidateProvider::class,
+        App\Libraries\Policy\PolicyProvider::class,
+        App\Libraries\Booted\BootedProvider::class,
+        App\Libraries\Menu\MenuProvider::class,
         
         /*
          * 3rd Party Service Providers
          */
+        Former\FormerServiceProvider::class,
         Cviebrock\EloquentSluggable\SluggableServiceProvider::class,
         Zizaco\Entrust\EntrustServiceProvider::class,
         Collective\Html\HtmlServiceProvider::class,

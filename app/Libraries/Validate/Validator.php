@@ -1,8 +1,6 @@
 <?php
 
-namespace App\Libraries;
-
-use App\Exceptions\ValidationDoesNotExists;
+namespace App\Libraries\Validate;
 
 class Validator
 {
@@ -21,7 +19,7 @@ class Validator
         $parameters = $parameters ?: [];
 
         if(!isset($this->validators[$controller]))
-            throw new ValidationDoesNotExists($controller);
+            throw new Exceptions\ValidationDoesNotExists($controller);
 
         $handler = $this->getValidationRules($controller);
         if(!method_exists($handler, $action))

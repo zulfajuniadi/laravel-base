@@ -1,9 +1,8 @@
 <?php
 
-namespace App\Providers;
+namespace App\Libraries\Booted;
 
 use Illuminate\Support\ServiceProvider;
-use App\Libraries\Booted;
 
 class BootedProvider extends ServiceProvider
 {

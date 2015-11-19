@@ -3,7 +3,7 @@
 namespace App\Providers\Modules;
 
 use Illuminate\Support\ServiceProvider;
-use App\Libraries\BootedTrait;
+use App\Libraries\Booted\BootedTrait;
 use App\Role;
 
 class RolesProvider extends ServiceProvider

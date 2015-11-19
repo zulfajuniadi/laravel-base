@@ -1,9 +1,6 @@
 <?php
 
-namespace App\Libraries;
-
-use App\Exceptions\PolicyDoesNotExists;
-use App\Exceptions\PolicyMethodDoesNotExists;
+namespace App\Libraries\Policy;
 
 class Policy
 {
@@ -17,11 +14,11 @@ class Policy
         $parameters = $parameters ?: [];
 
         if(!isset($this->policies[$controller]))
-            throw new PolicyDoesNotExists($controller);
+            throw new Exceptions\PolicyDoesNotExists($controller);
 
         $handler = $this->getPolicy($controller);
         if(!method_exists($handler, $action))
-            throw new PolicyMethodDoesNotExists($controller, $action);
+            throw new Exceptions\PolicyMethodDoesNotExists($controller, $action);
 
         return call_user_func_array([$handler, $action], $parameters);
     }

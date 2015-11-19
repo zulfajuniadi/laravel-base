@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Libraries;
+namespace App\Libraries\Menu;
 
 use Illuminate\Support\Collection;
 use ReflectionClass;
@@ -29,7 +29,7 @@ class MenuHandler extends Collection
 
     public function addItem()
     {
-        $this->push((new ReflectionClass('App\Libraries\MenuItem'))->newInstanceArgs(func_get_args()));
+        $this->push((new ReflectionClass(MenuItem::class))->newInstanceArgs(func_get_args()));
         return $this;
     }
 

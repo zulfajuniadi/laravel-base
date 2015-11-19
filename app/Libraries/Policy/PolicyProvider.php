@@ -1,13 +1,11 @@
 <?php
 
-namespace App\Providers;
+namespace App\Libraries\Policy;
 
 use Illuminate\Support\ServiceProvider;
-use App\Libraries\Validator;
 
-class ValidateProvider extends ServiceProvider
+class PolicyProvider extends ServiceProvider
 {
-
     /**
      * Bootstrap the application services.
      *
@@ -25,8 +23,8 @@ class ValidateProvider extends ServiceProvider
      */
     public function register()
     {
-        app()->singleton('validation', function() {
-            return new Validator;
+        app()->singleton('policy', function(){
+            return new Policy();
         });
     }
 }
