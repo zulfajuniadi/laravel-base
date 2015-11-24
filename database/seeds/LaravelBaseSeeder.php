@@ -27,6 +27,7 @@ class LaravelBaseSeeder extends Seeder
         DB::table('permission_groups')->truncate();
         DB::table('password_resets')->truncate();
         DB::table('auth_logs')->truncate();
+        DB::table('user_blacklists')->truncate();
 
         $roles = [
             [
