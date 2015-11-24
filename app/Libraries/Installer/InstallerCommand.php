@@ -53,7 +53,11 @@ class InstallerCommand extends Command
     {
         $this->artisan->call('cache:clear');
         $this->artisan->call('config:clear');
-        if(file_exists($this->env) && $this->confirm('[DANGER] Do you want to remove existing env file?', false)) {
+        if(!file_exists($this->env)) {
+            $this->filesystem->copy(base_path('.env.example'), $this->env);
+            $this->laravel['config']['app.key'] = 'SomeRandomString';
+            $this->artisan->call('key:generate');
+        } else if($this->confirm('[DANGER] Do you want to remove existing env file?', false)) {
             unlink($this->env);
             $this->filesystem->copy(base_path('.env.example'), $this->env);
             $this->laravel['config']['app.key'] = 'SomeRandomString';
@@ -86,6 +90,8 @@ class InstallerCommand extends Command
                 $done = true;
             }
         }
+        $this->artisan->call('cache:clear');
+        $this->artisan->call('config:clear');
     }
 
     protected function migrateData()
