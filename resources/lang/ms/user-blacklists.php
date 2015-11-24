@@ -20,7 +20,7 @@ return [
     'updated' => 'Senarai Hitam Pengguna :name diubah',
     'deleted' => 'Senarai Hitam Pengguna :name dipadam',
     'user_id' => 'Pengguna',
-    'until' => 'Sehinggga',
+    'until' => 'Sehingga',
     'name' => 'Sebab',
     'created_at' => 'Dicipta Pada',
     'updated_at' => 'Perubahan Terakhir Pada',
