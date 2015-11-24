@@ -21,6 +21,6 @@ Quickly scaffold out a fully functional app within seconds. Come on, be lazy.
 
 ## Getting Started
 
-1. `composer create-project zulfajuniadi/laravel-base-5.1`
+1. `composer create-project zulfajuniadi/laravel-base`
 2. Create your database
 3. `php artisan app:install`

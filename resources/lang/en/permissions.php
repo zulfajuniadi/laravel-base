@@ -1,0 +1,27 @@
+<?php
+
+return [
+    'permissions' => 'Permissions',
+    'create_new_permission' => 'Create New Permission',
+    'create' => 'Create',
+    'edit' => 'Edit',
+    'show' => 'Show',
+    'revisions' => 'Revisions',
+    'duplicate' => 'Duplicate',
+    'delete' => 'Delete',
+    'submit' => 'Submit',
+    'list_all' => 'List All',
+    'update_permission' => 'Update Permission: :name',
+    'view_revisions' => 'View Permission Revisions: :name',
+    'created_this' => 'Created this permission',
+    'changed_from_to' => 'Changed ":field" from ":from" to ":to"',
+    'view_permission' => 'View Permission: :name',
+    'created' => 'Permission :name created',
+    'updated' => 'Permission :name updated',
+    'deleted' => 'Permission :name deleted',
+    'permission_group_id' => 'Permission Group',
+    'name' => 'Name',
+    'display_name' => 'Display Name',
+    'created_at' => 'Created At',
+    'updated_at' => 'Last Updated At',
+];

@@ -26,6 +26,10 @@
                             <dd>{{$role->description}}</dd>
                         </dl>
                         <dl class="col-md-6">
+                            <dt>{{trans('permissions.permissions')}}</dt>
+                            <dd>{{implode(', ', $role->perms()->lists('display_name')->toArray()) ?: '&nbsp;'}}</dd>
+                        </dl>
+                        <dl class="col-md-6">
                             <dt>{{trans('roles.created_at')}}</dt>
                             <dd>{{$role->created_at}}</dd>
                         </dl>

@@ -6,9 +6,9 @@
         <div class="col-md-12">
             <div class="panel panel-default">
                 <div class="panel-heading">
-                    {!! app('menu')->handler('roles.panel-buttons')->render('inline') !!}
+                    {!! app('menu')->handler('model-names.panel-buttons')->render('inline') !!}
                     <h4>
-                        Roles
+                        {{trans('model-names.model_names')}}
                     </h4>
                 </div>
                 <div class="panel-body">

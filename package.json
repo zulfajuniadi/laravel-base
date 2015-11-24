@@ -9,6 +9,7 @@
     "bootstrap-sass": "^3.0.0",
     "datatables": "^1.10.9",
     "datatables-bootstrap3-plugin": "^0.4.0",
+    "eonasdan-bootstrap-datetimepicker": "^4.15.35",
     "font-awesome": "^4.4.0",
     "jquery": "^2.1.4",
     "laravel-elixir": "^3.0.0"

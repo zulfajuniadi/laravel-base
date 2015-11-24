@@ -1,0 +1,27 @@
+<?php
+
+return [
+    'user_blacklists' => 'Senarai Hitam Pengguna',
+    'create_new_user_blacklist' => 'Cipta Senarai Hitam Pengguna Baru',
+    'create' => 'Cipta',
+    'edit' => 'Sunting',
+    'show' => 'Papar',
+    'revisions' => 'Pindaan',
+    'duplicate' => 'Gandakan',
+    'delete' => 'Padam',
+    'submit' => 'Hantar',
+    'list_all' => 'Senarai Semua',
+    'update_user_blacklist' => 'Sunting Senarai Hitam Pengguna: :name',
+    'view_revisions' => 'Lihat Pindaan Senarai Hitam Pengguna: :name',
+    'created_this' => 'Senarai Hitam Pengguna ini dicipta',
+    'changed_from_to' => 'Tukar ":field" dari ":from" ke ":to"',
+    'view_user_blacklist' => 'Lihat Senarai Hitam Pengguna: :name',
+    'created' => 'Senarai Hitam Pengguna :name dicipta',
+    'updated' => 'Senarai Hitam Pengguna :name diubah',
+    'deleted' => 'Senarai Hitam Pengguna :name dipadam',
+    'user_id' => 'Pengguna',
+    'until' => 'Sehinggga',
+    'name' => 'Sebab',
+    'created_at' => 'Dicipta Pada',
+    'updated_at' => 'Perubahan Terakhir Pada',
+];

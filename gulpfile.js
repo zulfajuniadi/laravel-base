@@ -17,6 +17,7 @@ elixir(function(mix) {
     .copy('node_modules/bootstrap/dist/css/bootstrap.min.css', 'public/assets/css/abootstrap.min.css')
     .copy('node_modules/font-awesome/css/font-awesome.min.css', 'public/assets/css/bfont-awesome.min.css')
     .copy('node_modules/datatables-bootstrap3-plugin/media/css/datatables-bootstrap3.min.css', 'public/assets/css/cdatatables-bootstrap3.min.css')
+    .copy('node_modules/eonasdan-bootstrap-datetimepicker/build/css/bootstrap-datetimepicker.min.css', 'public/assets/css/dbootstrap-datetimepicker.min.css')
     .sass('app.scss', 'public/assets/css/zapp.css')
     .stylesIn("public/assets/css", 'public/assets/build.css')
     ;
@@ -27,6 +28,8 @@ elixir(function(mix) {
     .copy('node_modules/datatables/media/js/jquery.dataTables.min.js', 'public/assets/js/cjquery.dataTables.min.js')
     .copy('node_modules/datatables-bootstrap3-plugin/media/js/datatables-bootstrap3.min.js', 'public/assets/js/ddatatables-bootstrap3.min.js')
     .copy('node_modules/bootbox/bootbox.min.js', 'public/assets/js/ebootbox.min.js')
+    .copy('node_modules/eonasdan-bootstrap-datetimepicker/node_modules/moment/min/moment-with-locales.min.js', 'public/assets/js/fmoment-with-locales.min.js')
+    .copy('node_modules/eonasdan-bootstrap-datetimepicker/build/js/bootstrap-datetimepicker.min.js', 'public/assets/js/gbootstrap-datetimepicker.min.js')
     .copy('resources/assets/scripts/app.js', 'public/assets/js/zapp.js')
     .scriptsIn("public/assets/js", 'public/assets/build.js')
     ;

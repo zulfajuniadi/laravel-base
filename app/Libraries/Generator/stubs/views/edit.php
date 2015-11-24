@@ -6,20 +6,20 @@
         <div class="col-md-12">
             <div class="panel panel-default">
                 <div class="panel-heading">
-                    {!! app('menu')->handler('roles.panel-buttons.edit')->render('inline') !!}
+                    {!! app('menu')->handler('model-names.panel-buttons.edit')->render('inline') !!}
                     <h4>
-                        Update Role: {{$role->display_name}}
+                        {{trans('model-names.update_model_name', ['name' => $modelName->name])}}
                     </h4>
                 </div>
-                {!! Former::open(action('RolesController@update', $role->getSlug())) !!}
-                {!! Former::populate($role) !!}
+                {!! Former::open(action('ModelNamesController@update', $modelName->getSlug())) !!}
+                {!! Former::populate($modelName) !!}
                     {!! Former::hidden('_method', 'PUT') !!}
                 <div class="panel-body">
-                    @include('roles.form')
+                    @include('model-names.form')
                 </div>
                 <div class="panel-footer">
-                    <button class="btn btn-primary">Submit</button>
-                    {!! app('menu')->handler('roles.record-buttons.edit')->render('inline') !!}
+                    <button class="btn btn-primary">{{trans('model-names.submit')}}</button>
+                    {!! app('menu')->handler('model-names.record-buttons.edit')->render('inline') !!}
                     <div class="clearfix"></div>
                 </div>
                 {!! Former::close() !!}

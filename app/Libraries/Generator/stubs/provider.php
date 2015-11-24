@@ -4,14 +4,14 @@ namespace App\Providers\Modules;
 
 use Illuminate\Support\ServiceProvider;
 use App\Libraries\Booted\BootedTrait;
-use App\Role;
+use App\ModelName;
 
-class RolesProvider extends ServiceProvider
+class ModelNamesProvider extends ServiceProvider
 {
 
     use BootedTrait;
 
-    protected $controller = 'App\Http\Controllers\RolesController';
+    protected $controller = 'App\Http\Controllers\ModelNamesController';
 
     /**
      * Bootstrap the application services.
@@ -32,29 +32,31 @@ class RolesProvider extends ServiceProvider
     {
 
         // register policies
-        app('policy')->register($this->controller, 'App\Policies\RolesPolicy');
+        app('policy')->register($this->controller, 'App\Policies\ModelNamesPolicy');
 
         // register validations
-        app('validation')->register($this->controller, 'App\Validators\RolesValidators');
+        app('validation')->register($this->controller, 'App\Validators\ModelNamesValidators');
 
         // module routing
-        app('router')->group(['namespace' => 'App\Http\Controllers', 'prefix' => 'admin'], function(){
-            app('router')->bind('roles', function($slug) {
-                if(!$role = (Role::whereSlug($slug)->first() ?: Role::find($slug)))
+        app('router')->group(['namespace' => 'App\Http\Controllers'], function($router){
+            $router->bind('model_names', function($slug) {
+                if(!$modelName = (ModelName::whereSlug($slug)->first() ?: ModelName::find($slug)))
                     app()->abort(404);
-                return $role;
+                return $modelName;
             });
-            app('router')->get('roles/data', 'RolesController@data');
-            app('router')->get('roles/{roles}/duplicate', 'RolesController@duplicate');
-            app('router')->get('roles/{roles}/delete', 'RolesController@delete');
-            app('router')->get('roles/{roles}/revisions', 'RolesController@revisions');
-            app('router')->resource('roles', 'RolesController');
+            $router->get('model-names/data', 'ModelNamesController@data');
+            $router->get('model-names/{model_names}/duplicate', 'ModelNamesController@duplicate');
+            $router->get('model-names/{model_names}/delete', 'ModelNamesController@delete');
+            $router->get('model-names/{model_names}/revisions', 'ModelNamesController@revisions');
+            $router->resource('model-names', 'ModelNamesController');
         });
     }
 
     public function booted()
     {
         // register menus
-        app('menu')->register($this->controller, 'App\Menus\RolesMenu');
+        app('menu')->register($this->controller, 'App\Menus\ModelNamesMenu');
     }
+
+
 }

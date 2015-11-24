@@ -2,7 +2,7 @@
 
 namespace App\Repositories;
 
-use App\Role;
+use App\Permission;
 use App\Exceptions\RepositoryException;
 
-class RoleRepository extends BaseRepository {}
+class PermissionsRepository extends BaseRepository {}

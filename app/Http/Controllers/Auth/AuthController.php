@@ -65,4 +65,14 @@ class AuthController extends Controller
             'password' => bcrypt($data['password']),
         ]);
     }
+
+    protected function authenticated($request, $user)
+    {
+        if(!$user->is_active) {
+            app('auth')->logout();
+            return redirect()->action('Auth\AuthController@getLogin')
+                ->with('danger', trans('users.login_not_active'));
+        }
+        return redirect()->intended($this->redirectTo);
+    }
 }

@@ -1,0 +1,27 @@
+<?php
+
+return [
+    'permissions' => 'Keizinan',
+    'create_new_permission' => 'Cipta Keizinan Baru',
+    'create' => 'Cipta',
+    'edit' => 'Sunting',
+    'show' => 'Papar',
+    'revisions' => 'Pindaan',
+    'duplicate' => 'Gandakan',
+    'delete' => 'Padam',
+    'submit' => 'Hantar',
+    'list_all' => 'Senarai Semua',
+    'update_permission' => 'Sunting Keizinan: :name',
+    'view_revisions' => 'Lihat Pindaan Keizinan: :name',
+    'created_this' => 'Keizinan ini dicipta',
+    'changed_from_to' => 'Tukar ":field" dari ":from" ke ":to"',
+    'view_permission' => 'Lihat Keizinan: :name',
+    'created' => 'Keizinan :name dicipta',
+    'updated' => 'Keizinan :name diubah',
+    'deleted' => 'Keizinan :name dipadam',
+    'permission_group_id' => 'Kumpulan Keizinan',
+    'name' => 'Nama',
+    'display_name' => 'Nama Paparan',
+    'created_at' => 'Dicipta Pada',
+    'updated_at' => 'Perubahan Terakhir Pada',
+];

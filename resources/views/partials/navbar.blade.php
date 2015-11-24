@@ -12,6 +12,9 @@
 
         <div class="collapse navbar-collapse" id="navbar">
             {!! app('menu')
+                ->handler('app')
+                ->render('navbar-inline') !!}
+            {!! app('menu')
                 ->handler('admin')
                 ->setTitle(trans('menu.site_admin'))
                 ->render() !!}

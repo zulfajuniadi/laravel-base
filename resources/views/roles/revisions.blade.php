@@ -12,7 +12,6 @@
                     </h4>
                 </div>
                 <div class="panel-body">
-
                     <dl class="timeline">
                     @foreach($role->revisionHistory->reverse() as $history)
                         @if($history->key == 'created_at' && !$history->old_value)

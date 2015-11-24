@@ -1,0 +1,27 @@
+<?php
+
+return [
+    'user_blacklists' => 'User Blacklists',
+    'create_new_user_blacklist' => 'Create New User Blacklist',
+    'create' => 'Create',
+    'edit' => 'Edit',
+    'show' => 'Show',
+    'revisions' => 'Revisions',
+    'duplicate' => 'Duplicate',
+    'delete' => 'Delete',
+    'submit' => 'Submit',
+    'list_all' => 'List All',
+    'update_user_blacklist' => 'Update User Blacklist: :name',
+    'view_revisions' => 'View User Blacklist Revisions: :name',
+    'created_this' => 'Created this user blacklist',
+    'changed_from_to' => 'Changed ":field" from ":from" to ":to"',
+    'view_user_blacklist' => 'View User Blacklist: :name',
+    'created' => 'User Blacklist :name created',
+    'updated' => 'User Blacklist :name updated',
+    'deleted' => 'User Blacklist :name deleted',
+    'user_id' => 'User',
+    'until' => 'Until',
+    'name' => 'Reason',
+    'created_at' => 'Created At',
+    'updated_at' => 'Last Updated At',
+];

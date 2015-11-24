@@ -16,6 +16,12 @@
                     {!! Former::hidden('_method', 'PUT') !!}
                 <div class="panel-body">
                     @include('roles.form')
+                    {!! Former::select('permissions[]')
+                        ->label('permissions.permissions')
+                        ->select($role->perms->lists('id'))
+                        ->multiple()
+                        ->style('height:200px')
+                        ->options(App\Permission::options()) !!}
                 </div>
                 <div class="panel-footer">
                     <button class="btn btn-primary">{{trans('roles.submit')}}</button>

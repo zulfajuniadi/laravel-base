@@ -5,7 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 
 use App\Http\Requests;
-use App\Repositories\RoleRepository;
+use App\Repositories\RolesRepository;
 use App\Http\Controllers\Controller;
 use yajra\Datatables\Html\Builder;
 use App\Role;
@@ -20,9 +20,9 @@ class RolesController extends Controller
     public function index(Builder $htmlBuilder)
     {
         $DataTable = $htmlBuilder
-            ->addColumn(['data' => 'name', 'name' => 'name', 'title' => 'System Name'])
-            ->addColumn(['data' => 'display_name', 'name' => 'display_name', 'title' => 'Display Name'])
-            ->addColumn(['data' => 'description', 'name' => 'description', 'title' => 'Description'])
+            ->addColumn(['data' => 'name', 'name' => 'name', 'title' => trans('roles.name')])
+            ->addColumn(['data' => 'display_name', 'name' => 'display_name', 'title' => trans('roles.display_name')])
+            ->addColumn(['data' => 'description', 'name' => 'description', 'title' => trans('roles.description')])
             ->ajax(action('RolesController@data'));
         return view()->make('roles.index', compact('DataTable'));
     }
@@ -63,7 +63,8 @@ class RolesController extends Controller
      */
     public function store(Request $request)
     {
-        $role = RoleRepository::create(new Role, $request->all());
+        $role = RolesRepository::create(new Role, $request->all());
+        $role->perms()->sync($request->get('permissions', []));
         return redirect()->action('RolesController@index')->with('success', trans('roles.created', ['name' => $role->name]));
     }
 
@@ -98,7 +99,8 @@ class RolesController extends Controller
      */
     public function update(Request $request, Role $role)
     {
-        $role = RoleRepository::update($role, $request->all());
+        $role = RolesRepository::update($role, $request->all());
+        $role->perms()->sync($request->get('permissions', []));
         return redirect()->action('RolesController@index')->with('success', trans('roles.updated', ['name' => $role->name]));
     }
 
@@ -111,7 +113,7 @@ class RolesController extends Controller
     public function duplicate(Role $role)
     {
         $role->name = $role->name . '-' . str_random(4);
-        $role = RoleRepository::duplicate($role);
+        $role = RolesRepository::duplicate($role);
         return redirect()->action('RolesController@edit', $role->slug)->with('success', trans('roles.created', ['name' => $role->name]));
     }
 
@@ -123,7 +125,7 @@ class RolesController extends Controller
      */
     public function destroy(Role $role)
     {
-        RoleRepository::delete($role);
+        RolesRepository::delete($role);
         return redirect()->action('RolesController@index')->with('success', trans('roles.deleted', ['name' => $role->name]));
     }
 

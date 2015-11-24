@@ -1,10 +1,14 @@
 <?php
 
-use Illuminate\Database\Seeder;
-use App\User;
+use App\Repositories\PermissionGroupsRepository;
+use App\Repositories\PermissionsRepository;
+use App\Repositories\RolesRepository;
 use App\Repositories\UserRepository;
+use Illuminate\Database\Seeder;
+use App\PermissionGroup;
+use App\Permission;
+use App\User;
 use App\Role;
-use App\Repositories\RoleRepository;
 
 class LaravelBaseSeeder extends Seeder
 {
@@ -22,6 +26,7 @@ class LaravelBaseSeeder extends Seeder
         DB::table('permissions')->truncate();
         DB::table('permission_groups')->truncate();
         DB::table('password_resets')->truncate();
+        DB::table('auth_logs')->truncate();
 
         $roles = [
             [
@@ -33,7 +38,7 @@ class LaravelBaseSeeder extends Seeder
         ];
 
         foreach ($roles as $roleData) {
-            RoleRepository::create(new Role, $roleData);
+            RolesRepository::create(new Role, $roleData);
         }
 
         $users = [
@@ -53,6 +58,66 @@ class LaravelBaseSeeder extends Seeder
         }
 
         User::find(1)->attachRole(1);
+
+        $permissionGroups = [
+            [
+                'name' => 'Auth Logs'
+            ],
+            [
+                'name' => 'Permissions and Roles'
+            ],
+            [
+                'name' => 'Users'
+            ],
+        ];
+
+        foreach ($permissionGroups as $permissionGroupData) {
+            PermissionGroupsRepository::create(new PermissionGroup, $permissionGroupData);
+        }
+
+        $permissions = [
+            ['1', 'AuthLog:List', 'Lists Auth Logs'],
+            ['2', 'PermissionGroup:List', 'List Permission Groups'],
+            ['2', 'Permission:List', 'List Permissions'],
+            ['2', 'Role:List', 'List Role'],
+            ['2', 'Role:Show', 'View Role Details'],
+            ['2', 'Role:Create', 'Create New Role'],
+            ['2', 'Role:Update', 'Update Existing Roles'],
+            ['2', 'Role:Duplicate', 'Duplicate Existing Role'],
+            ['2', 'Role:Revisions', 'View Role Revisions'],
+            ['2', 'Role:Delete', 'Delete Role'],
+            ['3', 'User:List', 'List Users'],
+            ['3', 'User:Show', 'View User Details'],
+            ['3', 'User:Create', 'Create New User'],
+            ['3', 'User:Update', 'Update New User'],
+            ['3', 'User:Duplicate', 'Duplicate Existing User'],
+            ['3', 'User:Revisions', 'View User Revisions'],
+            ['3', 'User:Delete', 'Delete Existing User'],
+            ['3', 'User:Assume', 'Login As Another User'],
+            ['3', 'User:Activate', 'Set User Active / Inactive'],
+        ];
+
+        foreach ($permissions as $permissionData) {
+            PermissionsRepository::create(new Permission, [
+                'permission_group_id' => $permissionData[0],
+                'name' => $permissionData[1],
+                'display_name' => $permissionData[2],
+            ]);
+        }
+
+        $permissionGroup = PermissionGroupsRepository::create(new PermissionGroup, ['name' => 'User Blacklists']);
+
+        $permissionGroup->permissions()->saveMany(array_map(function($permissionData){
+            return new Permission($permissionData);
+        }, [
+            ['name' => 'UserBlacklist:List', 'display_name' => 'List User Blacklist'],
+            ['name' => 'UserBlacklist:Show', 'display_name' => 'View User Blacklist Details'],
+            ['name' => 'UserBlacklist:Create', 'display_name' => 'Create New User Blacklist'],
+            ['name' => 'UserBlacklist:Update', 'display_name' => 'Update Existing User Blacklist'],
+            ['name' => 'UserBlacklist:Duplicate', 'display_name' => 'Duplicate Existing User Blacklist'],
+            ['name' => 'UserBlacklist:Revisions', 'display_name' => 'View Revisions For User Blacklist'],
+            ['name' => 'UserBlacklist:Delete', 'display_name' => 'Delete Existing User Blacklist'],
+        ]));
 
     }
 }

@@ -28,11 +28,12 @@ class BaseRepository
         return $model;
     }
 
-    public static function duplicate(Model $model)
+    public static function duplicate(Model $model, $params = [])
     {
         $model = $model->replicate();
         if(in_array('Cviebrock\EloquentSluggable\SluggableTrait', class_uses($model)))
             $model->resluggify();
+        $model->fill($params);
         if(!$model->save())
             throw new RepositoryException('Duplicating ' . Model::class, $data);
         if(method_exists(static::class, 'duplicated')) {

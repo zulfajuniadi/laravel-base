@@ -6,17 +6,17 @@
         <div class="col-md-12">
             <div class="panel panel-default">
                 <div class="panel-heading">
-                    {!! app('menu')->handler('roles.panel-buttons.create')->render('inline') !!}
+                    {!! app('menu')->handler('model-names.panel-buttons.create')->render('inline') !!}
                     <h4>
-                        Craete New Role
+                        {{trans('model-names.create_new_model_name')}}
                     </h4>
                 </div>
-                {!! Former::open(action('RolesController@store')) !!}
+                {!! Former::open(action('ModelNamesController@store')) !!}
                 <div class="panel-body">
-                    @include('roles.form')
+                    @include('model-names.form')
                 </div>
                 <div class="panel-footer">
-                    <button class="btn btn-primary">Submit</button>
+                    <button class="btn btn-primary">{{trans('model-names.submit')}}</button>
                 </div>
                 {!! Former::close() !!}
             </div>

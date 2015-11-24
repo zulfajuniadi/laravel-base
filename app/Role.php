@@ -21,6 +21,11 @@ class Role extends EntrustRole implements SluggableInterface {
         'description',
     ];
 
+    public function scopeOptions()
+    {
+        return static::orderBy('name')->lists('name', 'id');
+    }
+
     public static function boot()
     {
         parent::boot();

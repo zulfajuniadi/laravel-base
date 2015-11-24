@@ -27,7 +27,9 @@ class AuthServiceProvider extends ServiceProvider
             ->addClass('navbar-right')
             ->addItemIf(auth()->guest(), action('Auth\AuthController@getLogin'), trans('auth.login'))
             ->addItemIf(auth()->guest(), action('Auth\AuthController@getRegister'), trans('auth.register'))
-            ->addItemIfNot(auth()->guest(), action('Auth\AuthController@getLogout'), trans('auth.logout'));
+            ->addItemIf(app('session')->has('original_user'), action('UsersController@resume'), trans('users.resume'))
+            ->addItemIfNot(auth()->guest(), action('Auth\AuthController@getLogout'), trans('auth.logout'))
+            ;
         if(!auth()->guest()) {
             $menu->setTitle(auth()->user()->name);
         } else {

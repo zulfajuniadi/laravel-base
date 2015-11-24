@@ -5,9 +5,10 @@ namespace App\Libraries\Menu;
 class BaseMenu
 {
 
-    public function check($action, $params = [])
+    public function check($action, $params = [], $controller = null)
     {
-        return app('policy')->check($this->controller, $action, $params);
+        $controller = $controller ?: $this->controller;
+        return app('policy')->check($controller, $action, $params);
     }
 
     public function __construct()

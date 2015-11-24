@@ -44,7 +44,7 @@ return [
     |
     */
 
-    'timezone' => 'UTC',
+    'timezone' => 'Asia/Kuala_Lumpur',
 
     /*
     |--------------------------------------------------------------------------
@@ -152,6 +152,7 @@ return [
         /*
          * Application Libraries 
          */
+        App\Libraries\Generator\GeneratorServiceProvider::class,
         App\Libraries\Validate\ValidateProvider::class,
         App\Libraries\Policy\PolicyProvider::class,
         App\Libraries\Menu\MenuProvider::class,
@@ -170,7 +171,12 @@ return [
         /*
          * Modules
          */
+        App\Providers\Modules\UsersProvider::class,
+        App\Providers\Modules\UserBlacklistsProvider::class,
         App\Providers\Modules\RolesProvider::class,
+        App\Providers\Modules\PermissionGroupsProvider::class,
+        App\Providers\Modules\PermissionsProvider::class,
+        App\Providers\Modules\AuthLogsProvider::class,
 
     ],
 
