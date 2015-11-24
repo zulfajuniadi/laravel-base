@@ -6,9 +6,10 @@ use Illuminate\Database\Eloquent\Model;
 
 class BaseRepository
 {
-    public static function create(Model $model, $data)
+    public static function create(Model $model, $data, $params = [])
     {
         $model->fill($data);
+        $model->fill($params);
         if(!$model->save())
             throw new RepositoryException('Creating ' . Model::class, $data);
         if(method_exists(self::class, 'created')) {
@@ -17,9 +18,10 @@ class BaseRepository
         return $model;
     }
 
-    public static function update(Model $model, $data)
+    public static function update(Model $model, $data, $params = [])
     {
         $model->fill($data);
+        $model->fill($params);
         if(!$model->save())
             throw new RepositoryException('Updating ' . Model::class, $data);
         if(method_exists(self::class, 'updated')) {
