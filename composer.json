@@ -7,10 +7,9 @@
     "require": {
         "php": ">=5.5.9",
         "laravel/framework": "5.1.*",
-        "bestmomo/scafold": "dev-master",
         "zizaco/entrust": "dev-laravel-5",
         "cviebrock/eloquent-sluggable": "^3.1",
-        "anahkiasen/former": "4.0.*@dev",
+        "anahkiasen/former": "^4.0",
         "yajra/laravel-datatables-oracle": "~5.0",
         "venturecraft/revisionable": "^1.23"
     },
