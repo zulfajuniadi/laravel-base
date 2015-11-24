@@ -72,7 +72,20 @@ class User extends Model implements AuthenticatableContract,
 
     public function status()
     {
+        if($blacklist = $this->getActiveBlacklist()) {
+            return trans('users.blacklisted_until', ['until' => $blacklist->until]);
+        }
         return $this->is_active ? trans('users.active') : trans('users.inactive');
+    }
+
+    public function getActiveBlacklist()
+    {
+        return $this->blacklists()->where('until', '>', date('Y-m-d H:i:s'))->first();
+    }
+
+    public function blacklists()
+    {
+        return $this->hasMany(UserBlacklist::class, 'user_id');
     }
 
     public static function boot()

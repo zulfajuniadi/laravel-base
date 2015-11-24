@@ -37,4 +37,5 @@ return [
     'is_active' => 'Is Active',
     'created_at' => 'Created At',
     'updated_at' => 'Last Updated At',
+    'blacklisted_until' => 'Blacklisted until :until',
 ];

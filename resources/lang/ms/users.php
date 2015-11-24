@@ -37,4 +37,5 @@ return [
     'is_active' => 'Aktif',
     'created_at' => 'Dicipta Pada',
     'updated_at' => 'Perubahan Terakhir Pada',
+    'blacklisted_until' => 'Disenarai hitam sehingga :until',
 ];
