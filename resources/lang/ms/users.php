@@ -41,6 +41,7 @@ return [
     'updated_at' => 'Perubahan Terakhir Pada',
     'blacklisted_until' => 'Disenarai hitam sehingga :until',
     'profile' => 'Profil Anda',
+    'profile_no_roles' => 'Tiada peranan telah diberikan kepada anda',
     'edit_profile' => 'Kemaskini Profil Anda',
     'change_password' => 'Tukar Kata Laluan',
     'password_updated' => 'Kata laluan and telah berjaya ditukar. Sila log masuk semula.',

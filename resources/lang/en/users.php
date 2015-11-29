@@ -41,6 +41,7 @@ return [
     'updated_at' => 'Last Updated At',
     'blacklisted_until' => 'Blacklisted until :until',
     'profile' => 'Your Profile',
+    'profile_no_roles' => 'No roles has been assigned to you',
     'edit_profile' => 'Edit Your Profile',
     'change_password' => 'Change Password',
     'password_updated' => 'Your password has been updated. Please login back.',
