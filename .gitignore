@@ -4,4 +4,5 @@ Homestead.yaml
 Homestead.json
 .env
 .DS_Store
-database/model.mwb.bak
+database/design.mwb.bak
+database/design.mwb
