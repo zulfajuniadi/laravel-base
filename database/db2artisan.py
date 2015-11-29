@@ -47,7 +47,7 @@ for table in schema.tables:
             if column.name not in ('id', 'created_at', 'updated_at', 'slug'):
                 columns.append("%s:%s:%s" % (column.name, makeName(column.name), getColumnType((column.simpleType or column.userType).name.lower())))
         for fkey in table.foreignKeys:
-            fkeys.append("belongsTo:%s:%s" % (fkey.referencedTable.name, fkey.columns[0].name))
+            fkeys.append("belongsTo:%s:%s:%s" % (makeName(fkey.columns[0].name), fkey.referencedTable.name, fkey.columns[0].name))
         str += '|'.join(columns) + '" '
         if(len(fkeys) > 0):
             str += '"' + ('|'.join(fkeys)) + '" '
