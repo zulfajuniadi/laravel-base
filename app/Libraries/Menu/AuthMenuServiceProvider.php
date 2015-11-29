@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Providers;
+namespace App\Libraries\Menu;
 
 use Illuminate\Support\ServiceProvider;
 use App\Libraries\Booted\BootedTrait;

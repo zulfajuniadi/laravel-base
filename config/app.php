@@ -147,7 +147,6 @@ return [
          */
         App\Providers\EventServiceProvider::class,
         App\Providers\RouteServiceProvider::class,
-        App\Providers\AuthMenuServiceProvider::class,
 
         /*
          * Application Libraries 
@@ -157,6 +156,7 @@ return [
         App\Libraries\Policy\PolicyProvider::class,
         App\Libraries\Menu\MenuProvider::class,
         App\Libraries\Language\LanguageProvider::class,
+        App\Libraries\Menu\AuthMenuServiceProvider::class,
         App\Libraries\Booted\BootedProvider::class,
         
         /*
