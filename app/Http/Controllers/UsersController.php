@@ -67,6 +67,8 @@ class UsersController extends Controller
     public function store(Request $request)
     {
         $user = UsersRepository::create(new User, $request->all());
+        if($roles = $request->get('roles'))
+            $user->roles()->sync($roles);
         return redirect()
             ->action('UsersController@index')
             ->with('success', trans('users.created', ['name' => $user->name]));

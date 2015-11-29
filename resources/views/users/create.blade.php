@@ -14,6 +14,10 @@
                 {!! Former::open(action('UsersController@store')) !!}
                 <div class="panel-body">
                     @include('users.form')
+                    {!! Former::select('roles[]')
+                        ->label('roles.roles')
+                        ->multiple()
+                        ->options(App\Role::options()) !!}
                 </div>
                 <div class="panel-footer">
                     <button class="btn btn-primary">{{trans('users.submit')}}</button>
