@@ -45,6 +45,7 @@ class InstallerCommand extends Command
         $this->setupEnvFile();
         $this->setupEnvironment();
         $this->setupDatabase();
+        $this->copyModel();
         $this->line('App install successful. Run: php artisan migrate --seed');
     }
 
@@ -91,6 +92,11 @@ class InstallerCommand extends Command
         }
         $this->artisan->call('cache:clear');
         $this->artisan->call('config:clear');
+    }
+
+    public function copyModel()
+    {
+        $this->filesystem->copy(app_path('Libraries/Installer/source.mwb'), base_path('database/design.mwb'));
     }
 
     /* Utilities */
