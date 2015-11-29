@@ -23,6 +23,10 @@ class MigratonManyToManyUp
                     ->references('id')
                     ->on('{$modelParams['model_names']}')
                     ->onDelete('cascade');
+                \$table->foreign('{$params[5]}')
+                    ->references('id')
+                    ->on('{$params[2]}')
+                    ->onDelete('cascade');
             });
         } catch (Exception \$e) {}";
             }
