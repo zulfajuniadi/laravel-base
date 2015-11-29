@@ -32,10 +32,9 @@ class LanguageProvider extends ServiceProvider
                 return redirect()->back()->withCookie(cookie()->forever('locale', $locale));
             }]);
         });
-
-        app('menu')->handler('language')
-            ->addItem(route('setlocale', 'en'), 'English')
-            ->addItem(route('setlocale', 'ms'), 'Bahasa Melayu');
+        foreach (config('locale.languages') as $key => $value) {
+            app('menu')->handler('language')->addItem(route('setlocale', $key), $value);
+        }
     }
 
     public function booted()

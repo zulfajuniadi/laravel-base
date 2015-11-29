@@ -48,8 +48,6 @@ class Generator
         }
 
         $templates = [
-            'langs/en.php'        => base_path("resources/lang/en/{$this->params['model-names']}.php"),
-            'langs/ms.php'        => base_path("resources/lang/ms/{$this->params['model-names']}.php"),
             'views/create.php'    => base_path("resources/views/{$this->params['model-names']}/create.blade.php"),
             'views/edit.php'      => base_path("resources/views/{$this->params['model-names']}/edit.blade.php"),
             'views/form.php'      => base_path("resources/views/{$this->params['model-names']}/form.blade.php"),
@@ -66,6 +64,11 @@ class Generator
             'migrations.php'      => base_path("database/migrations/{$timestamp}_{$this->params['ModelNames']}Migration.php"),
             'model.php'           => base_path("app/{$this->params['ModelName']}.php"),
         ];
+        foreach ($this->fs->files(app_path('Libraries/Generator/stubs/langs')) as $value) {
+            $value = 'langs/' . basename($value);
+            $lang = substr($value, 6, -4);
+            $templates[$value] = base_path("resources/lang/{$lang}/{$this->params['model-names']}.php");
+        }
         if($this->isJuctionTable)
             $templates = ['migrations.php' => $templates['migrations.php']];
         foreach ($templates as $source => $destination) {
@@ -80,8 +83,6 @@ class Generator
     protected function remove()
     {
         $templates = [
-            base_path("resources/lang/en/{$this->params['model-names']}.php"),
-            base_path("resources/lang/ms/{$this->params['model-names']}.php"),
             base_path("resources/views/{$this->params['model-names']}/create.blade.php"),
             base_path("resources/views/{$this->params['model-names']}/edit.blade.php"),
             base_path("resources/views/{$this->params['model-names']}/form.blade.php"),
@@ -97,6 +98,11 @@ class Generator
             base_path("database/seeds/{$this->params['ModelNames']}Seeder.php"),
             base_path("app/Validators/{$this->params['ModelNames']}Validators.php"),
         ];
+        foreach ($this->fs->files(app_path('Libraries/Generator/stubs/langs')) as $value) {
+            $value = basename($value);
+            $lang = substr($value, 0, -4);
+            $templates[] = base_path("resources/lang/{$lang}/{$this->params['model-names']}.php");
+        }
         if(!$this->isJuctionTable) {
             foreach ($templates as $source) {
                 if(file_exists($source))
