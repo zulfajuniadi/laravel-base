@@ -21,6 +21,28 @@ class DegeneratorCommand extends Command
      */
     protected $description = 'Erases a Laravel Base Scaffold';
 
+    protected function detectSingularTableName()
+    {
+        if(str_singular($this->tableName) == $this->tableName) {
+            $choice = $this->choice('Singular table name detected.', ['Junction Table', 'Fix: Pluralize', 'Quit'], 1);
+            switch ($choice) {
+                case 'Junction Table':
+                    $this->isJuctionTable = true;
+                    $this->line('Junction table chosen. Will only remove migrations.');
+                    break;
+                case 'Fix: Pluralize':
+                    $this->tableName = str_plural($this->tableName);
+                    $this->line('Table name updated to: ' . $this->tableName);
+                    break;
+                case 'Quit':
+                default:
+                    $this->line('Exiting.');
+                    exit(0);
+                    break;
+            }
+        }
+    }
+
     /**
      * Execute the console command.
      *
@@ -28,8 +50,12 @@ class DegeneratorCommand extends Command
      */
     public function handle()
     {
+        $this->isJuctionTable = false;
+        $this->tableName = $this->argument('table_name');
+        $this->detectSingularTableName();
         app('laravel-base-generator')->erase(
-            $this->argument('table_name')
+            $this->tableName,
+            $this->isJuctionTable
         );
     }
 }

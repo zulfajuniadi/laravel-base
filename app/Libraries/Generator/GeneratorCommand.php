@@ -23,6 +23,28 @@ class GeneratorCommand extends Command
      */
     protected $description = 'Scaffolds a Laravel Base module';
 
+    protected function detectSingularTableName()
+    {
+        if(str_singular($this->tableName) == $this->tableName) {
+            $choice = $this->choice('Singular table name detected.', ['Junction Table', 'Fix: Pluralize', 'Quit'], 1);
+            switch ($choice) {
+                case 'Junction Table':
+                    $this->isJuctionTable = true;
+                    $this->line('Junction table chosen. Will only generate migrations.');
+                    break;
+                case 'Fix: Pluralize':
+                    $this->tableName = str_plural($this->tableName);
+                    $this->line('Table name updated to: ' . $this->tableName);
+                    break;
+                case 'Quit':
+                default:
+                    $this->line('Exiting.');
+                    exit(0);
+                    break;
+            }
+        }
+    }
+
     /**
      * Execute the console command.
      *
@@ -30,14 +52,18 @@ class GeneratorCommand extends Command
      */
     public function handle()
     {
+        $this->isJuctionTable = false;
+        $this->tableName = $this->argument('table_name');
+        $this->detectSingularTableName();
         app('laravel-base-generator')->make(
-            $this->argument('table_name'),
+            $this->tableName,
             array_map(function($params){
                 return explode(':', $params);
             }, explode('|', $this->argument('fields'))),
             array_map(function($params){
                 return explode(':', $params);
-            }, explode('|', $this->argument('relationships')))
+            }, explode('|', $this->argument('relationships'))),
+            $this->isJuctionTable
         );
     }
 }

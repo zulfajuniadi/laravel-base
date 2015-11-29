@@ -43,7 +43,7 @@ class Generator
         // Find existing migration and get its timestamp
         foreach ($this->fs->files(base_path('database/migrations')) as $file) {
             $file = basename($file);
-            if(stristr($file, $this->params['ModelName'] . 'sMigration.php'))
+            if(stristr($file, $this->params['ModelNames'] . 'Migration.php'))
                 $timestamp = substr($file, 0, 17);
         }
 
@@ -66,6 +66,8 @@ class Generator
             'migrations.php'      => base_path("database/migrations/{$timestamp}_{$this->params['ModelNames']}Migration.php"),
             'model.php'           => base_path("app/{$this->params['ModelName']}.php"),
         ];
+        if($this->isJuctionTable)
+            $templates = ['migrations.php' => $templates['migrations.php']];
         foreach ($templates as $source => $destination) {
             $content = $this->substitute(file_get_contents(base_path('app/Libraries/Generator/stubs/') . $source));
             if(!is_dir($basePath = dirname($destination))) {
@@ -95,15 +97,18 @@ class Generator
             base_path("database/seeds/{$this->params['ModelNames']}Seeder.php"),
             base_path("app/Validators/{$this->params['ModelNames']}Validators.php"),
         ];
-        foreach ($templates as $source) {
-            if(file_exists($source))
-                unlink($source);
+        if(!$this->isJuctionTable) {
+            foreach ($templates as $source) {
+                if(file_exists($source))
+                    unlink($source);
+            }
+            $this->fs->deleteDirectory(base_path("resources/views/{$this->params['model-names']}"));
         }
         foreach ($this->fs->files(base_path('database/migrations')) as $file) {
-            if(stristr($file, $this->params['ModelName'] . 'sMigration.php'))
+            if(stristr($file, $this->params['ModelNames'] . 'Migration.php')) {
                 unlink($file);
+            }
         }
-        $this->fs->deleteDirectory(base_path("resources/views/{$this->params['model-names']}"));
     }
 
     protected function makeFieldsParams()
@@ -126,10 +131,11 @@ class Generator
         ];
     }
 
-    public function make($tableName, $fields = [], $relationships = [])
+    public function make($tableName, $fields = [], $relationships = [], $isJuctionTable = false)
     {
-        $this->fs = app('files');
+        $this->isJuctionTable = $isJuctionTable;
         $this->tableName = $tableName;
+        $this->fs = app('files');
         $this->fields = $fields;
         $this->relationships = $relationships;
         $this->makeBaseParams();
@@ -137,10 +143,11 @@ class Generator
         $this->create();
     }
 
-    public function erase($tableName)
+    public function erase($tableName, $isJuctionTable = false)
     {
-        $this->fs = app('files');
+        $this->isJuctionTable = $isJuctionTable;
         $this->tableName = $tableName;
+        $this->fs = app('files');
         $this->makeBaseParams();
         $this->remove();
     }
