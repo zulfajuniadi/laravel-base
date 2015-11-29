@@ -88,6 +88,14 @@ class User extends Model implements AuthenticatableContract,
         return $this->hasMany(UserBlacklist::class, 'user_id');
     }
 
+    public function getAvatarUrl()
+    {
+        if($this->avatar_url)
+            return $this->avatar_url;
+        else 
+            return app('identicon')->getImageDataUri($this->email, 128);
+    }
+
     public static function boot()
     {
         parent::boot();
