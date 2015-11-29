@@ -104,9 +104,10 @@ class UsersController extends Controller
     public function update(Request $request, User $user)
     {
         $user = UsersRepository::update($user, $request->all());
-        $user->roles()->sync($request->get('roles'));
+        if($roles = $request->get('roles'))
+            $user->roles()->sync($roles);
         return redirect()
-            ->action('UsersController@index')
+            ->action('UsersController@edit', $user->slug)
             ->with('success', trans('users.updated', ['name' => $user->name]));
     }
 
