@@ -19,4 +19,21 @@ class UsersValidators extends BaseValidator
             'email' => 'required',
         ];
     }
+
+    public function doChangePassword($data)
+    {
+        return [
+            'existing_password' => 'required|matchesHashedPassword:' . auth()->user()->password,
+            'password' => 'required|confirmed',
+            'password_confirmation' => 'required',
+        ];
+    }
+
+    public function doEditProfile($data)
+    {
+        return [
+            'name' => 'required',
+            'email' => 'required',
+        ];
+    }
 }

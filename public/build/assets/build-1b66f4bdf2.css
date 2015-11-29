@@ -53,6 +53,12 @@ div.dataTables_wrapper {
     left: -30px;
     top: 6px; }
 
+.panel-body.profile {
+  font-size: 19px; }
+
+.avatar {
+  max-width: 140px; }
+
 /*# sourceMappingURL=zapp.css.map */
 
 /*# sourceMappingURL=build.css.map */

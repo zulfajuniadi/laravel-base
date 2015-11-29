@@ -26,4 +26,16 @@ class UsersRepository extends BaseRepository {
         $user->is_active = $activation;
         $user->save();
     }
+
+    public static function changePassword(User $user, $newPassword)
+    {
+        $user->update([
+            'password' => app('hash')->make($newPassword)
+        ]);
+    }
+
+    public static function updateProfile(User $user, $data)
+    {
+        $user->update($data);
+    }
 }

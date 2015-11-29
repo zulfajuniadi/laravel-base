@@ -72,16 +72,6 @@ class UsersPolicy extends BasePolicy
         return $this->user->ability(['Admin'], ['User:Activate']);
     }
 
-    public function changePassword(User $user)
-    {
-        return $this->user->id == $user->id;
-    }
-
-    public function doChangePassword(User $user)
-    {
-        return $this->user->id == $user->id;
-    }
-
     public function resume()
     {
         return app('session')->has('original_user');
@@ -90,5 +80,30 @@ class UsersPolicy extends BasePolicy
     public function delete(User $user)
     {
         return $this->destroy($user);
+    }
+
+    public function profile()
+    {
+        return app('auth')->check();
+    }
+
+    public function editProfile()
+    {
+        return app('auth')->check();
+    }
+
+    public function doEditProfile()
+    {
+        return $this->editProfile();
+    }
+
+    public function changePassword()
+    {
+        return app('auth')->check();
+    }
+
+    public function doChangePassword()
+    {
+        return $this->changePassword();
     }
 }

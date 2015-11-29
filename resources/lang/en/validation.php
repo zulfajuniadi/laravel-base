@@ -76,6 +76,7 @@ return [
     'unique'               => 'The :attribute has already been taken.',
     'url'                  => 'The :attribute format is invalid.',
     'error'     => 'Validation Error',
+    'matches_hashed_password' => ':attribute invalid',
 
     /*
     |--------------------------------------------------------------------------

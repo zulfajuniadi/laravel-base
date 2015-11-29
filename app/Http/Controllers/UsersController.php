@@ -191,6 +191,72 @@ class UsersController extends Controller
     }
 
     /**
+     * Show user profile.
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function profile()
+    {
+        $user = app('auth')->user();
+        return view()->make('users.profile', compact('user'));
+    }
+
+    /**
+     * Show edit user profile page.
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function editProfile()
+    {
+        $user = app('auth')->user();
+        return view()->make('users.edit-profile', compact('user'));
+    }
+
+    /**
+     * Do edit user profile.
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function doEditProfile(Request $request)
+    {
+        $user = app('auth')->user();
+        UsersRepository::updateProfile($user, array_only($request->all(), [
+            'name',
+            'email',
+            'avatar_url',
+        ]));
+        return redirect()
+            ->action('UsersController@editProfile')
+            ->withSuccess(trans('users.profile_updated'));
+    }
+
+    /**
+     * Show change password page.
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function changePassword()
+    {
+        $user = app('auth')->user();
+        return view()->make('users.change-password', compact('user'));
+    }
+
+    /**
+     * Do edit user profile.
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function doChangePassword(Request $request)
+    {
+        $user = app('auth')->user();
+        UsersRepository::changePassword($user, $request->get('password'));
+        auth()->logout();
+        return redirect()
+            ->action('Auth\AuthController@getLogin')
+            ->withSuccess(trans('users.password_updated'));
+    }
+
+    /**
      * Activates a user.
      *
      * @param  App\User  $user

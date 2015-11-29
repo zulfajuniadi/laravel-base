@@ -73,6 +73,40 @@ class UsersMenu extends BaseMenu
             ->addItemIf($this->check('show'), action('UsersController@show', $params['users']->slug), trans('users.show'), 'btn btn-default');
     }
 
+    public function profile()
+    {
+        $this->menu->handler('breadcrumbs')
+            ->addItem(action('UsersController@profile'), trans('users.profile'));
+        $this->menu->handler('users.record-buttons')
+            ->addItemIf($this->check('editProfile'), action('UsersController@editProfile'), trans('users.edit_profile'), 'btn btn-primary')
+            ->addItemIf($this->check('changePassword'), action('UsersController@changePassword'), trans('users.change_password'), 'btn btn-default')
+        ;
+    }
+
+    public function changePassword()
+    {
+        $this->menu->handler('breadcrumbs')
+            ->addItem(action('UsersController@profile'), trans('users.profile'))
+            ->addItem(action('UsersController@changePassword'), trans('users.change_password'))
+            ;
+        $this->menu->handler('users.panel-buttons')
+            ->addClass('pull-right')
+            ->addItemIf($this->check('profile'), action('UsersController@profile'), trans('users.profile'), 'btn btn-default')
+        ;
+    }
+
+    public function editProfile()
+    {
+        $this->menu->handler('breadcrumbs')
+            ->addItem(action('UsersController@profile'), trans('users.profile'))
+            ->addItem(action('UsersController@editProfile'), trans('users.edit_profile'))
+            ;
+        $this->menu->handler('users.panel-buttons')
+            ->addClass('pull-right')
+            ->addItemIf($this->check('profile'), action('UsersController@profile'), trans('users.profile'), 'btn btn-default')
+        ;
+    }
+
     public function __construct()
     {
         parent::__construct();

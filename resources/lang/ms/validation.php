@@ -76,6 +76,7 @@ return [
     'timezone'             => ':attribute mestilah zon masa yang sah.',
     'unique'               => ':attribute telahpun diambil.',
     'url'                  => 'format :attribute tidak sah.',
+    'matches_hashed_password' => ':attribute tidak sah',
 
     /*
     |--------------------------------------------------------------------------
