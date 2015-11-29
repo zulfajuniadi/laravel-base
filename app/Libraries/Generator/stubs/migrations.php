@@ -17,13 +17,7 @@ class ModelNamesMigration extends Migration
             $table->string('slug');
 MIGRATIONFIELDS
             $table->timestamps();
-        });
-
-MIGRATIONMANYTOMANYUP
-
-        Schema::table('model_names', function ($table) {
-MIGRATIONUPFK
-        });
+        });MIGRATIONMANYTOMANYUPMIGRATIONUPFK
     }
 
     /**
@@ -33,13 +27,6 @@ MIGRATIONUPFK
      */
     public function down()
     {
-
-        Schema::table('model_names', function ($table) {
-MIGRATIONDOWNFK
-        });
-
-MIGRATIONMANYTOMANYDOWN
-
-        Schema::dropIfExists('model_names');
+        MIGRATIONDOWNFKMIGRATIONMANYTOMANYDOWNSchema::dropIfExists('model_names');
     }
 }

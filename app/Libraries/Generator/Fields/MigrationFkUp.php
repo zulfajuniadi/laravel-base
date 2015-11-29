@@ -6,7 +6,7 @@ class MigrationFkUp
 {
     public function make($fields, $modelParams, $relationships)
     {
-        return implode("\n", array_filter(array_map(function($params) use ($modelParams) {
+        $str = implode("\n", array_filter(array_map(function($params) use ($modelParams) {
             switch ($params[0]) {
                 case 'belongsTo':
                 case 'hasOne':
@@ -18,8 +18,9 @@ class MigrationFkUp
                 default:
                     break;
             }
-            if(in_array($params[0], ['belongsTo', 'hasOne'])) {
-            }
         }, $relationships)));
+        if(strlen($str))
+            $str = "\n\n        Schema::table({$modelParams['model_names']}, function ($table) {\n" . $str . "});\n";
+        return $str;
     }
 }

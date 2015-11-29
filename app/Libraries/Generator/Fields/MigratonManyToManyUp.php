@@ -8,7 +8,7 @@ class MigratonManyToManyUp
     {
         return implode("\n", array_filter(array_map(function($params) use ($modelParams) {
             if($params[0] == 'belongsToMany') {
-                return "        if(!Schema::hasTable('{$params[3]}')) {
+                return "\n\n        if(!Schema::hasTable('{$params[3]}')) {
             Schema::create('{$params[3]}', function(\$table) {
                 \$table->increments('id');
                 \$table->integer('{$params[4]}')->unsigned();
