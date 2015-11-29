@@ -26,7 +26,6 @@ MIGRATIONFIELDS
      * @return  void
      */
     public function down()
-    {
-        MIGRATIONDOWNFKMIGRATIONMANYTOMANYDOWNSchema::dropIfExists('model_names');
+    {MIGRATIONDOWNFKMIGRATIONMANYTOMANYDOWNSchema::dropIfExists('model_names');
     }
 }
