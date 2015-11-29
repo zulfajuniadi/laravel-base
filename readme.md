@@ -24,3 +24,6 @@ Quickly scaffold out a fully functional app within seconds. Come on, be lazy.
 1. `composer create-project zulfajuniadi/laravel-base projectfolder 5.1.x-dev`
 2. Create your database
 3. `php artisan app:install`
+4. `php artisan migrate --seed`
+
+Default username and password: admin@example.com / admin

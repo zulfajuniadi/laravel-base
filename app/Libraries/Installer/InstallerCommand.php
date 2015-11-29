@@ -45,8 +45,7 @@ class InstallerCommand extends Command
         $this->setupEnvFile();
         $this->setupEnvironment();
         $this->setupDatabase();
-        $this->migrateData();
-        $this->seedData();
+        $this->line('App install successful. Run: php artisan migrate --seed');
     }
 
     protected function setupEnvFile()
@@ -92,20 +91,6 @@ class InstallerCommand extends Command
         }
         $this->artisan->call('cache:clear');
         $this->artisan->call('config:clear');
-    }
-
-    protected function migrateData()
-    {
-        if ($this->confirm('[DANGER] Do you want to reset the database?', false)) {
-            $this->artisan->call('migrate:refresh');
-        }
-    }
-
-    protected function seedData()
-    {
-        if ($this->confirm('[DANGER] Do you want to reseed the database?', false)) {
-            $this->artisan->call('db:seed');
-        }
     }
 
     /* Utilities */
