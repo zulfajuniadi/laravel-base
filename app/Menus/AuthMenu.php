@@ -1,26 +1,14 @@
 <?php
 
-namespace App\Providers;
+namespace App\Menus;
 
-use Illuminate\Support\ServiceProvider;
-use App\Libraries\Booted\BootedTrait;
+use App\Libraries\Menu\BaseMenu;
+use App\Http\Controllers\AuthLogsController;
 
-class AuthServiceProvider extends ServiceProvider
+class AuthMenu extends BaseMenu
 {
 
-    use BootedTrait;
-
-    /**
-     * Bootstrap the application services.
-     *
-     * @return void
-     */
-    public function boot()
-    {
-        $this->bootBootedTrait();
-    }
-
-    public function booted()
+    public function make()
     {
         $menu = app('menu')
             ->handler('auth')
@@ -28,6 +16,7 @@ class AuthServiceProvider extends ServiceProvider
             ->addItemIf(auth()->guest(), action('Auth\AuthController@getLogin'), trans('auth.login'))
             ->addItemIf(auth()->guest(), action('Auth\AuthController@getRegister'), trans('auth.register'))
             ->addItemIf(app('session')->has('original_user'), action('UsersController@resume'), trans('users.resume'))
+            ->addItemIfNot(auth()->guest(), action('UsersController@profile'), trans('users.profile'))
             ->addItemIfNot(auth()->guest(), action('Auth\AuthController@getLogout'), trans('auth.logout'))
             ;
         if(!auth()->guest()) {
@@ -37,12 +26,9 @@ class AuthServiceProvider extends ServiceProvider
         }
     }
 
-    /**
-     * Register the application services.
-     *
-     * @return void
-     */
-    public function register()
+    public function __construct()
     {
+        parent::__construct();
     }
+
 }
