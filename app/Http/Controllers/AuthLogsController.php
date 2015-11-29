@@ -20,7 +20,7 @@ class AuthLogsController extends Controller
     public function index(Builder $htmlBuilder)
     {
         $DataTable = $htmlBuilder
-            ->addColumn(['data' => 'created_at', 'name' => 'created_at', 'title' => trans('auth-logs.created_at')])
+            ->addColumn(['data' => 'created_at', 'name' => 'auth_logs.created_at', 'title' => trans('auth-logs.created_at')])
             ->addColumn(['data' => 'user_name', 'name' => 'users.name', 'title' => trans('users.name')])
             ->addColumn(['data' => 'ip_address', 'name' => 'ip_address', 'title' => trans('auth-logs.ip_address')])
             ->addColumn(['data' => 'action', 'name' => 'action', 'title' => trans('auth-logs.action')])
