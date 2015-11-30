@@ -20,7 +20,7 @@ class MigrationFkUp
             }
         }, $relationships)));
         if(strlen($str))
-            $str = "\n\n        Schema::table({$modelParams['model_names']}, function (\$table) {\n" . $str . "\n        });\n";
+            $str = "\n\n        Schema::table('{$modelParams['model_names']}', function (\$table) {\n" . $str . "\n        });\n";
         return $str;
     }
 }
