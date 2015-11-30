@@ -2,6 +2,7 @@
 
 namespace App\Libraries\Generator;
 
+use Illuminate\Foundation\Composer;
 use Illuminate\Support\Str;
 
 class Generator
@@ -128,13 +129,14 @@ class Generator
             'INDEXCOLUMNS' => app('laravel-base-generator.index')->make($this->fields, $this->params, $this->relationships),
             'MIGRATIONFIELDS' => app('laravel-base-generator.migration')->make($this->fields, $this->params, $this->relationships),
             'FILLABLECOLUMN' => app('laravel-base-generator.fillable')->make($this->fields, $this->params, $this->relationships),
-            'MIGRATIONUPFK' => app('laravel-base-generator.migrationfkup')->make($this->fields, $this->params, $this->relationships),
-            'MIGRATIONDOWNFK' => app('laravel-base-generator.migrationfkdown')->make($this->fields, $this->params, $this->relationships),
             'FKMODELMETHODS' => app('laravel-base-generator.modelfkmethods')->make($this->fields, $this->params, $this->relationships),
             'VALIDATIONS' => app('laravel-base-generator.validation')->make($this->fields, $this->params, $this->relationships),
-            'MIGRATIONMANYTOMANYUP' => app('laravel-base-generator.migrationmanytomanyup')->make($this->fields, $this->params, $this->relationships),
-            'MIGRATIONMANYTOMANYDOWN' => app('laravel-base-generator.migrationmanytomanydown')->make($this->fields, $this->params, $this->relationships),
         ];
+    }
+
+    public function dumpAutoload()
+    {
+        (new Composer($this->fs))->dumpAutoloads();
     }
 
     public function make($tableName, $fields = [], $relationships = [], $isJuctionTable = false)
@@ -147,6 +149,13 @@ class Generator
         $this->makeBaseParams();
         $this->makeFieldsParams();
         $this->create();
+        $this->dumpAutoload();
+        if(count($this->relationships) > 0) {
+            app('fkmigrator')->create($this->tableName, [
+                'params' => $this->params,
+                'relationships' => $this->relationships
+            ]);
+        }
     }
 
     public function erase($tableName, $isJuctionTable = false)
@@ -155,6 +164,26 @@ class Generator
         $this->tableName = $tableName;
         $this->fs = app('files');
         $this->makeBaseParams();
+        app('fkmigrator')->remove($this->tableName);
+        // run down migrations
+        foreach ($this->fs->files(base_path('database/migrations')) as $file) {
+            if(stristr($file, $this->params['ModelNames'] . 'Migration.php')) {
+                $fileName = substr(basename($file), 0, -4);
+                $record = app('db')
+                    ->table('migrations')
+                    ->where('migration', $fileName)
+                    ->first();
+                if($record)
+                    app('db')
+                        ->table('migrations')
+                        ->where('migration', $fileName)
+                        ->take(1)
+                        ->delete();
+                app($this->params['ModelNames'] . 'Migration')->down();
+            }
+        }
         $this->remove();
+        $this->dumpAutoload();
+
     }
 }

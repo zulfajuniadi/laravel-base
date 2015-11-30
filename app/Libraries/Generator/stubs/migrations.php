@@ -17,7 +17,7 @@ class ModelNamesMigration extends Migration
             $table->string('slug');
 MIGRATIONFIELDS
             $table->timestamps();
-        });MIGRATIONMANYTOMANYUPMIGRATIONUPFK
+        });
     }
 
     /**
@@ -26,6 +26,9 @@ MIGRATIONFIELDS
      * @return  void
      */
     public function down()
-    {MIGRATIONDOWNFKMIGRATIONMANYTOMANYDOWNSchema::dropIfExists('model_names');
+    {
+        Schema::dropIfExists('model_names');
     }
+
+    // Foreign keys migrations are done via 9999_12_31_235959_FKMigrations.php
 }

@@ -158,6 +158,7 @@ return [
         App\Libraries\Language\LanguageProvider::class,
         App\Libraries\Menu\AuthMenuServiceProvider::class,
         App\Libraries\Booted\BootedProvider::class,
+        App\Libraries\FKMigrator\FKMigratorProvider::class,
         
         /*
          * 3rd Party Service Providers
