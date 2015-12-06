@@ -6,3 +6,4 @@ Homestead.json
 .DS_Store
 database/design.mwb.bak
 database/design.mwb
+storage/database.sqlite
