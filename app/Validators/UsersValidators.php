@@ -34,6 +34,7 @@ class UsersValidators extends BaseValidator
         return [
             'name' => 'required',
             'email' => 'required',
+            'avatar_url' => 'url',
         ];
     }
 }
