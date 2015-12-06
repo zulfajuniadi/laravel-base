@@ -30,22 +30,3 @@ Quickly scaffold out a fully functional app within seconds. Come on, be lazy.
 
 Default username and password: admin@example.com / admin
 
-## Issues
-
-When using sqlite as database, running `php artisan migrate --seed` will give an error:-
-
-```
-[InvalidArgumentException]
-  Database (/Users/kamal/php/epepos/storage/database.sqlite) does not exist.
-```
-We need to create the initial database file by running:-
-
-```
-$ sqlite3 storage/database.sqlite
-SQLite version 3.8.4.1 2014-03-11 15:27:36
-Enter ".help" for usage hints.
-sqlite> .tables
-sqlite> .quit
-```
-
-Running `.tables` inside the sqlite3 console is required for the database files to be created.

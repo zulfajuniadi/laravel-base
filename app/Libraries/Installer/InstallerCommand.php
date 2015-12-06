@@ -46,6 +46,7 @@ class InstallerCommand extends Command
         $this->setupEnvironment();
         $this->setupDatabase();
         $this->copyModel();
+        $this->createSqlite();
         $this->line('App install successful. Run: php artisan migrate --seed');
     }
 
@@ -115,5 +116,10 @@ class InstallerCommand extends Command
             return $carry . $current;
         },'');
         file_put_contents($this->env, $content);
+    }
+
+    protected function createSqlite()
+    {
+        $this->filesystem->put(storage_path() . '/database.sqlite', '');
     }
 }
