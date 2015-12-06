@@ -20,7 +20,7 @@ class AuthMenu extends BaseMenu
             ->addItemIfNot(auth()->guest(), action('Auth\AuthController@getLogout'), trans('auth.logout'))
             ;
         if(!auth()->guest()) {
-            $menu->setTitle(auth()->user()->name);
+            $menu->setTitle('<img class="navbar-avatar" src="' . auth()->user()->getAvatarUrl() . '">' . auth()->user()->name);
         } else {
             $menu->setType('navbar-inline');
         }
