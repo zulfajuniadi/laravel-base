@@ -8,7 +8,7 @@ class UsersValidators extends BaseValidator
     {
         return [
             'name' => 'required',
-            'email' => 'required',
+            'email' => 'required|email|unique:users',
             'password' => app('config')->get('auth.password.rules'),
         ];
     }
@@ -17,7 +17,6 @@ class UsersValidators extends BaseValidator
     {
         return [
             'name' => 'required',
-            'email' => 'required',
             'email' => 'required|email|unique:users,email,' . $data['users']->id,
         ];
     }
