@@ -15,6 +15,7 @@ elixir(function(mix) {
   // styles
   mix
     .sass('app.scss', 'public/assets/css/app.css')
+    // .less('app.less', 'public/assets/css/app.css')
     .styles([
         'bootstrap/dist/css/bootstrap.min.css',
         'font-awesome/css/font-awesome.min.css',
