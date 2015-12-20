@@ -35,7 +35,7 @@ INDEXCOLUMNS
         return app('datatables')
             ->of(ModelName::whereNotNull('name'))
             ->editColumn('name', function($modelName){
-                if(app('policy')->check('App\Http\Controllers\ModelNamesController', 'show', [$modelName->slug])) {
+                if(app('policy')->check('App\Http\Controllers\ModelNamesController', 'show', [$modelName])) {
                     return link_to_action('ModelNamesController@show', $modelName->name, $modelName->slug);
                 }
                 return $modelName->name;

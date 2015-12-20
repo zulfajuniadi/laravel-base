@@ -54,7 +54,7 @@ class ModelNamesMenu extends BaseMenu
             ->addClass('pull-right')
             ->addItemIf($this->check('index'), action('ModelNamesController@index'), trans('model-names.list_all'), 'btn btn-primary');
         $this->menu->handler('model-names.record-buttons.edit')
-            ->addItemIf($this->check('show'), action('ModelNamesController@show', $params['model_names']->slug), trans('model-names.show'), 'btn btn-default');
+            ->addItemIf($this->check('show', [$params['model_names']]), action('ModelNamesController@show', $params['model_names']->slug), trans('model-names.show'), 'btn btn-default');
     }
 
     public function revisions($params)
@@ -66,7 +66,7 @@ class ModelNamesMenu extends BaseMenu
         $this->menu->handler('model-names.panel-buttons.revisions')
             ->addClass('pull-right')
             ->addItemIf($this->check('index'), action('ModelNamesController@index'), trans('model-names.list_all'), 'btn btn-primary')
-            ->addItemIf($this->check('show'), action('ModelNamesController@show', $params['model_names']->slug), trans('model-names.show'), 'btn btn-default');
+            ->addItemIf($this->check('show', [$params['model_names']]), action('ModelNamesController@show', $params['model_names']->slug), trans('model-names.show'), 'btn btn-default');
     }
 
     public function __construct()
