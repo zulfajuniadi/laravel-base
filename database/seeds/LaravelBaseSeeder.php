@@ -2,8 +2,8 @@
 
 use App\Repositories\PermissionGroupsRepository;
 use App\Repositories\PermissionsRepository;
+use App\Repositories\UsersRepository;
 use App\Repositories\RolesRepository;
-use App\Repositories\UserRepository;
 use Illuminate\Database\Seeder;
 use App\PermissionGroup;
 use App\Permission;
@@ -54,8 +54,7 @@ class LaravelBaseSeeder extends Seeder
 
         foreach ($users as $userData) {
             $userData['password'] = app()->make('hash')->make($userData['password']);
-            $user = UserRepository::create(new User, $userData);
-            UserRepository::setActive($user);
+            $user = UsersRepository::create(new User, $userData);
         }
 
         User::find(1)->attachRole(1);
