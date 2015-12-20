@@ -71,7 +71,7 @@ class Generator
             $templates[$value] = base_path("resources/lang/{$lang}/{$this->params['model-names']}.php");
         }
         if($this->isJuctionTable)
-            $templates = ['migrations.php' => $templates['migrations.php']];
+            $templates = ['migrations-junction-table.php' => $templates['migrations.php']];
         foreach ($templates as $source => $destination) {
             $content = $this->substitute(file_get_contents(base_path('app/Libraries/Generator/stubs/') . $source));
             if(!is_dir($basePath = dirname($destination))) {
