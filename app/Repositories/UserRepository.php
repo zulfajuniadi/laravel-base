@@ -24,7 +24,7 @@ class UserRepository extends BaseRepository
         return $user;
     }
 
-    public function changePassword(User $user, $new_password)
+    public static function changePassword(User $user, $new_password)
     {
         $user->password = app()->make('hash')->make($new_password);
         if(!$user->save())
