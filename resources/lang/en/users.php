@@ -45,6 +45,5 @@ return [
     'edit_profile' => 'Edit Your Profile',
     'change_password' => 'Change Password',
     'password_updated' => 'Your password has been updated. Please login back.',
-    'profile_no_roles' => 'No roles assigned to you',
     'profile_updated' => 'Your profile has been updated',
 ];

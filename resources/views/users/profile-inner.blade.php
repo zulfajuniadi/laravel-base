@@ -27,7 +27,7 @@
                     @forelse($user->roles as $role)
                         <li>{{$role->display_name}}</li>
                     @empty
-                        {{trans('user.profile_no_roles')}}
+                        {{trans('users.profile_no_roles')}}
                     @endforelse
                     </ul>
                 </dd>
