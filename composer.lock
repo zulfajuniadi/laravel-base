@@ -4,8 +4,8 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "hash": "eb2dbb9df0190bb392d55f8a754fd272",
-    "content-hash": "075aba279fc0938f9321efe3c6b9e168",
+    "hash": "f8fa7cdd2281cff5c07500a43dd7b870",
+    "content-hash": "09378f6445051f0ab4c5db04b9e7ab76",
     "packages": [
         {
             "name": "anahkiasen/former",
@@ -2747,6 +2747,59 @@
                 "laravel5"
             ],
             "time": "2015-12-18 00:56:03"
+        },
+        {
+            "name": "yetanotherape/diff-match-patch",
+            "version": "v1.0.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/yetanotherape/diff-match-patch.git",
+                "reference": "8096755ec6592b154ceb2b577577477ce69aadb4"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/yetanotherape/diff-match-patch/zipball/8096755ec6592b154ceb2b577577477ce69aadb4",
+                "reference": "8096755ec6592b154ceb2b577577477ce69aadb4",
+                "shasum": ""
+            },
+            "require": {
+                "ext-mbstring": "*",
+                "lib-iconv": "*",
+                "php": ">=5.3"
+            },
+            "require-dev": {
+                "phpunit/phpunit": "3.7.*"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-0": {
+                    "DiffMatchPatch": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "Apache-2.0"
+            ],
+            "authors": [
+                {
+                    "name": "Daniil Skrobov",
+                    "email": "yetanotherape@gmail.com"
+                },
+                {
+                    "name": "Neil Fraser",
+                    "email": "fraser@google.com",
+                    "homepage": "http://neil.fraser.name/"
+                }
+            ],
+            "description": "Port of the google-diff-match-patch (https://code.google.com/p/google-diff-match-patch/) lib to PHP",
+            "homepage": "https://code.google.com/p/google-diff-match-patch/",
+            "keywords": [
+                "Fuzzy search",
+                "Match",
+                "diff",
+                "patch"
+            ],
+            "time": "2014-11-24 06:47:22"
         },
         {
             "name": "yzalis/identicon",

@@ -3,13 +3,16 @@
 namespace App\Libraries\Generator;
 
 use Illuminate\Foundation\Composer;
+use DiffMatchPatch\DiffMatchPatch;
 use Illuminate\Support\Str;
 
 class Generator
 {
-    protected $params = [];
+    protected $nesting = false;
     protected $relationships;
+    protected $params = [];
     protected $tableName;
+    protected $patcher;
     protected $fields;
     protected $fs;
 
@@ -35,6 +38,14 @@ class Generator
         $this->params['Model Name'] = Str::title($this->params['model name']);
         $this->params['ModelName']  = str_replace(' ', '', $this->params['Model Name']);
         $this->params['modelName']  = lcfirst($this->params['ModelName']);
+        if($this->nesting) {
+            $this->params['ParentName'] = $this->nesting[0];
+            $this->params['parentName'] = lcfirst($this->params['ParentName']);
+            $this->params['parent_id'] = $this->nesting[1];
+            $this->params['parent-names'] = $this->nesting[2];
+            $this->params['parent_names'] = str_replace('-', '_', $this->params['parent-names']);
+            $this->params['Parent Names'] = ucwords(str_replace('-', ' ', $this->params['parent-names']));
+        }
     }
 
     protected function create()
@@ -48,22 +59,26 @@ class Generator
                 $timestamp = substr($file, 0, 17);
         }
 
+        $templatePrefix = 'singular';
+        if($this->nesting) {
+            $templatePrefix = 'nesting';
+        }
         $templates = [
-            'views/create.php'    => base_path("resources/views/{$this->params['model-names']}/create.blade.php"),
-            'views/edit.php'      => base_path("resources/views/{$this->params['model-names']}/edit.blade.php"),
-            'views/form.php'      => base_path("resources/views/{$this->params['model-names']}/form.blade.php"),
-            'views/index.php'     => base_path("resources/views/{$this->params['model-names']}/index.blade.php"),
-            'views/revisions.php' => base_path("resources/views/{$this->params['model-names']}/revisions.blade.php"),
-            'views/show.php'      => base_path("resources/views/{$this->params['model-names']}/show.blade.php"),
-            'controller.php'      => base_path("app/Http/Controllers/{$this->params['ModelNames']}Controller.php"),
-            'menus.php'           => base_path("app/Menus/{$this->params['ModelNames']}Menu.php"),
-            'policy.php'          => base_path("app/Policies/{$this->params['ModelNames']}Policy.php"),
-            'provider.php'        => base_path("app/Providers/Modules/{$this->params['ModelNames']}Provider.php"),
-            'repository.php'      => base_path("app/Repositories/{$this->params['ModelNames']}Repository.php"),
-            'validation.php'      => base_path("app/Validators/{$this->params['ModelNames']}Validators.php"),
-            'seeds.php'           => base_path("database/seeds/{$this->params['ModelNames']}Seeder.php"),
-            'migrations.php'      => base_path("database/migrations/{$timestamp}_{$this->params['ModelNames']}Migration.php"),
-            'model.php'           => base_path("app/{$this->params['ModelName']}.php"),
+            "{$templatePrefix}/views/create.php"    => base_path("resources/views/{$this->params['model-names']}/create.blade.php"),
+            "{$templatePrefix}/views/edit.php"      => base_path("resources/views/{$this->params['model-names']}/edit.blade.php"),
+            "{$templatePrefix}/views/form.php"      => base_path("resources/views/{$this->params['model-names']}/form.blade.php"),
+            "{$templatePrefix}/views/index.php"     => base_path("resources/views/{$this->params['model-names']}/index.blade.php"),
+            "{$templatePrefix}/views/revisions.php" => base_path("resources/views/{$this->params['model-names']}/revisions.blade.php"),
+            "{$templatePrefix}/views/show.php"      => base_path("resources/views/{$this->params['model-names']}/show.blade.php"),
+            "{$templatePrefix}/controller.php"      => base_path("app/Http/Controllers/{$this->params['ModelNames']}Controller.php"),
+            "{$templatePrefix}/menus.php"           => base_path("app/Menus/{$this->params['ModelNames']}Menu.php"),
+            "{$templatePrefix}/model.php"           => base_path("app/{$this->params['ModelName']}.php"),
+            "{$templatePrefix}/policy.php"          => base_path("app/Policies/{$this->params['ModelNames']}Policy.php"),
+            "{$templatePrefix}/provider.php"        => base_path("app/Providers/Modules/{$this->params['ModelNames']}Provider.php"),
+            'repository.php'                        => base_path("app/Repositories/{$this->params['ModelNames']}Repository.php"),
+            'validation.php'                        => base_path("app/Validators/{$this->params['ModelNames']}Validators.php"),
+            'seeds.php'                             => base_path("database/seeds/{$this->params['ModelNames']}Seeder.php"),
+            'migrations.php'                        => base_path("database/migrations/{$timestamp}_{$this->params['ModelNames']}Migration.php"),
         ];
         foreach ($this->fs->files(app_path('Libraries/Generator/stubs/langs')) as $value) {
             $value = 'langs/' . basename($value);
@@ -76,6 +91,17 @@ class Generator
             $content = $this->substitute(file_get_contents(base_path('app/Libraries/Generator/stubs/') . $source));
             if(!is_dir($basePath = dirname($destination))) {
                 $this->fs->makeDirectory($basePath, 0755, true);
+            }
+            if(file_exists($destination) && ($originalContents = file_get_contents($destination)) != $content) {
+                $parts = explode('/', $destination);
+                $fileName = array_pop($parts);
+                $parts[] = '_' . $fileName;
+                $renameTo = implode('/', $parts);
+                if(file_exists($renameTo))
+                    unlink($renameTo);
+                $this->fs->move($destination, $renameTo);
+                $patch = $this->patcher->patch_make($originalContents, $content);
+                $content = $this->patcher->patch_apply($patch, $originalContents)[0];
             }
             file_put_contents($destination, $content);
         }
@@ -98,6 +124,20 @@ class Generator
             base_path("app/Repositories/{$this->params['ModelNames']}Repository.php"),
             base_path("database/seeds/{$this->params['ModelNames']}Seeder.php"),
             base_path("app/Validators/{$this->params['ModelNames']}Validators.php"),
+            base_path("resources/views/_{$this->params['model-names']}/create.blade.php"),
+            base_path("resources/views/_{$this->params['model-names']}/edit.blade.php"),
+            base_path("resources/views/_{$this->params['model-names']}/form.blade.php"),
+            base_path("resources/views/_{$this->params['model-names']}/index.blade.php"),
+            base_path("resources/views/_{$this->params['model-names']}/revisions.blade.php"),
+            base_path("resources/views/_{$this->params['model-names']}/show.blade.php"),
+            base_path("app/Http/Controllers/_{$this->params['ModelNames']}Controller.php"),
+            base_path("app/Menus/_{$this->params['ModelNames']}Menu.php"),
+            base_path("app/_{$this->params['ModelName']}.php"),
+            base_path("app/Policies/_{$this->params['ModelNames']}Policy.php"),
+            base_path("app/Providers/Modules/_{$this->params['ModelNames']}Provider.php"),
+            base_path("app/Repositories/_{$this->params['ModelNames']}Repository.php"),
+            base_path("database/seeds/_{$this->params['ModelNames']}Seeder.php"),
+            base_path("app/Validators/_{$this->params['ModelNames']}Validators.php"),
         ];
         foreach ($this->fs->files(app_path('Libraries/Generator/stubs/langs')) as $value) {
             $value = basename($value);
@@ -139,12 +179,14 @@ class Generator
         (new Composer($this->fs))->dumpAutoloads();
     }
 
-    public function make($tableName, $fields = [], $relationships = [], $isJuctionTable = false)
+    public function make($tableName, $fields = [], $relationships = [], $isJuctionTable = false, $nesting = false)
     {
+        $this->patcher = new DiffMatchPatch();
         $this->isJuctionTable = $isJuctionTable;
         $this->tableName = $tableName;
         $this->fs = app('files');
         $this->fields = $fields;
+        $this->nesting = $nesting;
         $this->relationships = $relationships;
         $this->makeBaseParams();
         $this->makeFieldsParams();
