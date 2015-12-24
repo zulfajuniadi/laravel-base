@@ -179,7 +179,6 @@ return [
         App\Providers\Modules\PermissionGroupsProvider::class,
         App\Providers\Modules\PermissionsProvider::class,
         App\Providers\Modules\AuthLogsProvider::class,
-        App\Providers\Modules\TasksProvider::class,
 
     ],
 
