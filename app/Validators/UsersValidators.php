@@ -8,7 +8,8 @@ class UsersValidators extends BaseValidator
     {
         return [
             'name' => 'required',
-            'email' => 'required',
+            'email' => 'required|email|unique:users',
+            'password' => app('config')->get('auth.password.rules'),
         ];
     }
 
@@ -16,7 +17,7 @@ class UsersValidators extends BaseValidator
     {
         return [
             'name' => 'required',
-            'email' => 'required',
+            'email' => 'required|email|unique:users,email,' . $data['users']->id,
         ];
     }
 
@@ -24,7 +25,7 @@ class UsersValidators extends BaseValidator
     {
         return [
             'existing_password' => 'required|matchesHashedPassword:' . auth()->user()->password,
-            'password' => 'required|confirmed',
+            'password' => app('config')->get('auth.password.rules') . '|confirmed',
             'password_confirmation' => 'required',
         ];
     }
@@ -34,6 +35,7 @@ class UsersValidators extends BaseValidator
         return [
             'name' => 'required',
             'email' => 'required',
+            'avatar_url' => 'url',
         ];
     }
 }

@@ -1,3 +1,0 @@
-;(function(){
-  $('click')
-}).call(this);

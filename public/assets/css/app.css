@@ -37,10 +37,17 @@ div.dataTables_wrapper {
     left: -30px;
     top: 6px; }
 
-.panel-body.profile {
-  font-size: 19px; }
+.panel-body.profile dd {
+  overflow: hidden;
+  text-overflow: ellipsis; }
 
 .avatar {
   max-width: 140px; }
 
-/*# sourceMappingURL=zapp.css.map */
+.navbar-avatar {
+  height: 22px;
+  margin-right: 8px;
+  display: inline-block;
+  vertical-align: middle; }
+
+/*# sourceMappingURL=app.css.map */

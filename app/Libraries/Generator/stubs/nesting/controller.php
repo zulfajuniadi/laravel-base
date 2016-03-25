@@ -8,6 +8,7 @@ use App\Http\Requests;
 use App\Repositories\ModelNamesRepository;
 use App\Http\Controllers\Controller;
 use yajra\Datatables\Html\Builder;
+use App\ParentName;
 use App\ModelName;
 
 class ModelNamesController extends Controller
@@ -17,12 +18,12 @@ class ModelNamesController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index(Builder $htmlBuilder)
+    public function index(Builder $htmlBuilder, ParentName $parentName)
     {
         $DataTable = $htmlBuilder
 INDEXCOLUMNS
-            ->ajax(action('ModelNamesController@data'));
-        return view()->make('model-names.index', compact('DataTable'));
+            ->ajax(action('ModelNamesController@data', ['parent_names' => $parentName->getSlug()]));
+        return view()->make('model-names.index', compact('DataTable', 'parentName'));
     }
 
     /**
@@ -30,13 +31,13 @@ INDEXCOLUMNS
      *
      * @return \Illuminate\Http\Response
      */
-    public function data()
+    public function data(ParentName $parentName)
     {
         return app('datatables')
-            ->of(ModelName::whereNotNull('name'))
-            ->editColumn('name', function($modelName){
-                if(app('policy')->check('App\Http\Controllers\ModelNamesController', 'show', [$modelName->slug])) {
-                    return link_to_action('ModelNamesController@show', $modelName->name, $modelName->slug);
+            ->of(ModelName::where('parent_id', $parentName->id))
+            ->editColumn('name', function($modelName) use ($parentName) {
+                if(app('policy')->check('App\Http\Controllers\ModelNamesController', 'show', [$parentName, $modelName])) {
+                    return link_to_action('ModelNamesController@show', $modelName->name, [$parentName->getSlug(), $modelName->getSlug()]);
                 }
                 return $modelName->name;
             })
@@ -48,9 +49,9 @@ INDEXCOLUMNS
      *
      * @return \Illuminate\Http\Response
      */
-    public function create()
+    public function create(ParentName $parentName)
     {
-        return view()->make('model-names.create');
+        return view()->make('model-names.create', compact('parentName'));
     }
 
     /**
@@ -59,11 +60,12 @@ INDEXCOLUMNS
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(Request $request, ParentName $parentName)
     {
         $modelName = ModelNamesRepository::create(new ModelName, $request->all());
+        $parentName->touch();
         return redirect()
-            ->action('ModelNamesController@index')
+            ->action('ModelNamesController@index', ['parent_names' => $parentName->getSlug()])
             ->with('success', trans('model-names.created', ['name' => $modelName->name]));
     }
 
@@ -73,9 +75,9 @@ INDEXCOLUMNS
      * @param  ModelName  $modelName
      * @return \Illuminate\Http\Response
      */
-    public function show(ModelName $modelName)
+    public function show(ParentName $parentName, ModelName $modelName)
     {
-        return view()->make('model-names.show', compact('modelName'));
+        return view()->make('model-names.show', compact('parentName', 'modelName'));
     }
 
     /**
@@ -84,9 +86,9 @@ INDEXCOLUMNS
      * @param  ModelName  $modelName
      * @return \Illuminate\Http\Response
      */
-    public function edit(ModelName $modelName)
+    public function edit(ParentName $parentName, ModelName $modelName)
     {
-        return view()->make('model-names.edit', compact('modelName'));
+        return view()->make('model-names.edit', compact('parentName', 'modelName'));
     }
 
     /**
@@ -96,11 +98,12 @@ INDEXCOLUMNS
      * @param  ModelName  $modelName
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, ModelName $modelName)
+    public function update(Request $request, ParentName $parentName, ModelName $modelName)
     {
         $modelName = ModelNamesRepository::update($modelName, $request->all());
+        $parentName->touch();
         return redirect()
-            ->action('ModelNamesController@index')
+            ->action('ModelNamesController@edit', ['parent_names' => $parentName->getSlug(), 'model_names' => $modelName->getSlug()])
             ->with('success', trans('model-names.updated', ['name' => $modelName->name]));
     }
 
@@ -110,12 +113,13 @@ INDEXCOLUMNS
      * @param  ModelName  $modelName
      * @return \Illuminate\Http\Response
      */
-    public function duplicate(ModelName $modelName)
+    public function duplicate(ParentName $parentName, ModelName $modelName)
     {
         $modelName->name = $modelName->name . '-' . str_random(4);
         $modelName = ModelNamesRepository::duplicate($modelName);
+        $parentName->touch();
         return redirect()
-            ->action('ModelNamesController@edit', $modelName->slug)
+            ->action('ModelNamesController@edit', ['parent_names' => $parentName->getSlug(), 'model_names' => $modelName->getSlug()])
             ->with('success', trans('model-names.created', ['name' => $modelName->name]));
     }
 
@@ -125,11 +129,12 @@ INDEXCOLUMNS
      * @param  ModelName  $modelName
      * @return \Illuminate\Http\Response
      */
-    public function destroy(ModelName $modelName)
+    public function destroy(ParentName $parentName, ModelName $modelName)
     {
         ModelNamesRepository::delete($modelName);
+        $parentName->touch();
         return redirect()
-            ->action('ModelNamesController@index')
+            ->action('ModelNamesController@index', ['parent_names' => $parentName->getSlug()])
             ->with('success', trans('model-names.deleted', ['name' => $modelName->name]));
     }
 
@@ -139,9 +144,9 @@ INDEXCOLUMNS
      * @param  ModelName  $modelName
      * @return \Illuminate\Http\Response
      */
-    public function delete(ModelName $modelName)
+    public function delete(ParentName $parentName, ModelName $modelName)
     {
-        return $this->destroy($modelName);
+        return $this->destroy($parentName, $modelName);
     }
 
     /**
@@ -150,9 +155,9 @@ INDEXCOLUMNS
      * @param  ModelName  $modelName
      * @return \Illuminate\Http\Response
      */
-    public function revisions(ModelName $modelName)
+    public function revisions(ParentName $parentName, ModelName $modelName)
     {
-        return view()->make('model-names.revisions', compact('modelName'));
+        return view()->make('model-names.revisions', compact('parentName', 'modelName'));
     }
 
     public function __construct()

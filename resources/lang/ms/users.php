@@ -45,6 +45,5 @@ return [
     'edit_profile' => 'Kemaskini Profil Anda',
     'change_password' => 'Tukar Kata Laluan',
     'password_updated' => 'Kata laluan and telah berjaya ditukar. Sila log masuk semula.',
-    'profile_no_roles' => 'Tiada peranan yang telah diberikan kepada anda',
     'profile_updated' => 'Profil anda telah dikemaskini',
 ];

@@ -17,7 +17,7 @@ class ModelNamesPolicy extends BasePolicy
         return $this->index();
     }
 
-    public function show()
+    public function show(ModelName $modelName)
     {
         return $this->user->ability(['Admin'], ['ModelName:Show']);
     }

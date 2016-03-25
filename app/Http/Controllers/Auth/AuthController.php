@@ -7,7 +7,6 @@ use Validator;
 use App\Http\Controllers\Controller;
 use Illuminate\Foundation\Auth\ThrottlesLogins;
 use Illuminate\Foundation\Auth\AuthenticatesAndRegistersUsers;
-use App\Repositories\UserRepository;
 
 class AuthController extends Controller
 {
@@ -47,7 +46,7 @@ class AuthController extends Controller
         return Validator::make($data, [
             'name' => 'required|max:255',
             'email' => 'required|email|max:255|unique:users',
-            'password' => 'required|confirmed|min:6',
+            'password' => app('config')->get('auth.password.rules') . '|confirmed',
         ]);
     }
 

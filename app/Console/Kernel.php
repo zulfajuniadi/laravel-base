@@ -16,6 +16,7 @@ class Kernel extends ConsoleKernel
         \App\Libraries\Installer\InstallerCommand::class,
         \App\Libraries\Generator\GeneratorCommand::class,
         \App\Libraries\Degenerator\DegeneratorCommand::class,
+        \App\Libraries\FKMigrator\FKMigratorCommand::class,
     ];
 
     /**

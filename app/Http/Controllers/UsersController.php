@@ -66,7 +66,9 @@ class UsersController extends Controller
      */
     public function store(Request $request)
     {
-        $user = UsersRepository::create(new User, $request->all());
+        $input = $request->all();
+        $input['password'] = app('hash')->make($input['password']);
+        $user = UsersRepository::create(new User, $input);
         if($roles = $request->get('roles'))
             $user->roles()->sync($roles);
         return redirect()

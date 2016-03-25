@@ -101,6 +101,7 @@ return [
             'email' => 'auth.emails.password',
             'table' => 'password_resets',
             'expire' => 60,
+			'rules' => 'required|min:8',
         ],
     ],
 
