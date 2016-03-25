@@ -7,7 +7,7 @@ use Illuminate\Http\Request;
 use App\Http\Requests;
 use App\Repositories\AuthLogsRepository;
 use App\Http\Controllers\Controller;
-use yajra\Datatables\Html\Builder;
+use Yajra\Datatables\Html\Builder;
 use App\AuthLog;
 
 class AuthLogsController extends Controller

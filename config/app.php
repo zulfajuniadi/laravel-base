@@ -19,7 +19,7 @@ return [
     |
     */
 
-    'env' => env('APP_ENV', 'local'),
+    'env' => env('APP_ENV', 'production'),
 
     /*
     |--------------------------------------------------------------------------
@@ -138,6 +138,7 @@ return [
         Illuminate\Bus\BusServiceProvider::class,
         Illuminate\Cache\CacheServiceProvider::class,
         Illuminate\Foundation\Providers\ConsoleSupportServiceProvider::class,
+        // Illuminate\Routing\ControllerServiceProvider::class,
         Illuminate\Cookie\CookieServiceProvider::class,
         Illuminate\Database\DatabaseServiceProvider::class,
         Illuminate\Encryption\EncryptionServiceProvider::class,
@@ -180,7 +181,7 @@ return [
         Cviebrock\EloquentSluggable\SluggableServiceProvider::class,
         Zizaco\Entrust\EntrustServiceProvider::class,
         Collective\Html\HtmlServiceProvider::class,
-        yajra\Datatables\DatatablesServiceProvider::class,
+        Yajra\Datatables\DatatablesServiceProvider::class,
         Irazasyed\LaravelIdenticon\ServiceProvider::class,
 
         /*
@@ -221,9 +222,11 @@ return [
         'Eloquent'   => Illuminate\Database\Eloquent\Model::class,
         'Event'      => Illuminate\Support\Facades\Event::class,
         'File'       => Illuminate\Support\Facades\File::class,
+        'Form'       => Collective\Html\FormFacade::class,
         'Gate'       => Illuminate\Support\Facades\Gate::class,
         'Hash'       => Illuminate\Support\Facades\Hash::class,
         'Input'      => Illuminate\Support\Facades\Input::class,
+        'Html'       => Collective\Html\HtmlFacade::class,
         'Inspiring'  => Illuminate\Foundation\Inspiring::class,
         'Lang'       => Illuminate\Support\Facades\Lang::class,
         'Log'        => Illuminate\Support\Facades\Log::class,
@@ -244,7 +247,7 @@ return [
         'Entrust'    => Zizaco\Entrust\EntrustFacade::class,
         'Html'       => Collective\Html\HtmlFacade::class,
         'Form'       => Collective\Html\FormFacade::class,
-        'Datatables' => yajra\Datatables\Datatables::class,
+        'Datatables' => Yajra\Datatables\Datatables::class,
         'Former'     => Former\Facades\Former::class,
 
     ],
