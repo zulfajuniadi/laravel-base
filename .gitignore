@@ -7,3 +7,4 @@ Homestead.json
 database/design.mwb.bak
 database/design.mwb
 storage/database.sqlite
+*.mwb.bak

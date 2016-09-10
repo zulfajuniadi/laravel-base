@@ -10,10 +10,12 @@ class BaseRepository
     {
         $model->fill($data);
         $model->fill($params);
-        if(!$model->save())
+        if (!$model->save()) {
             throw new RepositoryException('Creating ' . Model::class, $data);
-        if(method_exists(self::class, 'created')) {
-            return forward_static_call_array([self::class, 'created'], func_get_args());
+        }
+
+        if (method_exists(static::class, 'created')) {
+            return forward_static_call_array([static::class, 'created'], func_get_args());
         }
         return $model;
     }
@@ -22,10 +24,12 @@ class BaseRepository
     {
         $model->fill($data);
         $model->fill($params);
-        if(!$model->save())
+        if (!$model->save()) {
             throw new RepositoryException('Updating ' . Model::class, $data);
-        if(method_exists(self::class, 'updated')) {
-            return forward_static_call_array([self::class, 'updated'], func_get_args());
+        }
+
+        if (method_exists(static::class, 'updated')) {
+            return forward_static_call_array([static::class, 'updated'], func_get_args());
         }
         return $model;
     }
@@ -33,12 +37,16 @@ class BaseRepository
     public static function duplicate(Model $model, $params = [])
     {
         $model = $model->replicate();
-        if(in_array('Cviebrock\EloquentSluggable\SluggableTrait', class_uses($model)))
+        if (in_array('Cviebrock\EloquentSluggable\SluggableTrait', class_uses($model))) {
             $model->resluggify();
+        }
+
         $model->fill($params);
-        if(!$model->save())
+        if (!$model->save()) {
             throw new RepositoryException('Duplicating ' . Model::class, $data);
-        if(method_exists(static::class, 'duplicated')) {
+        }
+
+        if (method_exists(static::class, 'duplicated')) {
             $parameters = func_get_args();
             $parameters[0] = $model;
             return forward_static_call_array([static::class, 'duplicated'], $parameters);
@@ -48,9 +56,11 @@ class BaseRepository
 
     public static function delete(Model $model)
     {
-        if(!$model->delete())
+        if (!$model->delete()) {
             throw new RepositoryException('Removing ' . Model::class);
-        if(method_exists(static::class, 'deleted')) {
+        }
+
+        if (method_exists(static::class, 'deleted')) {
             return forward_static_call_array([static::class, 'deleted'], func_get_args());
         }
         return $model;

@@ -2,11 +2,12 @@
 
 namespace App\Http\Controllers\Auth;
 
-use App\User;
-use Validator;
 use App\Http\Controllers\Controller;
-use Illuminate\Foundation\Auth\ThrottlesLogins;
+use App\Repositories\UsersRepository;
+use App\User;
 use Illuminate\Foundation\Auth\AuthenticatesAndRegistersUsers;
+use Illuminate\Foundation\Auth\ThrottlesLogins;
+use Validator;
 
 class AuthController extends Controller
 {
@@ -19,7 +20,7 @@ class AuthController extends Controller
     | authentication of existing users. By default, this controller uses
     | a simple trait to add these behaviors. Why don't you explore it?
     |
-    */
+     */
 
     use AuthenticatesAndRegistersUsers, ThrottlesLogins;
 
@@ -58,7 +59,7 @@ class AuthController extends Controller
      */
     protected function create(array $data)
     {
-        return User::create([
+        return UsersRepository::create(new User, [
             'name' => $data['name'],
             'email' => $data['email'],
             'password' => bcrypt($data['password']),
@@ -67,12 +68,12 @@ class AuthController extends Controller
 
     protected function authenticated($request, $user)
     {
-        if($blacklist = $user->getActiveBlacklist()) {
+        if ($blacklist = $user->getActiveBlacklist()) {
             app('auth')->logout();
             return redirect()->action('Auth\AuthController@getLogin')
                 ->with('danger', trans('users.blacklisted_until', ['until' => $blacklist->until]));
         }
-        if(!$user->is_active) {
+        if (!$user->is_active) {
             app('auth')->logout();
             return redirect()->action('Auth\AuthController@getLogin')
                 ->with('danger', trans('users.login_not_active'));
