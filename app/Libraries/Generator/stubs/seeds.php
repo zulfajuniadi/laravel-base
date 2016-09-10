@@ -8,7 +8,7 @@ use App\PermissionGroup;
 use App\Permission;
 use App\ModelName;
 
-class ModelNameSeeder extends Seeder
+class ModelNamesSeeder extends Seeder
 {
     /**
      * Run the database seeds.
